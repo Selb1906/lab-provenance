@@ -54,6 +54,13 @@
 </section>
 
 <section>
+  <h2>원장과 비트코인 고정</h2>
+  <p>발행한 그림마다 <a href="assets/ledger.jsonl">공개 원장</a>에 한 줄을 남깁니다(파일 해시, 지각 해시, C2PA 증명서 식별자). 각 줄은 앞 줄의 해시를 품고 있어 중간을 고치면 뒤가 모두 어긋납니다.</p>
+  <p>원장을 운영하는 연구실이 원장 전체를 몰래 다시 쓰는 것까지 막기 위해, 원장의 끝 해시를 담은 <a href="assets/anchors/ledger-0009-205acf99d674.txt">체크포인트</a>를 OpenTimestamps로 비트코인에 고정했습니다(<a href="assets/anchors/ledger-0009-205acf99d674.txt.ots">도장 파일</a>). 이 체크포인트는 비트코인 블록 <a class="mono" href="https://blockstream.info/block-height/975582">975582</a>·<a class="mono" href="https://blockstream.info/block-height/975583">975583</a>(2026-11-13 04:02·04:07 KST)에 들어갔고, 블록의 머클 루트와 도장이 일치하는 것을 확인했습니다. 따라서 이 시각의 원장 9줄은 이후 누구도 바꿀 수 없습니다.</p>
+  <p class="muted small">확인은 공개 블록 탐색기를 통해 했으므로 그 탐색기를 믿어야 한다는 한계가 있습니다. 비트코인 노드를 직접 돌리면 이 한계도 없앨 수 있습니다.</p>
+</section>
+
+<section>
   <h2>진행 상황</h2>
   <p>층마다 알려진 방식 여러 개를 같은 공격에 노출해 비교합니다. 공격은 일반 처리(압축·크롭·축소)를 먼저 하고, 거기서 버틴 방식만 AI 디노이징·재생성으로 넘어갑니다. 시행착오를 포함한 전체 기록은 <a href="https://github.com/Selb1906/lab-provenance/blob/main/notes/%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%80.md">개발일지</a>에 있습니다.</p>
   <div id="progress"></div>

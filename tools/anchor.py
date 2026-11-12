@@ -6,7 +6,7 @@
 ots 명령줄 클라이언트는 Windows에서 python-bitcoinlib가 OpenSSL DLL을 못 찾아 실행되지 않아,
 opentimestamps 핵심 라이브러리로 캘린더 서버에 직접 요청한다(클라이언트와 같은 nonce 방식).
 
-사용법: python tools/anchor.py stamp | upgrade | info
+사용법: python tools/anchor.py stamp | upgrade | verify | info
 """
 import io
 import os
@@ -92,6 +92,25 @@ def upgrade():
         info_one(p)
 
 
+def verify():
+    """체크포인트 파일 해시 → 도장 → 비트코인 블록 머클 루트를 공개 탐색기(blockstream.info)로 대조한다.
+    비트코인 노드 없이 하는 확인이라 탐색기를 믿어야 한다는 한계가 있다."""
+    import hashlib
+    import json
+    import urllib.request
+    for p in sorted(ANCHORS.glob("*.ots")):
+        d = _load(p)
+        txt = p.with_name(p.name[:-4])
+        ok_file = hashlib.sha256(txt.read_bytes()).digest() == d.file_digest
+        print(f"{txt.name}: file hash matches stamp = {ok_file}")
+        for msg, att in d.timestamp.all_attestations():
+            if isinstance(att, BitcoinBlockHeaderAttestation):
+                h = urllib.request.urlopen(f"https://blockstream.info/api/block-height/{att.height}", timeout=20).read().decode()
+                b = json.loads(urllib.request.urlopen(f"https://blockstream.info/api/block/{h}", timeout=20).read())
+                t = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime(b["timestamp"]))
+                print(f"  block {att.height} ({t}) merkle root matches = {msg[::-1].hex() == b['merkle_root']}")
+
+
 def info_one(p):
     atts = _attestations(_load(p).timestamp)
     btc = [a.height for a in atts if isinstance(a, BitcoinBlockHeaderAttestation)]
@@ -105,6 +124,8 @@ if __name__ == "__main__":
         stamp()
     elif cmd == "upgrade":
         upgrade()
+    elif cmd == "verify":
+        verify()
     else:
         for p in sorted(ANCHORS.glob("*.ots")):
             info_one(p)
