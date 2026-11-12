@@ -12,6 +12,8 @@ from pathlib import Path
 
 from PIL import Image
 
+import fphash
+import ledger
 import sign as signer_mod
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -63,7 +65,28 @@ def prepare_figures(papers, resign):
             "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data), "w": w, "h": h,
         })
     (DOCS / "assets" / "figures.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    record_in_ledger(out)
     return out
+
+
+def record_in_ledger(figs):
+    """발행한 그림마다 원장에 한 줄. 이미 있는 파일(같은 SHA-256)은 건너뛴다."""
+    from c2pa import Context, Reader
+    path = DOCS / "assets" / "ledger.jsonl"
+    for f in figs:
+        if ledger.lookup(path, sha256=f["sha256"]):
+            continue
+        p = DOCS / f["file"]
+        with Context() as ctx, Reader(str(p), context=ctx) as r:
+            manifest_id = json.loads(r.json())["active_manifest"]
+        ledger.append(path, {
+            "file": f["file"], "sha256": f["sha256"],
+            "lab_phash": fphash.to_hex(fphash.lab_phash(Image.open(p))),
+            "c2pa_manifest": manifest_id, "caption": f["caption"], "paper": f["paper"],
+        })
+    bad = ledger.verify(path)
+    if bad is not None:
+        raise SystemExit(f"ledger broken at index {bad}")
 
 
 NAV = [("index.html", "소개"), ("papers.html", "논문"), ("patents.html", "특허"),

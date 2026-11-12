@@ -24,6 +24,68 @@ async function sha256(blob) {
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+// lab-phash: tools/fphash.py 와 같은 규격. 회색조 → 32x32 구역 평균 → DCT-II → 8x8 → 중앙값 비교
+const N = 32;
+const PHASH_T = 15; // 실험 이미지 76장(2,850쌍)에서 오탐 1% 이하가 되는 가장 큰 거리. 개발일지 참고
+async function labPhash(blob) {
+  const bmp = await createImageBitmap(blob, { colorSpaceConversion: "none", premultiplyAlpha: "none" });
+  const cv = new OffscreenCanvas(bmp.width, bmp.height);
+  const cx = cv.getContext("2d", { willReadFrequently: true });
+  cx.drawImage(bmp, 0, 0);
+  const { data, width: w, height: h } = cx.getImageData(0, 0, bmp.width, bmp.height);
+  const s = Array.from({ length: N }, () => new Float64Array(N));
+  for (let i = 0; i < N; i++) {
+    const r0 = Math.floor((i * h) / N), r1 = Math.max(Math.floor(((i + 1) * h) / N), r0 + 1);
+    for (let j = 0; j < N; j++) {
+      const c0 = Math.floor((j * w) / N), c1 = Math.max(Math.floor(((j + 1) * w) / N), c0 + 1);
+      let sum = 0;
+      for (let r = r0; r < r1; r++) for (let c = c0; c < c1; c++) {
+        const k = (r * w + c) * 4;
+        sum += (299 * data[k] + 587 * data[k + 1] + 114 * data[k + 2]) / 1000;
+      }
+      s[i][j] = sum / ((r1 - r0) * (c1 - c0));
+    }
+  }
+  const D = Array.from({ length: N }, (_, k) => Array.from({ length: N }, (_, n) => Math.cos((Math.PI * (2 * n + 1) * k) / (2 * N))));
+  const coef = [];
+  for (let u = 0; u < 8; u++) for (let v = 0; v < 8; v++) {
+    let acc = 0;
+    for (let i = 0; i < N; i++) { let row = 0; for (let j = 0; j < N; j++) row += s[i][j] * D[v][j]; acc += D[u][i] * row; }
+    coef.push(acc);
+  }
+  const sorted = [...coef].sort((a, b) => a - b);
+  const med = (sorted[31] + sorted[32]) / 2;
+  let bits = 0n;
+  for (const c of coef) bits = (bits << 1n) | (c > med ? 1n : 0n);
+  return bits.toString(16).padStart(16, "0");
+}
+const hamming = (a, b) => { let x = BigInt("0x" + a) ^ BigInt("0x" + b), n = 0; while (x) { n += Number(x & 1n); x >>= 1n; } return n; };
+
+let ledgerPromise = null;
+function loadLedger() {
+  ledgerPromise ??= fetch(new URL("../ledger.jsonl", import.meta.url)).then((r) => r.text())
+    .then((t) => t.split("\n").filter(Boolean).map((l) => JSON.parse(l)));
+  return ledgerPromise;
+}
+
+async function ledgerSection(hash, blob) {
+  const [entries, ph] = await Promise.all([loadLedger(), labPhash(blob)]);
+  const exact = entries.find((e) => e.record.sha256 === hash);
+  const near = entries.map((e) => ({ e, d: hamming(ph, e.record.lab_phash) })).sort((a, b) => a.d - b.d)[0];
+  let body;
+  if (exact) {
+    body = `<p class="state ok"><span class="dot"></span>원장에 같은 파일이 있습니다 (SHA-256 일치, 기록 #${exact.index})</p>`;
+  } else if (near && near.d <= PHASH_T) {
+    body = `<p class="state warn"><span class="dot"></span>파일은 다르지만 내용이 같은 그림을 원장에서 찾았습니다 (지각 해시 거리 ${near.d} ≤ ${PHASH_T})</p>
+      <p>원래 발행본: <a href="${esc(near.e.record.file)}">${esc(near.e.record.caption)}</a><br>
+      <span class="muted small">원래 증명서 ${esc(near.e.record.c2pa_manifest)}</span></p>`;
+  } else {
+    body = `<p class="state bad"><span class="dot"></span>원장에서 찾지 못했습니다</p>
+      <p class="muted small">가장 가까운 기록과의 지각 해시 거리 ${near ? near.d : "-"} (문턱 ${PHASH_T})</p>`;
+  }
+  return `<h2 class="sub">원장 조회</h2>${body}<dl><dt>지각 해시</dt><dd class="mono">${ph}</dd></dl>`;
+}
+
 function context() {
   return trustLab.checked
     ? new Context({ verify: { verifyTrust: true }, trust: { trustAnchors: LAB_ROOT } })
@@ -58,6 +120,7 @@ async function show(blob, name) {
       <p class="state warn"><span class="dot"></span>C2PA 증명서가 없습니다</p>
       <p>증명서가 없다는 것은 "가짜"라는 뜻이 아니라 출처를 이 파일만으로는 알 수 없다는 뜻입니다. 다시 저장하거나 SNS를 거치면 증명서가 지워지는 경우가 많습니다.</p>
       <dl><dt>파일</dt><dd>${esc(name)}</dd><dt>SHA-256</dt><dd class="mono">${hash}</dd></dl>`;
+    result.insertAdjacentHTML("beforeend", await ledgerSection(hash, blob));
     return;
   }
   const store = await reader.manifestStore();
@@ -80,6 +143,7 @@ async function show(blob, name) {
       <dt>검증 코드</dt><dd><ul class="plain">${codes || "<li>없음</li>"}</ul></dd>
     </dl>
     <p class="muted small">서명은 누가 서명했는지와 서명 뒤 바뀌지 않았다는 것만 보증합니다. 그림 내용이 사실이라는 보증은 아닙니다.</p>`;
+  result.insertAdjacentHTML("beforeend", await ledgerSection(hash, blob));
 }
 
 fileInput.addEventListener("change", () => fileInput.files[0] && show(fileInput.files[0], fileInput.files[0].name));

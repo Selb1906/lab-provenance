@@ -138,3 +138,6 @@ footer { max-width: 1120px; margin: 0 auto; padding: 24px; border-top: 1px solid
   .intro, .two, .verify { grid-template-columns: 1fr; gap: 32px; }
   .data th, .data td { padding: 8px 12px; }
 }
+.result h2.sub { font-size: 16px; margin: 24px 0 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+.state { align-items: flex-start; }
+.state .dot { margin-top: 9px; flex: none; }
