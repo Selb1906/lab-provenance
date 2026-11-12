@@ -1,0 +1,9 @@
+# 서명 개인키와 인증서는 저장소에 넣지 않는다 (E:/envs/c2pa-site-keys 에 보관)
+*.pem
+*.key
+# AI 모델·실험 산출물
+models/
+*.ckpt
+*.pth
+*.safetensors
+__pycache__/
