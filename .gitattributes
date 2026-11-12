@@ -2,3 +2,7 @@
 *.png binary
 *.jpg binary
 *.pem -text
+# 비트코인에 고정한 체크포인트와 원장은 바이트가 바뀌면 안 된다
+docs/assets/anchors/* -text
+docs/assets/ledger.jsonl -text
+*.ots binary
