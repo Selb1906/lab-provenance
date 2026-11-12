@@ -1,0 +1,102 @@
+{
+  "lab": {
+    "name_ko": "그린에너지연구소",
+    "name_en": "Green Energy Lab",
+    "affiliation": "상명대학교 전기공학과 · 대학원 에너지그리드학과",
+    "pi": "김정욱 교수",
+    "pi_en": "Jeong-Uk Kim",
+    "topics": ["건물 에너지 수요 예측", "건물 에너지 시뮬레이션(BES) 보정", "발전설비 특성시험과 모델 검증", "에너지 효율 설계 기준 평가"]
+  },
+  "researcher": {
+    "name": "양현호",
+    "name_en": "Hyun-Ho Yang",
+    "position": "에너지그리드학과 석사과정",
+    "interests": ["건물 에너지 진단", "생성형 AI 콘텐츠의 출처증명", "비디오 워터마킹"]
+  },
+  "papers": [
+    {
+      "id": "buildings2026",
+      "title": "Zero-Shot Prediction Error from a Pre-Trained Transformer Model as a Building Energy Diagnostic: A Hierarchical Framework Beyond Annual EUI",
+      "authors": "Hyun-Ho Yang, Jeong-Uk Kim",
+      "venue": "Buildings 16, 2290",
+      "year": 2026,
+      "doi": "10.3390/buildings16122290",
+      "license": "CC BY 4.0",
+      "publish": "full",
+      "figures": true
+    },
+    {
+      "id": "kiaebs2026",
+      "title": "에너지절약설계기준 외피 열관류율의 비용최적 적정성 탐색적 평가: EnergyPlus 파라메트릭 시뮬레이션 및 생애주기비용 분석",
+      "authors": "문정민, 양현호, 김정욱",
+      "venue": "한국건축친환경설비학회 논문집 20(3), 191-205",
+      "year": 2026,
+      "doi": "10.22696/jkiaebs.20260017",
+      "license": "CC BY-NC 4.0",
+      "publish": "figures",
+      "figures": true
+    },
+    {
+      "id": "jics2026",
+      "title": "AI기반 장편소설 창작 파이프라인의 신뢰성에 대한 탐색적 연구",
+      "authors": "김수진, 양현호, 김정욱",
+      "venue": "인터넷정보학회논문지 27(3), 133-140",
+      "year": 2026,
+      "doi": "10.7472/jksii.2026.27.3.133",
+      "license": "© 2026 KSII",
+      "publish": "link",
+      "figures": false
+    },
+    {
+      "id": "kiee2026",
+      "title": "Comparison of Model Parameter Derivation Accuracy Between a PMU-Based Generator Measurement System and Conventional Test Equipment",
+      "authors": "양현호 외",
+      "venue": "대한전기학회 논문지 (게재 예정)",
+      "year": 2026,
+      "doi": null,
+      "license": "게재 예정",
+      "publish": "title",
+      "figures": false
+    },
+    {
+      "id": "energy2024",
+      "title": "Two processes based on a data-driven model combined with dynamic simulation for demand forecasting and providing energy saving measures",
+      "authors": "Tae-Kyu Lee, Jeong-Uk Kim",
+      "venue": "Energy 300, 131556",
+      "year": 2024,
+      "doi": "10.1016/j.energy.2024.131556",
+      "license": "CC BY-NC 4.0",
+      "publish": "figures",
+      "figures": true
+    },
+    {
+      "id": "enbuild2024",
+      "title": "A cost-effective and heuristic approach for building energy consumption prediction: BES model calibration and forecasting algorithm",
+      "authors": "Tae-Kyu Lee, Jeong-Uk Kim",
+      "venue": "Energy and Buildings 303, 113800",
+      "year": 2024,
+      "doi": "10.1016/j.enbuild.2023.113800",
+      "license": "CC BY-NC 4.0",
+      "publish": "figures",
+      "figures": true
+    },
+    {
+      "id": "trnsys2025",
+      "title": "TRNSYS 시뮬레이션을 통한 공공기관 건물의 기류속도 기반 쾌적성 확보 가능성 분석",
+      "authors": "연구실 공저",
+      "venue": "제20권 1호",
+      "year": 2025,
+      "doi": null,
+      "license": "확인 필요",
+      "publish": "title",
+      "figures": false
+    }
+  ],
+  "patents": [
+    {"title": "에너지 공급 효율성 향상을 위한 클라우드 기반의 발전 플랫폼 분양 시스템", "number": "10-2387318", "registered": "2022-04-12"},
+    {"title": "가상서버를 활용한 빌딩자동화 시스템", "number": "10-2261417", "registered": "2021-06-01"},
+    {"title": "부하설비 가동시 과부하 방지를 위한 피크전력관리 시스템", "number": "10-2229412", "registered": "2021-03-12"},
+    {"title": "에너지를 절감하는 조명제어 시스템", "number": "10-2203558", "registered": "2021-01-11"},
+    {"title": "자동 블라인드 제어 장치", "number": "10-2093896", "registered": "2020-03-20"}
+  ]
+}

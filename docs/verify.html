@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>검증하기 · 그린에너지연구소</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='4' fill='%231f6b4f'/%3E%3Ccircle cx='8' cy='8' r='3' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="index.html">그린에너지연구소<span>상명대학교</span></a>
+  <nav><a href="index.html">소개</a><a href="papers.html">논문</a><a href="patents.html">특허</a><a href="provenance.html">출처증명</a><a href="verify.html" aria-current="page">검증하기</a></nav>
+</header>
+<main>
+
+<section class="head"><h1>검증하기</h1>
+<p class="lead">파일을 올리면 브라우저 안에서 C2PA 증명서를 읽습니다. 파일은 서버로 보내지 않습니다.</p></section>
+<section class="verify">
+  <div class="panel">
+    <label class="drop" for="file"><input id="file" type="file" accept="image/*"><span>이미지 파일을 고르거나 끌어다 놓기</span></label>
+    <p class="muted small">또는 이 사이트의 그림으로 해 보기</p>
+    <div class="row"><select id="sample"><option value="assets/signed/buildings2026-01.png">CVRMSE 분해: 변동계수 요인과 비정형 요인</option><option value="assets/signed/buildings2026-02.png">건물 유형별 시간대 오차 패턴</option><option value="assets/signed/buildings2026-03.png">계층적 진단 프레임워크</option><option value="assets/signed/kiaebs2026-04.png">연구 프레임워크</option><option value="assets/signed/kiaebs2026-05.png">외피 변수별 민감도 지수</option><option value="assets/signed/energy2024-06.png">수요 예측 과정</option><option value="assets/signed/energy2024-07.png">대상 건물 평면</option><option value="assets/signed/enbuild2024-08.png">BES 모델 구성과 보정 절차</option><option value="assets/signed/enbuild2024-09.png">단위 체적 조합 모델</option><option value="assets/samples/kiaebs2026-05-resaved.png">[변형] 다시 저장한 그림 — 증명서가 지워짐</option><option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 1바이트를 바꾼 그림 — 증명서는 남음</option></select><button id="useSample" class="btn">불러오기</button></div>
+    <label class="check"><input id="trustLab" type="checkbox"> 연구실 루트 인증서를 신뢰 목록에 넣기</label>
+    <p class="muted small">이 칸을 켜면 같은 파일이 '신뢰 목록에 없는 서명자'에서 '신뢰된 서명자'로 바뀝니다. 신뢰 목록에 오른다는 것이 무엇인지 보여 주는 실험입니다.</p>
+  </div>
+  <div class="panel result" id="result"><p class="muted">아직 고른 파일이 없습니다.</p></div>
+</section>
+
+</main>
+<footer>
+  <p>이 사이트의 그림은 발행할 때 C2PA로 서명되었습니다. 서명 인증서는 연구실 자체 시험용이며 C2PA 신뢰 목록에 올라 있지 않습니다.</p>
+  <p>젠룩 산학협력 프로젝트(2026) 실습 결과물 · <a href="https://github.com/Selb1906/lab-provenance">소스와 개발일지</a></p>
+</footer>
+<script type="module" src="assets/js/verify.js"></script>
+</body>
+</html>

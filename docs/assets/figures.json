@@ -1,0 +1,92 @@
+[
+ {
+  "file": "assets/signed/buildings2026-01.png",
+  "paper": "buildings2026",
+  "caption": "CVRMSE 분해: 변동계수 요인과 비정형 요인",
+  "kind": "산점도",
+  "sha256": "ed7acb9c2e3d468cf5bc42292e6c2e09f16918f9c8eaec34048bcdd859fe13c2",
+  "bytes": 696636,
+  "w": 1600,
+  "h": 1156
+ },
+ {
+  "file": "assets/signed/buildings2026-02.png",
+  "paper": "buildings2026",
+  "caption": "건물 유형별 시간대 오차 패턴",
+  "kind": "히트맵",
+  "sha256": "6f7813ed00ae10dc55dae43c88fe87b59655c6394eb917a31c9753615d2e2003",
+  "bytes": 423165,
+  "w": 1600,
+  "h": 1320
+ },
+ {
+  "file": "assets/signed/buildings2026-03.png",
+  "paper": "buildings2026",
+  "caption": "계층적 진단 프레임워크",
+  "kind": "구성도",
+  "sha256": "6137c119c42c8248886d43dc42ac81e31e08c51b73c975c3c94edee6b4acaa73",
+  "bytes": 1003952,
+  "w": 1600,
+  "h": 2240
+ },
+ {
+  "file": "assets/signed/kiaebs2026-04.png",
+  "paper": "kiaebs2026",
+  "caption": "연구 프레임워크",
+  "kind": "구성도",
+  "sha256": "f0407689c3f2e53f9bd918f7893ce79a4fb7719785e9d78347b85b7d275ebbc6",
+  "bytes": 450063,
+  "w": 1600,
+  "h": 910
+ },
+ {
+  "file": "assets/signed/kiaebs2026-05.png",
+  "paper": "kiaebs2026",
+  "caption": "외피 변수별 민감도 지수",
+  "kind": "막대그래프",
+  "sha256": "cf1496c2c1f827118069805217b902743cd3bba26110e6ae3ef7fc35c75d2430",
+  "bytes": 112778,
+  "w": 1171,
+  "h": 687
+ },
+ {
+  "file": "assets/signed/energy2024-06.png",
+  "paper": "energy2024",
+  "caption": "수요 예측 과정",
+  "kind": "구성도",
+  "sha256": "b0665c213eb7770b47f07f996046e941c37b7e60fad6f106118ec0c7c46efa24",
+  "bytes": 482317,
+  "w": 1500,
+  "h": 779
+ },
+ {
+  "file": "assets/signed/energy2024-07.png",
+  "paper": "energy2024",
+  "caption": "대상 건물 평면",
+  "kind": "도면",
+  "sha256": "1f227cc692b0e8f7b779762c6c4a09fcae95c64ce942c282b618012c770188a6",
+  "bytes": 671127,
+  "w": 1376,
+  "h": 703
+ },
+ {
+  "file": "assets/signed/enbuild2024-08.png",
+  "paper": "enbuild2024",
+  "caption": "BES 모델 구성과 보정 절차",
+  "kind": "구성도",
+  "sha256": "7b03ee6a5811e94759e2c3bf4af3d167f80a334841803efc5166fe08ebdf55ff",
+  "bytes": 490900,
+  "w": 1600,
+  "h": 759
+ },
+ {
+  "file": "assets/signed/enbuild2024-09.png",
+  "paper": "enbuild2024",
+  "caption": "단위 체적 조합 모델",
+  "kind": "3D 도식",
+  "sha256": "8ed064a5f42f5c41d2c9c2d0ef19207e8fd64864f448e5751f779b8401d44e86",
+  "bytes": 369078,
+  "w": 1267,
+  "h": 840
+ }
+]

@@ -1,0 +1,4 @@
+# 서명된 파일은 한 바이트만 바뀌어도 검증이 깨지므로 줄바꿈 변환을 막는다
+*.png binary
+*.jpg binary
+*.pem -text

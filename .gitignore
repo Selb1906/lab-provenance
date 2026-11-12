@@ -7,3 +7,6 @@ models/
 *.pth
 *.safetensors
 __pycache__/
+
+# 연구실 루트 인증서(공개용)는 예외
+!docs/assets/trust/lab-root.pem
