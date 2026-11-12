@@ -65,19 +65,27 @@ def _attestations(ts):
     return [a for _, a in ts.all_attestations()]
 
 
+def _pending_nodes(ts):
+    """대기 증명을 가진 하위 타임스탬프 객체를 모두 찾는다.
+    (all_attestations()는 (메시지 바이트, 증명)을 돌려주므로 merge할 객체를 얻으려면 트리를 직접 따라가야 한다)"""
+    for att in ts.attestations:
+        if isinstance(att, PendingAttestation):
+            yield ts, att
+    for sub in ts.ops.values():
+        yield from _pending_nodes(sub)
+
+
 def upgrade():
     """대기 중인 도장을 캘린더에 물어 비트코인 블록 증명으로 바꾼다."""
     for p in sorted(ANCHORS.glob("*.ots")):
         d = _load(p)
         changed = False
-        for sub in list(d.timestamp.all_attestations()):
-            ts, att = sub
-            if isinstance(att, PendingAttestation):
-                try:
-                    ts.merge(RemoteCalendar(att.uri).get_timestamp(ts.msg, timeout=20))
-                    changed = True
-                except Exception:
-                    pass
+        for ts, att in list(_pending_nodes(d.timestamp)):
+            try:
+                ts.merge(RemoteCalendar(att.uri).get_timestamp(ts.msg, timeout=20))
+                changed = True
+            except Exception as e:  # 아직 비트코인에 안 올라간 캘린더는 '찾을 수 없음'을 돌려준다
+                print(f"  {att.uri}: {type(e).__name__}")
         if changed:
             with open(p, "wb") as fd:
                 d.serialize(StreamSerializationContext(fd))
