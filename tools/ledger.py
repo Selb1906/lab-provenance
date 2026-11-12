@@ -30,8 +30,7 @@ def append(path, record):
     prev = chain[-1]["entry_hash"] if chain else GENESIS
     body = {"index": len(chain), "time": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "prev": prev, "record": record}
     body["entry_hash"] = _h({k: v for k, v in body.items()})
-    with open(path, "a", encoding="utf-8", newline="
-") as f:
+    with open(path, "a", encoding="utf-8", newline="\n") as f:
         f.write(json.dumps(body, ensure_ascii=False) + "\n")
     return body
 
