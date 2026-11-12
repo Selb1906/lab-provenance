@@ -172,8 +172,11 @@ def build_papers(site, figs):
     for p in sorted(site["papers"], key=lambda x: -x["year"]):
         pf = [f for f in figs if f["paper"] == p["id"]]
         gallery = "".join(
-            f'<figure><img src="{f["file"]}" alt="{esc(f["caption"])}" loading="lazy" width="{f["w"]}" height="{f["h"]}">'
-            f'<figcaption>{esc(f["caption"])} <span class="kind">{esc(f["kind"])}</span> {seal(f)}</figcaption></figure>'
+            # 썸네일을 누르면 서명된 원본 파일이 원래 크기로 열린다 (실험 4: 썸네일 캡처는 어떤 층으로도 못 찾음)
+            f'<figure><a href="{f["file"]}" title="원래 크기로 보기 ({f["w"]}×{f["h"]}, C2PA 서명 포함)">'
+            f'<img src="{f["file"]}" alt="{esc(f["caption"])}" loading="lazy" width="{f["w"]}" height="{f["h"]}"></a>'
+            f'<figcaption>{esc(f["caption"])} <span class="kind">{esc(f["kind"])}</span> {seal(f)}'
+            f' <a class="small" href="{f["file"]}" download>원본 받기</a></figcaption></figure>'
             for f in pf)
         rows.append(f"""
 <article class="paper">
