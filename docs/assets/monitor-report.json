@@ -1,0 +1,77 @@
+{
+ "time": "2026-11-13T11:52:10+0900",
+ "pages": [
+  "https://selb1906.github.io/lab-provenance/mirror/blog.html",
+  "https://selb1906.github.io/lab-provenance/mirror/forum.html",
+  "https://selb1906.github.io/lab-provenance/mirror/news.html"
+ ],
+ "images_checked": 9,
+ "found": [
+  {
+   "page": "https://selb1906.github.io/lab-provenance/mirror/blog.html",
+   "image": "https://selb1906.github.io/lab-provenance/mirror/img/blog-1.jpg",
+   "c2pa": "없음",
+   "source": "assets/signed/kiaebs2026-05.png",
+   "caption": "외피 변수별 민감도 지수",
+   "how": [
+    "다시 저장·압축됨(지각 해시 거리 0)"
+   ],
+   "phash_d": 0,
+   "tile_d": 14,
+   "watermark": null
+  },
+  {
+   "page": "https://selb1906.github.io/lab-provenance/mirror/blog.html",
+   "image": "https://selb1906.github.io/lab-provenance/mirror/img/blog-2.png",
+   "c2pa": "없음",
+   "source": "assets/signed/buildings2026-01.png",
+   "caption": "CVRMSE 분해: 변동계수 요인과 비정형 요인",
+   "how": [
+    "일부를 잘라 씀(조각 해시 거리 2)"
+   ],
+   "phash_d": 18,
+   "tile_d": 2,
+   "watermark": null
+  },
+  {
+   "page": "https://selb1906.github.io/lab-provenance/mirror/forum.html",
+   "image": "https://selb1906.github.io/lab-provenance/mirror/img/forum-1.png",
+   "c2pa": "없음",
+   "source": "assets/journey/0-published.png",
+   "caption": null,
+   "how": [
+    "워터마크 GEL-0002 확인"
+   ],
+   "phash_d": 22,
+   "tile_d": 18,
+   "watermark": "GEL-0002"
+  },
+  {
+   "page": "https://selb1906.github.io/lab-provenance/mirror/forum.html",
+   "image": "https://selb1906.github.io/lab-provenance/mirror/img/forum-2.jpg",
+   "c2pa": "없음",
+   "source": "assets/signed/energy2024-06.png",
+   "caption": "수요 예측 과정",
+   "how": [
+    "다시 저장·압축됨(지각 해시 거리 4)"
+   ],
+   "phash_d": 4,
+   "tile_d": 20,
+   "watermark": null
+  },
+  {
+   "page": "https://selb1906.github.io/lab-provenance/mirror/news.html",
+   "image": "https://selb1906.github.io/lab-provenance/mirror/img/news-2.jpg",
+   "c2pa": "없음",
+   "source": "assets/journey/0-published.png",
+   "caption": null,
+   "how": [
+    "다시 저장·압축됨(지각 해시 거리 0)",
+    "워터마크 RCV-B002: 자료 요청자 B에게 보낸 사본"
+   ],
+   "phash_d": 0,
+   "tile_d": 10,
+   "watermark": "RCV-B002"
+  }
+ ]
+}

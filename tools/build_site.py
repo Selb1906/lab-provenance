@@ -96,7 +96,7 @@ def record_in_ledger(figs):
 
 
 NAV = [("index.html", "소개"), ("papers.html", "논문"), ("patents.html", "특허"),
-       ("journey.html", "한 장의 여정"), ("provenance.html", "출처증명"), ("verify.html", "검증하기")]
+       ("journey.html", "한 장의 여정"), ("monitor.html", "자동 발견"), ("provenance.html", "출처증명"), ("verify.html", "검증하기")]
 
 JOURNEY_STEPS = [
     ("0-published.png", "발행", "연구실이 그림을 발행한다. 픽셀 안에 식별자 GEL-0002를 워터마크로 숨기고, C2PA로 서명하고, 원장에 한 줄을 남긴다.",
@@ -293,6 +293,50 @@ def build_journey():
     return page("journey.html", "한 장의 여정", body)
 
 
+def build_monitor():
+    rep = json.loads((DOCS / "assets" / "monitor-report.json").read_text(encoding="utf-8"))
+    truth = json.loads((DOCS / "mirror" / "truth.json").read_text(encoding="utf-8"))
+    found = {f["image"].split("/")[-1]: f for f in rep["found"]}
+    rows = []
+    for t in truth:
+        f = found.get(t["img"])
+        ours = t["source"] is not None
+        if f:
+            res = _mark(True, "찾음", "") + f' <span class="muted small">{esc("; ".join(f["how"]))}</span>'
+            src = f'<a href="{esc(f["source"])}">{esc(f["caption"] or f["source"])}</a>' if f["source"] and f["source"].startswith("assets") else esc(f["caption"] or "")
+        else:
+            res = _mark(not ours, "매칭 없음(정상)", "놓침")
+            src = ""
+        rows.append(f'<tr><td><a href="mirror/{t["page"]}.html">{t["page"]}</a></td><td><a href="mirror/img/{t["img"]}"><img class="tiny" src="mirror/img/{t["img"]}" alt=""></a></td>'
+                    f'<td>{esc(t["how"])}</td><td>{res}</td><td>{src}</td></tr>')
+    n_ours = sum(1 for t in truth if t["source"])
+    n_hit = sum(1 for t in truth if t["source"] and t["img"] in found)
+    n_fp = sum(1 for t in truth if not t["source"] and t["img"] in found)
+    body = f"""
+<section class="head"><h1>자동 발견</h1>
+<p class="lead">출처증명은 증명서를 붙이는 것만으로는 쓸모가 적습니다. 저작권 침해는 피해자가 알아차려야 대응이 시작되기 때문입니다. 이 페이지는 순찰기가 웹 페이지를 돌며 연구실 그림이 어디서 어떻게 쓰이고 있는지 자동으로 찾아낸 결과입니다.</p></section>
+<section>
+  <p>점검 시각 <span class="mono">{esc(rep['time'])}</span> · 페이지 {len(rep['pages'])}곳 · 이미지 {rep['images_checked']}장 · <strong>우리 그림 {n_ours}건 중 {n_hit}건 발견</strong> · 상관없는 이미지 오탐 {n_fp}건</p>
+  <table class="data">
+    <thead><tr><th>페이지</th><th>이미지</th><th>실제로 한 일(정답)</th><th>순찰기 판정</th><th>찾아낸 원본</th></tr></thead>
+    <tbody>{''.join(rows)}</tbody>
+  </table>
+  <p class="muted small">순찰 대상은 실습용으로 만든 가짜 재게시 페이지입니다(<a href="mirror/index.html">목록</a>). 순찰기는 robots.txt를 지키고 요청 사이에 간격을 둡니다. 놓친 1건은 흰 배경 도식을 크게 자른 뒤 다시 압축한 경우로, 조각 해시 거리 16이 문턱 15를 넘었습니다.</p>
+</section>
+<section>
+  <h2>무엇이 되고 무엇이 안 되나</h2>
+  <table class="data">
+    <tbody>
+      <tr><th>되는 것</th><td>공개된 웹 페이지에 다시 올라온 그림을 자동으로 찾고, 원래 발행본과 증명서로 연결하고, 어떻게 바뀌었는지(증명서 삭제, 재압축, 크롭) 알려 준다. 받는 사람별 식별자를 심었다면 누구의 사본인지도 안다.</td></tr>
+      <tr><th>안 되는 것</th><td>누가 화면을 캡처했는지, 누가 내려받았는지는 알 수 없다. 그 일은 상대방 기기 안에서 일어나고, 그림 파일은 스스로 신호를 보낼 수 없다. 메신저 대화방처럼 공개되지 않은 곳도 순찰할 수 없다.</td></tr>
+      <tr><th>실제 서비스</th><td>같은 원리로 동영상은 유튜브 Content ID, 이미지는 Pixsy·Copytrack 같은 서비스가 웹을 순찰해 권리자에게 알려 준다.</td></tr>
+    </tbody>
+  </table>
+</section>
+"""
+    return page("monitor.html", "자동 발견", body)
+
+
 def build_provenance():
     body = (ROOT / "content" / "provenance.html").read_text(encoding="utf-8")
     return page("provenance.html", "출처증명", body)
@@ -337,6 +381,7 @@ def main():
         "papers.html": build_papers(site, figs),
         "patents.html": build_patents(site),
         "journey.html": build_journey(),
+        "monitor.html": build_monitor(),
         "provenance.html": build_provenance(),
         "verify.html": build_verify(figs),
     }
