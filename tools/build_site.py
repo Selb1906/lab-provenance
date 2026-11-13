@@ -328,7 +328,7 @@ def build_monitor():
 <section class="head"><h1>자동 발견</h1>
 <p class="lead">출처증명은 증명서를 붙이는 것만으로는 쓸모가 적습니다. 저작권 침해는 피해자가 알아차려야 대응이 시작되기 때문입니다. 이 페이지는 순찰기가 웹 페이지를 돌며 연구실 그림이 어디서 어떻게 쓰이고 있는지 자동으로 찾아낸 결과입니다.</p></section>
 <section>
-  <p>점검 시각 <span class="mono">{esc(rep['time'])}</span> · 페이지 {len(rep['pages'])}곳 · 이미지 {rep['images_checked']}장 · <strong>우리 그림 {n_ours}건 중 {n_hit}건 발견</strong> · 상관없는 이미지 오탐 {n_fp}건</p>
+  <p>점검 시각 <span class="mono">{esc(rep['time'])}</span> · 페이지 {len(rep['pages'])}곳 · 이미지 {rep['images_checked']}장 · <strong>우리 그림 {n_ours}건 중 {n_hit}건 발견</strong> · 상관없는 이미지 {len(truth) - n_ours}장 중 잘못 걸린 것 {n_fp}건(표본이 작아 오탐률 추정은 아님)</p>
   <table class="data">
     <thead><tr><th>페이지</th><th>이미지</th><th>실제로 한 일(정답)</th><th>순찰기 판정</th><th>찾아낸 원본</th></tr></thead>
     <tbody>{''.join(rows)}</tbody>
