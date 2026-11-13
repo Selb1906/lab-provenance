@@ -16,23 +16,26 @@ def resave(src, dst):
 
 
 def tamper_png(src, dst):
-    data = bytearray(Path(src).read_bytes())
-    pos = 8
+    data = bytes(Path(src).read_bytes())
+    chunks, pos = [], 8
     while pos < len(data):
         length = struct.unpack(">I", data[pos:pos + 4])[0]
-        ctype = bytes(data[pos + 4:pos + 8])
-        if ctype == b"IDAT":
-            body_start = pos + 8
-            # 압축 스트림을 풀어 픽셀 한 바이트를 바꾼 뒤 다시 압축한다 (그래야 그림이 정상으로 열린다)
-            raw = bytearray(zlib.decompress(bytes(data[body_start:body_start + length])))
-            raw[len(raw) // 2] ^= 0x01
-            body = zlib.compress(bytes(raw))
-            chunk = struct.pack(">I", len(body)) + b"IDAT" + body
-            chunk += struct.pack(">I", zlib.crc32(b"IDAT" + body) & 0xFFFFFFFF)
-            data[pos:pos + 12 + length] = chunk
-            break
+        chunks.append((data[pos + 4:pos + 8], data[pos:pos + 12 + length], data[pos + 8:pos + 8 + length]))
         pos += 12 + length
-    Path(dst).write_bytes(bytes(data))
+    # 픽셀 데이터는 IDAT 여러 개로 나뉠 수 있다 → 모두 이어 붙여 풀고, 한 바이트를 바꾼 뒤 IDAT 하나로 다시 넣는다
+    raw = bytearray(zlib.decompress(b"".join(body for t, _, body in chunks if t == b"IDAT")))
+    raw[len(raw) // 2] ^= 0x01
+    body = zlib.compress(bytes(raw))
+    idat = struct.pack(">I", len(body)) + b"IDAT" + body + struct.pack(">I", zlib.crc32(b"IDAT" + body) & 0xFFFFFFFF)
+    out, done = data[:8], False
+    for t, whole, _ in chunks:
+        if t == b"IDAT":
+            if not done:
+                out += idat
+                done = True
+            continue
+        out += whole
+    Path(dst).write_bytes(out)
 
 
 if __name__ == "__main__":

@@ -15,6 +15,9 @@ from PIL import Image
 import fphash
 import ledger
 import sign as signer_mod
+import wm_blockdct
+
+WM_KEY = 20261113  # 블록 DCT 키(실험 2·7과 같음)
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
@@ -46,23 +49,30 @@ def prepare_figures(papers, resign):
     tmp = Path("E:/envs/c2pa-work/web")
     tmp.mkdir(parents=True, exist_ok=True)
     out = []
+    tm = None
     for i, (pid, fname, caption, kind) in enumerate(FIGURES, 1):
         p = papers[pid]
         name = f"{pid}-{i:02d}.png"
         dst = SIGNED / name
+        wid = f"GEL-{i:04d}"
         if resign or not dst.exists():
             im = Image.open(FIG_SRC / pid / fname).convert("RGB")
             if im.width > MAX_W:
                 im = im.resize((MAX_W, round(im.height * MAX_W / im.width)), Image.LANCZOS)
+            # 발행 방식(실험 7): TrustMark 식별자 → 블록 DCT → C2PA 서명
+            if tm is None:
+                from trustmark import TrustMark
+                tm = TrustMark(verbose=False, model_type="Q", loadRemover=False)
+            im = wm_blockdct.embed(tm.encode(im, wid, MODE="text"), WM_KEY)
             web = tmp / name
             im.save(web, optimize=True)
-            note = f"Figure from {p['venue']} ({p['year']}), doi:{p['doi']}, license {p['license']}. Published by Green Energy Lab, Sangmyung University."
+            note = f"Figure from {p['venue']} ({p['year']}), doi:{p['doi']}, license {p['license']}. Watermark id {wid}. Published by Green Energy Lab, Sangmyung University."
             signer_mod.sign(web, dst, f"{caption} — {p['title'][:60]}", note, KEYS)
         data = dst.read_bytes()
         w, h = Image.open(dst).size
         out.append({
             "file": f"assets/signed/{name}", "paper": pid, "caption": caption, "kind": kind,
-            "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data), "w": w, "h": h,
+            "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data), "w": w, "h": h, "watermark_id": wid,
         })
     (DOCS / "assets" / "figures.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     record_in_ledger(out)
@@ -83,6 +93,7 @@ def record_in_ledger(figs):
             "file": f["file"], "sha256": f["sha256"],
             "lab_phash": fphash.to_hex(fphash.lab_phash(Image.open(p))),
             "c2pa_manifest": manifest_id, "caption": f["caption"], "paper": f["paper"],
+            "watermark_id": f["watermark_id"], "watermarks": ["trustmark", "blockdct"],
         })
     # 크롭본을 찾기 위한 조각 해시(실험 5). 본 기록과 별도의 줄로 덧붙인다(이미 고정된 앞 줄은 건드리지 않음)
     for f in figs:
