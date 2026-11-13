@@ -90,7 +90,23 @@ def record_in_ledger(figs):
 
 
 NAV = [("index.html", "소개"), ("papers.html", "논문"), ("patents.html", "특허"),
-       ("provenance.html", "출처증명"), ("verify.html", "검증하기")]
+       ("journey.html", "한 장의 여정"), ("provenance.html", "출처증명"), ("verify.html", "검증하기")]
+
+JOURNEY_STEPS = [
+    ("0-published.png", "발행", "연구실이 그림을 발행한다. 픽셀 안에 식별자 GEL-0002를 워터마크로 숨기고, C2PA로 서명하고, 원장에 한 줄을 남긴다.",
+     "모든 층이 같은 그림을 가리킨다. 이 상태가 기준이다."),
+    ("1-messenger.jpg", "메신저로 전달", "누군가 그림을 메신저로 보낸다. 메신저는 사진을 JPEG로 다시 압축한다(품질 74, 공개 벤치마크 WAVES의 가장 약한 압축 단계).",
+     "C2PA 증명서가 통째로 사라진다. 그래도 워터마크 식별자와 지각 해시로 원장을 찾아 원래 증명서로 돌아갈 수 있다."),
+    ("2-cropped.png", "잘라서 사용", "누군가 그림의 일부(면적 80%)만 잘라 원래 크기로 늘려 쓴다(WAVES 크롭 단계 0.4).",
+     "지각 해시는 그림 전체 구도를 보기 때문에 놓친다. 워터마크와 특징점이 대신 찾는다."),
+    ("3-screenshot.png", "화면 캡처", "누군가 그림을 브라우저에서 열고 화면 전체(1920×1080)를 캡처한다. 그림 주변에 어두운 배경이 함께 찍힌다.",
+     "그림 주변이 섞이면 지각 해시는 놓친다. 워터마크는 위치 검출을 켜면 그림 영역을 찾아 읽는다."),
+    ("4-tampered.png", "내용 조작", "누군가 히트맵의 한 칸을 다른 색으로 칠한다. 증명서는 그대로 남겨 둔다.",
+     "C2PA만 조작을 잡는다(서명 뒤 바뀜). 워터마크·지각 해시·특징점은 '같은 그림'이라고 답한다 — 이들은 '원래 기록이 어디 있나'를 찾는 도구이지, 변조를 잡는 도구가 아니다."),
+    ("5-leaked.jpg", "유출", "같은 그림을 세 곳에 보낼 때 받는 사람마다 다른 식별자를 숨겨 보냈다. 그중 하나가 메신저를 거쳐 퍼진다.",
+     "퍼진 사본에서 읽은 식별자 RCV-B002로 누구의 사본이 퍼졌는지 안다. C2PA로는 알 수 없는 정보다."),
+]
+RECIPIENT_NAMES = {"RCV-A001": "공동연구기관 A", "RCV-B002": "자료 요청자 B", "RCV-C003": "기업 C", "GEL-0002": "연구실 발행본"}
 
 
 def page(fname, title, body, scripts=""):
@@ -210,6 +226,67 @@ def build_patents(site):
     return page("patents.html", "특허", body)
 
 
+def _mark(ok, yes, no):
+    return f'<span class="state {"ok" if ok else "bad"} inline"><span class="dot"></span>{yes if ok else no}</span>'
+
+
+def build_journey():
+    res = json.loads((DOCS / "assets" / "journey" / "results.json").read_text(encoding="utf-8"))
+    cards = []
+    for i, (f, title, what, lesson) in enumerate(JOURNEY_STEPS):
+        r = res[f]
+        c2 = r["c2pa"]
+        c2_cls = "ok" if c2.startswith("유효") else ("bad" if c2 == "변조됨" else "warn")
+        wid = r["watermark"]
+        ledger_hit = r["sha256_match"] or r["phash_ok"] or (wid == "GEL-0002")
+        rows = [
+            ("C2PA", f'<span class="state {c2_cls} inline"><span class="dot"></span>{esc(c2)}</span>'),
+            ("워터마크", _mark(bool(wid), f"식별자 {esc(wid)} ({esc(RECIPIENT_NAMES.get(wid, ''))})", "못 읽음")),
+            ("지각 해시", _mark(r["phash_ok"], f"같은 그림 (거리 {r['phash_d']})", f"놓침 (거리 {r['phash_d']} &gt; 15)")),
+            ("특징점(ORB)", _mark(r["orb_ok"], f"같은 그림 (일치 {r['orb_inliers']}개)", f"놓침 (일치 {r['orb_inliers']}개)")),
+            ("원장 조회", _mark(ledger_hit, "원래 기록과 증명서를 찾음", "찾지 못함")),
+        ]
+        table = "".join(f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in rows)
+        cards.append(f"""
+<article class="step">
+  <div class="step-fig"><a href="assets/journey/{f}"><img src="assets/journey/{f}" alt="{esc(title)}" loading="lazy"></a></div>
+  <div class="step-body">
+    <p class="meta"><span class="year">{i}</span>{esc(title)}</p>
+    <p>{esc(what)}</p>
+    <table class="data compact">{table}</table>
+    <p class="lesson">{esc(lesson)}</p>
+  </div>
+</article>""")
+    tamper = res["ledger_tamper_detected_at"]
+    body = f"""
+<section class="head"><h1>그림 한 장의 여정</h1>
+<p class="lead">연구 그림 한 장이 발행된 뒤 겪을 수 있는 일을 실제로 만들어 보고, 그때마다 각 기술이 무엇을 알려 주는지 검사했습니다. C2PA 하나로는 왜 부족한지, 다른 기술이 어디서 필요한지가 이 순서로 드러납니다.</p></section>
+{''.join(cards)}
+<section>
+  <h2>원장을 몰래 고치면</h2>
+  <p>연구실 원장의 한 줄(워터마크 식별자)을 고친 사본을 검증하면 {tamper}번 줄에서 바로 어긋남이 드러납니다. 운영자가 원장 전체를 처음부터 다시 쓰는 경우까지 막기 위해, 원장 끝 해시를 비트코인에 고정해 둡니다(<a href="provenance.html">출처증명</a> 참고).</p>
+</section>
+<section>
+  <h2>정리: 어떤 일을 어떤 기술이 막나</h2>
+  <table class="data">
+    <thead><tr><th>일어난 일</th><th>C2PA</th><th>워터마크</th><th>지각 해시</th><th>특징점</th><th>원장</th></tr></thead>
+    <tbody>
+      <tr><td>그대로</td><td>확인</td><td>확인</td><td>확인</td><td>확인</td><td>기준</td></tr>
+      <tr><td>재압축(증명서 삭제)</td><td class="muted">사라짐</td><td>찾음</td><td>찾음</td><td>찾음</td><td>원래 증명서로 연결</td></tr>
+      <tr><td>잘라서 사용</td><td class="muted">사라짐</td><td>찾음</td><td class="muted">놓침</td><td>찾음</td><td>원래 증명서로 연결</td></tr>
+      <tr><td>화면 캡처</td><td class="muted">사라짐</td><td>찾음(위치 검출)</td><td class="muted">놓침</td><td>찾음</td><td>원래 증명서로 연결</td></tr>
+      <tr><td>내용 조작</td><td><strong>조작 탐지</strong></td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td>원래 기록과 비교 가능</td></tr>
+      <tr><td>유출</td><td class="muted">알 수 없음</td><td><strong>유출자 식별</strong></td><td class="muted">알 수 없음</td><td class="muted">알 수 없음</td><td>받는 사람 대응표 보관</td></tr>
+      <tr><td>원장 조작</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td><strong>해시체인 + 비트코인 고정</strong></td></tr>
+    </tbody>
+  </table>
+  <p>C2PA는 "서명 뒤 바뀌었는가"에는 가장 정확하게 답하지만, 증명서가 지워지는 순간 아무것도 말하지 못합니다. 워터마크·지각 해시·특징점은 증명서가 지워진 뒤 "원래 기록이 어디 있나"를 찾아 주고, 원장은 그 기록을 둘 곳과 그 기록이 고쳐지지 않았다는 증거를 줍니다.</p>
+  <p class="muted small">이 시연의 그림(히트맵)은 색과 질감이 많아 워터마크에 유리합니다. 흰 배경이 대부분인 그래프·도식에서는 워터마크와 특징점이 크게 약해집니다(<a href="provenance.html">출처증명</a>의 실험 결과 참고). 위 표는 이 그림 한 장의 결과입니다.</p>
+</section>
+"""
+    return page("journey.html", "한 장의 여정", body)
+
+
 def build_provenance():
     body = (ROOT / "content" / "provenance.html").read_text(encoding="utf-8")
     return page("provenance.html", "출처증명", body)
@@ -253,6 +330,7 @@ def main():
         "index.html": build_index(site, figs),
         "papers.html": build_papers(site, figs),
         "patents.html": build_patents(site),
+        "journey.html": build_journey(),
         "provenance.html": build_provenance(),
         "verify.html": build_verify(figs),
     }

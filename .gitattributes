@@ -6,3 +6,4 @@
 docs/assets/anchors/* -text
 docs/assets/ledger.jsonl -text
 *.ots binary
+docs/assets/journey/*.jsonl -text

@@ -1,0 +1,69 @@
+{
+ "0-published.png": {
+  "c2pa": "유효(신뢰 목록 밖)",
+  "codes": [
+   "signingCredential.untrusted"
+  ],
+  "sha256_match": true,
+  "phash_d": 0,
+  "phash_ok": true,
+  "watermark": "GEL-0002",
+  "orb_inliers": 1000,
+  "orb_ok": true
+ },
+ "1-messenger.jpg": {
+  "c2pa": "증명서 없음",
+  "codes": [],
+  "sha256_match": false,
+  "phash_d": 0,
+  "phash_ok": true,
+  "watermark": "GEL-0002",
+  "orb_inliers": 714,
+  "orb_ok": true
+ },
+ "2-cropped.png": {
+  "c2pa": "증명서 없음",
+  "codes": [],
+  "sha256_match": false,
+  "phash_d": 16,
+  "phash_ok": false,
+  "watermark": "GEL-0002",
+  "orb_inliers": 151,
+  "orb_ok": true
+ },
+ "3-screenshot.png": {
+  "c2pa": "증명서 없음",
+  "codes": [],
+  "sha256_match": false,
+  "phash_d": 22,
+  "phash_ok": false,
+  "watermark": "GEL-0002",
+  "orb_inliers": 336,
+  "orb_ok": true
+ },
+ "4-tampered.png": {
+  "c2pa": "변조됨",
+  "codes": [
+   "signingCredential.untrusted",
+   "assertion.dataHash.mismatch"
+  ],
+  "sha256_match": false,
+  "phash_d": 2,
+  "phash_ok": true,
+  "watermark": "GEL-0002",
+  "orb_inliers": 996,
+  "orb_ok": true
+ },
+ "5-leaked.jpg": {
+  "c2pa": "증명서 없음",
+  "codes": [],
+  "sha256_match": false,
+  "phash_d": 0,
+  "phash_ok": true,
+  "watermark": "RCV-B002",
+  "orb_inliers": 598,
+  "orb_ok": true
+ },
+ "ledger_ok": true,
+ "ledger_tamper_detected_at": 0
+}

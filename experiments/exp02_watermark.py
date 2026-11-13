@@ -110,6 +110,12 @@ def main():
     if "2" in STAGE:
         import ai_attacks
         ai = ai_attacks.ATTACKS
+        # 1단계에서 무너진 DWT 계열은 2단계에서 뺀다(일지: 사용자 규칙 "1단계에서 무너지면 실사용 불가")
+        methods = [m for m in methods if m.name in ("blockdct", "trustmark")]
+        # SD-VAE가 큰 이미지에서 메모리를 크게 써 시스템이 작업을 강제 종료함 → 긴 변 512px로 줄여서 진행
+        cap = int(os.environ.get("MAX2", "512"))
+        sample = [(n, k, im.resize((round(im.width * min(1, cap / max(im.size))), round(im.height * min(1, cap / max(im.size)))), Image.LANCZOS))
+                  for n, k, im in sample]
     for idx, (name, kind, im) in enumerate(sample):
         f = OUT / (name.replace("/", "__") + f"_s{STAGE}.json")
         if f.exists():

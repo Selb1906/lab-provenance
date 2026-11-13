@@ -141,3 +141,14 @@ footer { max-width: 1120px; margin: 0 auto; padding: 24px; border-top: 1px solid
 .result h2.sub { font-size: 16px; margin: 24px 0 8px; padding-top: 16px; border-top: 1px solid var(--line); }
 .state { align-items: flex-start; }
 .state .dot { margin-top: 9px; flex: none; }
+.step { display: grid; grid-template-columns: 2fr 3fr; gap: 32px; padding: 32px 0; border-top: 1px solid var(--line); align-items: start; }
+.step-fig { background: var(--surface); border-radius: var(--radius); padding: 12px; box-shadow: 0 0 0 1px var(--line); }
+.step-fig img { border-radius: 4px; }
+.data.compact th { width: 120px; color: var(--text-3); font-weight: 400; font-size: 14px; border-top: 1px solid var(--line); }
+.data.compact th, .data.compact td { padding: 8px 12px; }
+.state.inline { margin: 0; font-weight: 400; }
+.lesson { margin-top: 16px; padding-left: 12px; border-left: 2px solid var(--accent); color: var(--text-2); }
+@media (max-width: 800px) { .step { grid-template-columns: 1fr; gap: 16px; } }
+@media (max-width: 800px) { table.data { display: block; overflow-x: auto; } }
+.verify > .panel { min-width: 0; }
+select { max-width: 100%; text-overflow: ellipsis; }
