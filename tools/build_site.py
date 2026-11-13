@@ -333,7 +333,7 @@ def build_monitor():
     <thead><tr><th>페이지</th><th>이미지</th><th>실제로 한 일(정답)</th><th>순찰기 판정</th><th>찾아낸 원본</th></tr></thead>
     <tbody>{''.join(rows)}</tbody>
   </table>
-  <p class="muted small">순찰 대상은 실습용으로 만든 가짜 재게시 페이지입니다(<a href="mirror/index.html">목록</a>). 순찰기는 robots.txt를 지키고 요청 사이에 간격을 둡니다. 놓친 1건은 흰 배경 도식을 크게 자른 뒤 다시 압축한 경우로, 조각 해시 거리 16이 문턱 15를 넘었습니다.</p>
+  <p class="muted small">순찰 대상은 실습용으로 만든 가짜 재게시 페이지입니다(<a href="mirror/index.html">목록</a>). 순찰기는 robots.txt를 지키고 요청 사이에 간격을 둡니다. 처음 판(11-13)은 크게 자른 뒤 다시 압축한 그림 1건을 놓쳤습니다. 지금은 앞 단계에서 못 찾으면 특징점으로 후보 원본을 고르고, 원본에 맞춰 되돌린 뒤 워터마크를 읽어 확인합니다(블록 DCT 키는 비공개라 발행자 쪽에서만 할 수 있는 단계).</p>
 </section>
 <section>
   <h2>무엇이 되고 무엇이 안 되나</h2>

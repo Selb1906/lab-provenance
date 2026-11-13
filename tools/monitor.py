@@ -30,7 +30,9 @@ LEDGERS = [ROOT / "docs" / "assets" / "ledger.jsonl", ROOT / "docs" / "assets" /
 RECIPIENTS = {"RCV-A001": "공동연구기관 A", "RCV-B002": "자료 요청자 B", "RCV-C003": "기업 C"}
 UA = "lab-provenance-monitor/0.1 (research prototype)"
 PHASH_T = 5  # 원장 14장 기준 질의 오탐 1% 이하(실험 9). 원장이 커지면 다시 낮춰야 함
-TILE_T = 5  # 조각 비교는 질의당 오탐 1% 기준(실험 8). 조각이 많아 우연히 가까운 것이 생기므로 훨씬 엄격
+TILE_T = 5
+SIGNED = ROOT / "docs" / "assets" / "signed"
+WM_KEY_FILE = Path("E:/envs/c2pa-site-keys/wm_key.txt")  # 블록 DCT 키(비공개). 없으면 정합 단계는 TrustMark만 본다  # 조각 비교는 질의당 오탐 1% 기준(실험 8). 조각이 많아 우연히 가까운 것이 생기므로 훨씬 엄격
 
 
 class _Imgs(HTMLParser):
@@ -86,7 +88,39 @@ def _load_refs():
                 mains.append(r)
                 if r.get("watermark_id"):
                     wm[r["watermark_id"]] = r
-    return mains, tiles, wm
+    # 정합 단계용: 지금 발행본 원본과 그 ORB 특징(발행자 쪽에서 돌리므로 원본을 갖고 있다)
+    import align
+    figs = json.loads((ROOT / "docs" / "assets" / "figures.json").read_text(encoding="utf-8"))
+    origs = {}
+    for f in figs:
+        im = Image.open(ROOT / "docs" / f["file"]).convert("RGB")
+        origs[f["file"]] = {"im": im, "orb": align.orb_features(im), "fig": f}
+    return mains, tiles, wm, origs
+
+
+def _aligned_watermark(im, origs, tm):
+    """앞 단계에서 못 찾았을 때: 후보 원본을 고르고(ORB, 눌러 보기 포함) 정합해 되돌린 뒤 워터마크를 읽는다(실험 11b·12).
+    판정은 워터마크(블록 DCT z > 2.326 또는 TrustMark 식별자가 후보의 식별자와 일치)로만 한다."""
+    import align
+    name, n_orb = align.candidate(im, [(k, v["orb"]) for k, v in origs.items()])
+    if name is None:
+        return None
+    o = origs[name]
+    r = align.register(im, o["im"])
+    if r is None:
+        return None
+    back, valid, _, n_sift = r
+    z = align.bdct_z_valid(back, valid, int(WM_KEY_FILE.read_text().strip())) if WM_KEY_FILE.exists() else None
+    s, ok, _ = tm.decode(back, MODE="text")
+    tm_ok = bool(ok and s == o["fig"]["watermark_id"])
+    if not ((z is not None and z > align.Z_T) or tm_ok):
+        return None
+    parts = [f"잘라 쓰거나 돌려 씀 — 원본에 맞춰 되돌린 뒤 워터마크 확인(특징점 {n_orb}/{n_sift}개 일치"]
+    if z is not None:
+        parts.append(f"블록 DCT z {z:.1f}")
+    if tm_ok:
+        parts.append(f"TrustMark {s}")
+    return o["fig"], ", ".join(parts) + ")", z, (s if tm_ok else None)
 
 
 def _c2pa(data):
@@ -112,7 +146,7 @@ def _tm():
 
 
 def check_image(data, refs, tm):
-    mains, tiles, wm = refs
+    mains, tiles, wm, origs = refs
     im = Image.open(io.BytesIO(data)).convert("RGB")
     sha = hashlib.sha256(data).hexdigest()
     ph = fphash.to_hex(fphash.lab_phash(im))
@@ -136,10 +170,15 @@ def check_image(data, refs, tm):
     elif wid in RECIPIENTS:
         how.append(f"워터마크 {wid}: {RECIPIENTS[wid]}에게 보낸 사본")
         src = src or {"file": "(받는 사람별 사본)", "caption": "받는 사람별 식별자를 심어 보낸 사본"}
+    aligned_z = None
     if not src and not how:
-        return None
+        a = _aligned_watermark(im, origs, tm)
+        if a is None:
+            return None
+        src, how, aligned_z = a[0], [a[1]], a[2]
+        wid = wid or a[3]
     return {"c2pa": _c2pa(data), "source": (src or {}).get("file"), "caption": (src or {}).get("caption"),
-            "how": how, "phash_d": near[0], "tile_d": tile[0], "watermark": wid}
+            "how": how, "phash_d": near[0], "tile_d": tile[0], "watermark": wid, "aligned_bdct_z": aligned_z}
 
 
 def crawl(starts):

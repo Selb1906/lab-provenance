@@ -1,5 +1,5 @@
 {
- "time": "2026-11-13T21:46:43+0900",
+ "time": "2026-11-14T01:12:28+0900",
  "pages": [
   "http://localhost:8765/mirror/blog.html",
   "http://localhost:8765/mirror/forum.html",
@@ -14,19 +14,21 @@
    "source": "assets/signed/kiaebs2026-05.png",
    "caption": "외피 변수별 민감도 지수",
    "how": [
-    "다시 저장·압축됨(지각 해시 거리 0)"
+    "다시 저장·압축됨(지각 해시 거리 0)",
+    "워터마크 GEL-0005 확인"
    ],
    "phash_d": 0,
    "tile_d": 14,
-   "watermark": null,
+   "watermark": "GEL-0005",
+   "aligned_bdct_z": null,
    "evidence": {
     "page": {
      "url": "http://localhost:8765/mirror/blog.html",
      "status": 200,
-     "fetched_at": "2026-11-13T21:44:52+0900",
+     "fetched_at": "2026-11-14T01:10:43+0900",
      "sha256": "9f323baf1f8bca923dedbd83fbaa71a8066359d981c145a7a2ea95a1340f0b8e",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:44:52 GMT",
+      "Date": "Fri, 13 Nov 2026 16:10:43 GMT",
       "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
       "Content-Type": "text/html",
       "Content-Length": "1065",
@@ -36,13 +38,13 @@
     "image": {
      "url": "http://localhost:8765/mirror/img/blog-1.jpg",
      "status": 200,
-     "fetched_at": "2026-11-13T21:44:52+0900",
-     "sha256": "f6b24e2bacf7b661e2f080cdcd9975361ab7a5d21f0a1468eb35ae51dcb4b868",
+     "fetched_at": "2026-11-14T01:10:43+0900",
+     "sha256": "15c596b94cd70cec8ec6a87a1fe495b838e64bf424d83a299988bc74a0224f05",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:44:52 GMT",
-      "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
+      "Date": "Fri, 13 Nov 2026 16:10:43 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 16:08:54 GMT",
       "Content-Type": "image/jpeg",
-      "Content-Length": "72906",
+      "Content-Length": "51388",
       "Server": "SimpleHTTP/0.6 Python/3.11.9"
      }
     }
@@ -55,19 +57,20 @@
    "source": "assets/signed/buildings2026-01.png",
    "caption": "CVRMSE 분해: 변동계수 요인과 비정형 요인",
    "how": [
-    "일부를 잘라 씀(조각 해시 거리 2)"
+    "워터마크 GEL-0001 확인"
    ],
-   "phash_d": 18,
-   "tile_d": 2,
-   "watermark": null,
+   "phash_d": 22,
+   "tile_d": 10,
+   "watermark": "GEL-0001",
+   "aligned_bdct_z": null,
    "evidence": {
     "page": {
      "url": "http://localhost:8765/mirror/blog.html",
      "status": 200,
-     "fetched_at": "2026-11-13T21:44:52+0900",
+     "fetched_at": "2026-11-14T01:10:43+0900",
      "sha256": "9f323baf1f8bca923dedbd83fbaa71a8066359d981c145a7a2ea95a1340f0b8e",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:44:52 GMT",
+      "Date": "Fri, 13 Nov 2026 16:10:43 GMT",
       "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
       "Content-Type": "text/html",
       "Content-Length": "1065",
@@ -77,13 +80,13 @@
     "image": {
      "url": "http://localhost:8765/mirror/img/blog-2.png",
      "status": 200,
-     "fetched_at": "2026-11-13T21:45:04+0900",
-     "sha256": "15ecdd6747d6c9267526c25955aaf035348c4b7a7e73fb8e36a4cb2b1f39e3b0",
+     "fetched_at": "2026-11-14T01:10:53+0900",
+     "sha256": "8b801ac8f82df0c108a8b7f165bafa91aebbb3a60e59d15072cd433eb15d14f3",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:45:04 GMT",
-      "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
+      "Date": "Fri, 13 Nov 2026 16:10:53 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 16:08:54 GMT",
       "Content-Type": "image/png",
-      "Content-Length": "660718",
+      "Content-Length": "932069",
       "Server": "SimpleHTTP/0.6 Python/3.11.9"
      }
     }
@@ -101,14 +104,15 @@
    "phash_d": 22,
    "tile_d": 18,
    "watermark": "GEL-0002",
+   "aligned_bdct_z": null,
    "evidence": {
     "page": {
      "url": "http://localhost:8765/mirror/forum.html",
      "status": 200,
-     "fetched_at": "2026-11-13T21:45:30+0900",
+     "fetched_at": "2026-11-14T01:11:16+0900",
      "sha256": "ae02f3c5d810518369ec5bac14788640fc8bf63ce9e43258e05c91ab4e59406f",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:45:30 GMT",
+      "Date": "Fri, 13 Nov 2026 16:11:16 GMT",
       "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
       "Content-Type": "text/html",
       "Content-Length": "1060",
@@ -118,10 +122,10 @@
     "image": {
      "url": "http://localhost:8765/mirror/img/forum-1.png",
      "status": 200,
-     "fetched_at": "2026-11-13T21:45:30+0900",
+     "fetched_at": "2026-11-14T01:11:16+0900",
      "sha256": "0608c22b8c6ef212d829af3366537e385a2eb870adc478888ac839e0018e3393",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:45:30 GMT",
+      "Date": "Fri, 13 Nov 2026 16:11:16 GMT",
       "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
       "Content-Type": "image/png",
       "Content-Length": "679278",
@@ -137,19 +141,21 @@
    "source": "assets/signed/energy2024-06.png",
    "caption": "수요 예측 과정",
    "how": [
-    "다시 저장·압축됨(지각 해시 거리 4)"
+    "다시 저장·압축됨(지각 해시 거리 0)",
+    "워터마크 GEL-0006 확인"
    ],
-   "phash_d": 4,
-   "tile_d": 20,
-   "watermark": null,
+   "phash_d": 0,
+   "tile_d": 16,
+   "watermark": "GEL-0006",
+   "aligned_bdct_z": null,
    "evidence": {
     "page": {
      "url": "http://localhost:8765/mirror/forum.html",
      "status": 200,
-     "fetched_at": "2026-11-13T21:45:30+0900",
+     "fetched_at": "2026-11-14T01:11:16+0900",
      "sha256": "ae02f3c5d810518369ec5bac14788640fc8bf63ce9e43258e05c91ab4e59406f",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:45:30 GMT",
+      "Date": "Fri, 13 Nov 2026 16:11:16 GMT",
       "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
       "Content-Type": "text/html",
       "Content-Length": "1060",
@@ -159,13 +165,55 @@
     "image": {
      "url": "http://localhost:8765/mirror/img/forum-2.jpg",
      "status": 200,
-     "fetched_at": "2026-11-13T21:45:45+0900",
-     "sha256": "151a36065fc7824dd0eac74adec7c1bf59334d5d03dc171d65b568096f5d7a57",
+     "fetched_at": "2026-11-14T01:11:31+0900",
+     "sha256": "cd332a9c7d223bfc814c28246678c03d512104bdbd6173907d4509a029fcd530",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:45:45 GMT",
-      "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
+      "Date": "Fri, 13 Nov 2026 16:11:31 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 16:08:54 GMT",
       "Content-Type": "image/jpeg",
-      "Content-Length": "144555",
+      "Content-Length": "76569",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    }
+   }
+  },
+  {
+   "page": "http://localhost:8765/mirror/news.html",
+   "image": "http://localhost:8765/mirror/img/news-1.jpg",
+   "c2pa": "없음",
+   "source": "assets/signed/enbuild2024-08.png",
+   "caption": "BES 모델 구성과 보정 절차",
+   "how": [
+    "잘라 쓰거나 돌려 씀 — 원본에 맞춰 되돌린 뒤 워터마크 확인(특징점 173/1029개 일치, 블록 DCT z 6.7, TrustMark GEL-0008)"
+   ],
+   "phash_d": 24,
+   "tile_d": 18,
+   "watermark": "GEL-0008",
+   "aligned_bdct_z": 6.74304261691177,
+   "evidence": {
+    "page": {
+     "url": "http://localhost:8765/mirror/news.html",
+     "status": 200,
+     "fetched_at": "2026-11-14T01:11:48+0900",
+     "sha256": "11339d3ed93e3f1d49fdc604f801aa99cfb6a6c029ead2d9cc4f2dce9faf401a",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 16:11:48 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "1065",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    },
+    "image": {
+     "url": "http://localhost:8765/mirror/img/news-1.jpg",
+     "status": 200,
+     "fetched_at": "2026-11-14T01:11:48+0900",
+     "sha256": "651c47905ab9f3d137f99acc9526f1e399072577e0064cb104937a078130d02b",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 16:11:48 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 16:08:54 GMT",
+      "Content-Type": "image/jpeg",
+      "Content-Length": "91079",
       "Server": "SimpleHTTP/0.6 Python/3.11.9"
      }
     }
@@ -184,14 +232,15 @@
    "phash_d": 0,
    "tile_d": 10,
    "watermark": "RCV-B002",
+   "aligned_bdct_z": null,
    "evidence": {
     "page": {
      "url": "http://localhost:8765/mirror/news.html",
      "status": 200,
-     "fetched_at": "2026-11-13T21:46:05+0900",
+     "fetched_at": "2026-11-14T01:11:48+0900",
      "sha256": "11339d3ed93e3f1d49fdc604f801aa99cfb6a6c029ead2d9cc4f2dce9faf401a",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:46:05 GMT",
+      "Date": "Fri, 13 Nov 2026 16:11:48 GMT",
       "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
       "Content-Type": "text/html",
       "Content-Length": "1065",
@@ -201,10 +250,10 @@
     "image": {
      "url": "http://localhost:8765/mirror/img/news-2.jpg",
      "status": 200,
-     "fetched_at": "2026-11-13T21:46:17+0900",
+     "fetched_at": "2026-11-14T01:12:02+0900",
      "sha256": "f51081125d0942bf73c754ef3d49db19da34330198ad0858e3dcf20f8f9204b5",
      "headers": {
-      "Date": "Fri, 13 Nov 2026 12:46:17 GMT",
+      "Date": "Fri, 13 Nov 2026 16:12:02 GMT",
       "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
       "Content-Type": "image/jpeg",
       "Content-Length": "363683",
