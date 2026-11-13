@@ -56,12 +56,13 @@ def _allowed(url, cache={}):
     if base not in cache:
         rp = urllib.robotparser.RobotFileParser(base + "/robots.txt")
         try:
-            rp.read()
+            rp.read()  # 404 등 파일 없음은 '전부 허용', 401·403은 '전부 금지'로 표준 라이브러리가 처리
         except Exception:
-            rp = None  # robots.txt를 읽을 수 없으면 허용으로 본다(표준 관행)
+            # 연결 실패 등으로 robots.txt를 확인할 수 없으면 '전부 금지'로 본다 (RFC 9309 2.3.1.4)
+            rp = False
         cache[base] = rp
     rp = cache[base]
-    return True if rp is None else rp.can_fetch(UA, url)
+    return False if rp is False else rp.can_fetch(UA, url)
 
 
 def _load_refs():
