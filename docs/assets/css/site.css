@@ -129,6 +129,9 @@ select { flex: 1; min-width: 0; font: inherit; font-size: 14px; padding: 6px 8px
 .ok .dot { background: var(--accent); }
 .warn .dot { background: #b7791f; }
 .bad .dot { background: #c0392b; }
+.none .dot { background: #9aa0a6; }
+#result details { margin: 8px 0 16px; }
+#result summary { cursor: pointer; color: var(--text-3); font-size: .9em; }
 .thumb { max-height: 180px; width: auto; border-radius: 6px; margin-bottom: 16px; }
 
 footer { max-width: 1120px; margin: 0 auto; padding: 24px; border-top: 1px solid var(--line); color: var(--text-3); font-size: 14px; }

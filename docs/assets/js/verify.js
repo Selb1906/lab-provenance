@@ -83,25 +83,27 @@ async function ledgerSection(hash, blob) {
       }
     }
   }
-  let body;
+  let body, detail;
   if (exact) {
-    body = `<p class="state ok"><span class="dot"></span>원장에 같은 파일이 있습니다 (SHA-256 일치, 기록 #${exact.index})</p>`;
+    body = `<p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
+    detail = `<dt>근거</dt><dd>SHA-256 일치, 기록 #${exact.index}</dd>`;
   } else if (near && near.d <= PHASH_T) {
-    body = `<p class="state warn"><span class="dot"></span>파일은 다르지만 내용이 같은 그림을 원장에서 찾았습니다 (지각 해시 거리 ${near.d} ≤ ${PHASH_T})</p>
-      <p>원래 발행본: <a href="${esc(near.e.record.file)}">${esc(near.e.record.caption)}</a><br>
-      <span class="muted small">원본의 증명서 ${esc(near.e.record.c2pa_manifest)}</span></p>
-      <p class="muted small">이 파일 자체가 인증된 것은 아닙니다. 내용이 같아 보이는 원본의 증명서를 찾아 온 것이라 신뢰 수준이 낮습니다(C2PA 2.5 규격 16.4.1.10).</p>`;
+    body = `<p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 발행된 그림과 닮아 보여, 그 원본의 증명서를 참고로 보여 드립니다</p>
+      <p>닮아 보이는 원본: <a href="${esc(near.e.record.file)}">${esc(near.e.record.caption)}</a></p>
+      <p class="muted small">닮음은 기계가 판단한 것이라 틀릴 수 있습니다. 규격은 이렇게 찾아 온 증명서를 낮은 신뢰로 따로 표시하라고 합니다(C2PA 2.5 규격 16.4.1.10).</p>`;
+    detail = `<dt>근거</dt><dd>지각 해시 거리 ${near.d} (문턱 ${PHASH_T} 이하면 닮음으로 봄)</dd><dt>원본의 증명서</dt><dd class="mono">${esc(near.e.record.c2pa_manifest)}</dd>`;
   } else if (tile && tile.d <= TILE_T) {
     const main = entries.find((e) => e.record.sha256 === tile.e.record.of_sha256);
-    body = `<p class="state warn"><span class="dot"></span>그림 전체와는 다르지만 발행된 그림의 일부(조각)와 일치합니다 (거리 ${tile.d} ≤ ${TILE_T}) — 잘라서 쓴 것으로 보입니다</p>
-      <p>원래 발행본: <a href="${esc(tile.e.record.file)}">${esc(main ? main.record.caption : tile.e.record.file)}</a><br>
-      <span class="muted small">원본의 증명서 ${esc(main ? main.record.c2pa_manifest : "-")}</span></p>
-      <p class="muted small">이 파일 자체가 인증된 것은 아닙니다. 일부가 같아 보이는 원본의 증명서를 찾아 온 것이라 신뢰 수준이 낮습니다.</p>`;
+    body = `<p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 발행된 그림의 일부와 닮아 보여(잘라 쓴 것으로 보임), 그 원본의 증명서를 참고로 보여 드립니다</p>
+      <p>닮아 보이는 원본: <a href="${esc(tile.e.record.file)}">${esc(main ? main.record.caption : tile.e.record.file)}</a></p>
+      <p class="muted small">닮음은 기계가 판단한 것이라 틀릴 수 있습니다. 찾아 온 증명서는 낮은 신뢰입니다.</p>`;
+    detail = `<dt>근거</dt><dd>조각 해시 거리 ${tile.d} (문턱 ${TILE_T} 이하면 닮음으로 봄)</dd><dt>원본의 증명서</dt><dd class="mono">${esc(main ? main.record.c2pa_manifest : "-")}</dd>`;
   } else {
-    body = `<p class="state bad"><span class="dot"></span>원장에서 찾지 못했습니다</p>
-      <p class="muted small">가장 가까운 기록과의 지각 해시 거리 ${near ? near.d : "-"} (문턱 ${PHASH_T})</p>`;
+    body = `<p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 그림입니다</p>
+      <p class="muted small">다른 곳에서 만든 그림일 수 있으며, 가짜라는 뜻은 아닙니다.</p>`;
+    detail = `<dt>근거</dt><dd>가장 가까운 기록과의 지각 해시 거리 ${near ? near.d : "-"} (문턱 ${PHASH_T})</dd>`;
   }
-  return `<h2 class="sub">원장 조회</h2>${body}<dl><dt>지각 해시</dt><dd class="mono">${ph}</dd></dl>`;
+  return `<h2 class="sub">원장 조회</h2>${body}<details><summary>자세히</summary><dl>${detail}<dt>이 파일의 지각 해시</dt><dd class="mono">${ph}</dd></dl></details>`;
 }
 
 function context() {
@@ -114,11 +116,12 @@ function verdict(store) {
   const codes = (store.validation_status || []).map((s) => s.code);
   const state = store.validation_state;
   if (state === "Invalid" || codes.some((c) => c.includes("mismatch") || c.includes("invalid")))
-    return ["bad", "서명 검증 실패 — 서명 뒤에 파일이 바뀌었거나 증명서가 손상됨"];
-  if (state === "Trusted") return ["ok", "신뢰된 서명자 — 신뢰 목록에 있는 인증서로 서명됨"];
+    return ["bad", "서명 뒤에 파일이 바뀌었습니다. 증명서는 바뀌기 전의 파일을 보증한 것이라 지금 이 파일에는 적용되지 않습니다. 어디가 바뀌었는지는 이 검증기로는 알 수 없습니다"];
+  if (state === "Trusted")
+    return ["ok", `서명자 확인됨. 서명한 뒤 파일이 바뀌지 않았고, 서명자가 이 검증기의 신뢰 목록에 있습니다${trustLab.checked ? "(연구실 자체 목록 — C2PA 공식 목록 아님)" : ""}. 내용이 사실이라는 뜻은 아닙니다`];
   if (codes.includes("signingCredential.untrusted"))
-    return ["warn", "서명은 유효하지만 신뢰 목록에 없는 서명자"];
-  return ["ok", `서명 유효 (${esc(state)})`];
+    return ["warn", "서명은 손상 없이 유효합니다. 다만 서명한 사람(기관)이 이 검증기가 아는 명단에 없어 신원은 확인하지 못했습니다. 명단에 없다는 것이 가짜라는 뜻은 아닙니다"];
+  return ["ok", "서명은 손상 없이 유효합니다. 내용이 사실이라는 뜻은 아닙니다"];
 }
 
 async function show(blob, name) {
@@ -135,8 +138,8 @@ async function show(blob, name) {
   }
   if (!reader) {
     result.innerHTML = `<img class="thumb" src="${url}" alt="">
-      <p class="state warn"><span class="dot"></span>C2PA 증명서가 없습니다</p>
-      <p>증명서가 없다는 것은 "가짜"라는 뜻이 아니라 출처를 이 파일만으로는 알 수 없다는 뜻입니다. 다시 저장하거나 SNS를 거치면 증명서가 지워지는 경우가 많습니다.</p>
+      <p class="state none"><span class="dot"></span>출처 정보가 없습니다 (C2PA 증명서 없음)</p>
+      <p>가짜라는 뜻이 아니라, 이 파일만으로는 누가 만들었는지 알 수 없다는 뜻입니다. 다시 저장하거나 메신저·SNS를 거치면 증명서가 지워지는 경우가 많습니다.</p>
       <dl><dt>파일</dt><dd>${esc(name)}</dd><dt>SHA-256</dt><dd class="mono">${hash}</dd></dl>`;
     result.insertAdjacentHTML("beforeend", await ledgerSection(hash, blob));
     return;
@@ -146,21 +149,26 @@ async function show(blob, name) {
   const m = store.manifests[store.active_manifest];
   const sig = m.signature_info || {};
   const actions = (m.assertions || []).find((a) => a.label.startsWith("c2pa.actions"));
-  const acts = actions ? actions.data.actions.map((a) => a.action.replace("c2pa.", "")).join(" → ") : "";
+  const ACT = { created: "만듦", opened: "엶", edited: "편집", published: "발행", converted: "형식 변환", resized: "크기 변경", cropped: "자름" };
+  const acts = actions ? actions.data.actions.map((a) => { const k = a.action.replace("c2pa.", ""); return ACT[k] || k; }).join(" → ") : "";
   const [cls, text] = verdict(store);
   const codes = (store.validation_status || []).map((s) => `<li class="mono">${esc(s.code)}</li>`).join("");
   result.innerHTML = `<img class="thumb" src="${url}" alt="">
     <p class="state ${cls}"><span class="dot"></span>${text}</p>
+    ${cls === "bad" ? `<p class="muted small">아래 정보는 유효하지 않은 증명서에서 읽은 것이므로 서명자의 것으로 볼 수 없습니다(C2PA 규격 15.3).</p>` : ""}
     <dl>
-      <dt>제목</dt><dd>${esc(m.title)}</dd>
       <dt>서명자</dt><dd>${esc(sig.common_name)}<br><span class="muted">${esc(sig.issuer)}</span></dd>
       <dt>서명 시각</dt><dd class="mono">${esc(sig.time)}</dd>
-      <dt>기록된 행동</dt><dd>${esc(acts)}</dd>
-      <dt>도구</dt><dd>${esc((m.claim_generator_info || []).map((g) => `${g.name} ${g.version || ""}`).join(", "))}</dd>
+      <dt>서명자가 적은 작업 기록</dt><dd>${esc(acts)}</dd>
+    </dl>
+    <details><summary>자세히</summary><dl>
+      <dt>제목</dt><dd>${esc(m.title)}</dd>
+      <dt>서명 도구</dt><dd>${esc((m.claim_generator_info || []).map((g) => `${g.name} ${g.version || ""}`).join(", "))}</dd>
+      <dt>검증 상태</dt><dd class="mono">${esc(store.validation_state)}</dd>
       <dt>SHA-256</dt><dd class="mono">${hash}</dd>
       <dt>검증 코드</dt><dd><ul class="plain">${codes || "<li>없음</li>"}</ul></dd>
-    </dl>
-    <p class="muted small">서명은 누가 서명했는지와 서명 뒤 바뀌지 않았다는 것만 보증합니다. 그림 내용이 사실이라는 보증은 아닙니다.</p>`;
+    </dl></details>
+    <p class="muted small">서명은 누가 서명했는지와 서명 뒤 바뀌지 않았다는 것만 보증합니다. 그림 내용이 사실이라는 보증은 아닙니다. 작업 기록은 서명자가 적은 것이고 검증기가 직접 본 것이 아닙니다.</p>`;
   result.insertAdjacentHTML("beforeend", await ledgerSection(hash, blob));
 }
 

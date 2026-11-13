@@ -357,7 +357,7 @@ def build_verify(figs):
     opts = "".join(f'<option value="{f["file"]}">{esc(f["caption"])}</option>' for f in figs)
     opts += (
         '<option value="assets/samples/kiaebs2026-05-resaved.png">[변형] 다시 저장한 그림 — 증명서가 지워짐</option>'
-        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 1바이트를 바꾼 그림 — 증명서는 남음</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 엄격한 기준에서는 못 찾음</option>'
+        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 하나를 바꾼 그림 — 증명서는 남지만 깨짐</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 엄격한 기준에서는 못 찾음</option>'
     )
     body = f"""
 <section class="head"><h1>검증하기</h1>
@@ -368,7 +368,7 @@ def build_verify(figs):
     <p class="muted small">또는 이 사이트의 그림으로 해 보기</p>
     <div class="row"><select id="sample">{opts}</select><button id="useSample" class="btn">불러오기</button></div>
     <label class="check"><input id="trustLab" type="checkbox"> 연구실 루트 인증서를 신뢰 목록에 넣기</label>
-    <p class="muted small">이 칸을 켜면 같은 파일이 '신뢰 목록에 없는 서명자'에서 '신뢰된 서명자'로 바뀝니다. 신뢰 목록에 오른다는 것이 무엇인지 보여 주는 실험입니다.</p>
+    <p class="muted small">이 칸을 켜면 같은 파일이 '신원 확인 못 함'에서 '서명자 확인됨'으로 바뀝니다. 검증기 설정을 바꾼 것일 뿐 C2PA 공식 신뢰 목록에 오른 것은 아닙니다. 신뢰 목록이 무엇을 바꾸는지 보여 주는 실험입니다.</p>
   </div>
   <div class="panel result" id="result"><p class="muted">아직 고른 파일이 없습니다.</p></div>
 </section>
