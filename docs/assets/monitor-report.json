@@ -1,5 +1,5 @@
 {
- "time": "2026-11-13T11:52:10+0900",
+ "time": "2026-11-13T12:43:39+0900",
  "pages": [
   "https://selb1906.github.io/lab-provenance/mirror/blog.html",
   "https://selb1906.github.io/lab-provenance/mirror/forum.html",
@@ -63,8 +63,8 @@
    "page": "https://selb1906.github.io/lab-provenance/mirror/news.html",
    "image": "https://selb1906.github.io/lab-provenance/mirror/img/news-2.jpg",
    "c2pa": "없음",
-   "source": "assets/journey/0-published.png",
-   "caption": null,
+   "source": "assets/signed/buildings2026-02.png",
+   "caption": "건물 유형별 시간대 오차 패턴",
    "how": [
     "다시 저장·압축됨(지각 해시 거리 0)",
     "워터마크 RCV-B002: 자료 요청자 B에게 보낸 사본"
