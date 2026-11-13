@@ -1,0 +1,2702 @@
+[
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "resizedcrop",
+  "level": 0.2,
+  "wid": "GEL-0001",
+  "direct_bdct": -0.3977308829955685,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.16752235339693922,
+   "inliers": 1693,
+   "kp_q": 2751,
+   "kp_o": 4238,
+   "bdct_z": 19.100853038125138,
+   "bdct_z_wrongkey": -0.9523963558626584,
+   "valid_blocks": 20736,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.18032687636901085,
+   "inliers": 1693,
+   "kp_q": 2751,
+   "kp_o": 4238,
+   "bdct_z": 19.066183818704545,
+   "bdct_z_wrongkey": -0.20193129843956786,
+   "valid_blocks": 20736,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "resizedcrop",
+  "level": 0.4,
+  "wid": "GEL-0001",
+  "direct_bdct": -0.3977308829955685,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.16752235339693922,
+   "inliers": 1693,
+   "kp_q": 2751,
+   "kp_o": 4238,
+   "bdct_z": 19.100853038125138,
+   "bdct_z_wrongkey": 1.0684185219196567,
+   "valid_blocks": 20736,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.18032687636901085,
+   "inliers": 1693,
+   "kp_q": 2751,
+   "kp_o": 4238,
+   "bdct_z": 19.066183818704545,
+   "bdct_z_wrongkey": -0.1933157788649199,
+   "valid_blocks": 20736,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "resizedcrop",
+  "level": 0.6,
+  "wid": "GEL-0001",
+  "direct_bdct": -1.282424504318611,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.16624456695622916,
+   "inliers": 1029,
+   "kp_q": 2710,
+   "kp_o": 4238,
+   "bdct_z": 14.78950134665893,
+   "bdct_z_wrongkey": 1.9240110697887578,
+   "valid_blocks": 19881,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.1732346216838525,
+   "inliers": 1029,
+   "kp_q": 2710,
+   "kp_o": 4238,
+   "bdct_z": 14.796957217252253,
+   "bdct_z_wrongkey": 0.9906411672896023,
+   "valid_blocks": 19881,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "resizedcrop",
+  "level": 0.8,
+  "wid": "GEL-0001",
+  "direct_bdct": -0.3221554361503246,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.17441188208332092,
+   "inliers": 599,
+   "kp_q": 1862,
+   "kp_o": 4238,
+   "bdct_z": 14.13601601787841,
+   "bdct_z_wrongkey": 0.06439223076717286,
+   "valid_blocks": 17030,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.1981266032868896,
+   "inliers": 603,
+   "kp_q": 1862,
+   "kp_o": 4238,
+   "bdct_z": 14.111542000393204,
+   "bdct_z_wrongkey": 0.013913933123175076,
+   "valid_blocks": 17030,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "resizedcrop",
+  "level": 1.0,
+  "wid": "GEL-0001",
+  "direct_bdct": -0.5291028601694403,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.19942695460330967,
+   "inliers": 589,
+   "kp_q": 1722,
+   "kp_o": 4238,
+   "bdct_z": 13.561636049524424,
+   "bdct_z_wrongkey": 0.6121804942333562,
+   "valid_blocks": 14280,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.32365268834742866,
+   "inliers": 589,
+   "kp_q": 1722,
+   "kp_o": 4238,
+   "bdct_z": 13.044612904688552,
+   "bdct_z_wrongkey": 1.0942674275866275,
+   "valid_blocks": 14244,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "rotation",
+  "level": 0.2,
+  "wid": "GEL-0001",
+  "direct_bdct": -0.5474958371328525,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.08688607161919958,
+   "inliers": 1216,
+   "kp_q": 5285,
+   "kp_o": 4238,
+   "bdct_z": 17.309091875318444,
+   "bdct_z_wrongkey": 0.4575598107368814,
+   "valid_blocks": 26626,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.059570709780933824,
+   "inliers": 1216,
+   "kp_q": 5285,
+   "kp_o": 4238,
+   "bdct_z": 17.273788289346847,
+   "bdct_z_wrongkey": 0.25513482440493807,
+   "valid_blocks": 26627,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "rotation",
+  "level": 0.4,
+  "wid": "GEL-0001",
+  "direct_bdct": 1.0293088621958286,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.13185059236519053,
+   "inliers": 1331,
+   "kp_q": 5288,
+   "kp_o": 4238,
+   "bdct_z": 16.586945178036576,
+   "bdct_z_wrongkey": 0.519888822901425,
+   "valid_blocks": 25100,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.10077550609175347,
+   "inliers": 1331,
+   "kp_q": 5288,
+   "kp_o": 4238,
+   "bdct_z": 16.509436325594418,
+   "bdct_z_wrongkey": 0.8399844395434253,
+   "valid_blocks": 25102,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "rotation",
+  "level": 0.6,
+  "wid": "GEL-0001",
+  "direct_bdct": 1.3061968832433228,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.17135509320064912,
+   "inliers": 1313,
+   "kp_q": 3894,
+   "kp_o": 4238,
+   "bdct_z": 16.820129422755848,
+   "bdct_z_wrongkey": 0.9508818527379668,
+   "valid_blocks": 24019,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.1595748432440237,
+   "inliers": 1313,
+   "kp_q": 3894,
+   "kp_o": 4238,
+   "bdct_z": 16.814681232165967,
+   "bdct_z_wrongkey": 1.1781874528753542,
+   "valid_blocks": 24019,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "rotation",
+  "level": 0.8,
+  "wid": "GEL-0001",
+  "direct_bdct": -0.46000246342957163,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.21806636393907944,
+   "inliers": 1373,
+   "kp_q": 4337,
+   "kp_o": 4238,
+   "bdct_z": 15.784014178737456,
+   "bdct_z_wrongkey": 0.7810017300885702,
+   "valid_blocks": 23274,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.22228279312913646,
+   "inliers": 1373,
+   "kp_q": 4337,
+   "kp_o": 4238,
+   "bdct_z": 15.771185153938363,
+   "bdct_z_wrongkey": 0.7481190395298821,
+   "valid_blocks": 23274,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-01.png",
+  "kind": "rotation",
+  "level": 1.0,
+  "wid": "GEL-0001",
+  "direct_bdct": -0.649731656430164,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.26099972403029165,
+   "inliers": 1218,
+   "kp_q": 3906,
+   "kp_o": 4238,
+   "bdct_z": 14.643424768969131,
+   "bdct_z_wrongkey": -0.24534505352525213,
+   "valid_blocks": 22838,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  },
+  "homography": {
+   "corner_err": 0.23983426142396608,
+   "inliers": 1218,
+   "kp_q": 3906,
+   "kp_o": 4238,
+   "bdct_z": 14.631462905495978,
+   "bdct_z_wrongkey": 0.32137177223831187,
+   "valid_blocks": 22838,
+   "tm": true,
+   "tm_text": "GEL-0001"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "resizedcrop",
+  "level": 0.2,
+  "wid": "GEL-0002",
+  "direct_bdct": -0.4851945003032259,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.1513567570205825,
+   "inliers": 1746,
+   "kp_q": 4632,
+   "kp_o": 4520,
+   "bdct_z": 21.26215084873943,
+   "bdct_z_wrongkey": 1.7891779878215794,
+   "valid_blocks": 27225,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  },
+  "homography": {
+   "corner_err": 0.1513835152974716,
+   "inliers": 1746,
+   "kp_q": 4632,
+   "kp_o": 4520,
+   "bdct_z": 21.265236025956728,
+   "bdct_z_wrongkey": 1.1524667686863797,
+   "valid_blocks": 27225,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "resizedcrop",
+  "level": 0.4,
+  "wid": "GEL-0002",
+  "direct_bdct": -0.7385802457412325,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.1610032477776362,
+   "inliers": 977,
+   "kp_q": 4508,
+   "kp_o": 4520,
+   "bdct_z": 16.237928737869375,
+   "bdct_z_wrongkey": -1.5351910800151642,
+   "valid_blocks": 26082,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  },
+  "homography": {
+   "corner_err": 0.14189617440914146,
+   "inliers": 978,
+   "kp_q": 4508,
+   "kp_o": 4520,
+   "bdct_z": 16.243571785769085,
+   "bdct_z_wrongkey": -0.45986630694755937,
+   "valid_blocks": 26082,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "resizedcrop",
+  "level": 0.6,
+  "wid": "GEL-0002",
+  "direct_bdct": 1.6073932302713687,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.15432439387081973,
+   "inliers": 671,
+   "kp_q": 3907,
+   "kp_o": 4520,
+   "bdct_z": 17.251377411350976,
+   "bdct_z_wrongkey": -0.05198604869512714,
+   "valid_blocks": 22801,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  },
+  "homography": {
+   "corner_err": 0.18380087498811645,
+   "inliers": 671,
+   "kp_q": 3907,
+   "kp_o": 4520,
+   "bdct_z": 17.172122879220833,
+   "bdct_z_wrongkey": 2.0175246333396046,
+   "valid_blocks": 22801,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "resizedcrop",
+  "level": 0.8,
+  "wid": "GEL-0002",
+  "direct_bdct": 0.18177254701128967,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.15370854488878904,
+   "inliers": 482,
+   "kp_q": 3139,
+   "kp_o": 4520,
+   "bdct_z": 16.90642043870741,
+   "bdct_z_wrongkey": -0.03713146103584737,
+   "valid_blocks": 19600,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  },
+  "homography": {
+   "corner_err": 0.1608860278273306,
+   "inliers": 485,
+   "kp_q": 3139,
+   "kp_o": 4520,
+   "bdct_z": 16.77837058881902,
+   "bdct_z_wrongkey": -1.1556223511849282,
+   "valid_blocks": 19600,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "resizedcrop",
+  "level": 1.0,
+  "wid": "GEL-0002",
+  "direct_bdct": 1.158835999015037,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.1960700611158978,
+   "inliers": 357,
+   "kp_q": 2491,
+   "kp_o": 4520,
+   "bdct_z": 16.1258876466418,
+   "bdct_z_wrongkey": 0.48083187404389377,
+   "valid_blocks": 16384,
+   "tm": false,
+   "tm_text": null
+  },
+  "homography": {
+   "corner_err": 0.19061653481899307,
+   "inliers": 356,
+   "kp_q": 2491,
+   "kp_o": 4520,
+   "bdct_z": 16.158291284778,
+   "bdct_z_wrongkey": 1.0541739386554683,
+   "valid_blocks": 16384,
+   "tm": false,
+   "tm_text": null
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "rotation",
+  "level": 0.2,
+  "wid": "GEL-0002",
+  "direct_bdct": -1.4547534840315897,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.09031713831005445,
+   "inliers": 717,
+   "kp_q": 6446,
+   "kp_o": 4520,
+   "bdct_z": 18.09058081921827,
+   "bdct_z_wrongkey": 1.2280926389450952,
+   "valid_blocks": 30561,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  },
+  "homography": {
+   "corner_err": 0.08899272457204403,
+   "inliers": 717,
+   "kp_q": 6446,
+   "kp_o": 4520,
+   "bdct_z": 18.10222763694166,
+   "bdct_z_wrongkey": 0.24379583226354226,
+   "valid_blocks": 30562,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "rotation",
+  "level": 0.4,
+  "wid": "GEL-0002",
+  "direct_bdct": 0.05236687213192656,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.13464833986257657,
+   "inliers": 702,
+   "kp_q": 8725,
+   "kp_o": 4520,
+   "bdct_z": 17.886573691392886,
+   "bdct_z_wrongkey": -1.2691804411300174,
+   "valid_blocks": 28922,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  },
+  "homography": {
+   "corner_err": 0.14138827392844297,
+   "inliers": 703,
+   "kp_q": 8725,
+   "kp_o": 4520,
+   "bdct_z": 17.920870875189475,
+   "bdct_z_wrongkey": -0.28747329515534575,
+   "valid_blocks": 28922,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "rotation",
+  "level": 0.6,
+  "wid": "GEL-0002",
+  "direct_bdct": 0.3639952137838839,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.19392391353961155,
+   "inliers": 693,
+   "kp_q": 5041,
+   "kp_o": 4520,
+   "bdct_z": 17.111789255655612,
+   "bdct_z_wrongkey": -0.4005403658820957,
+   "valid_blocks": 27788,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  },
+  "homography": {
+   "corner_err": 0.1958246980414061,
+   "inliers": 693,
+   "kp_q": 5041,
+   "kp_o": 4520,
+   "bdct_z": 17.09979148017072,
+   "bdct_z_wrongkey": -0.9167141319556443,
+   "valid_blocks": 27788,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "rotation",
+  "level": 0.8,
+  "wid": "GEL-0002",
+  "direct_bdct": -1.0444717594381456,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.26561790483067593,
+   "inliers": 670,
+   "kp_q": 7992,
+   "kp_o": 4520,
+   "bdct_z": 16.564844989338102,
+   "bdct_z_wrongkey": -1.5005028183074223,
+   "valid_blocks": 27105,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  },
+  "homography": {
+   "corner_err": 0.30735846216541735,
+   "inliers": 673,
+   "kp_q": 7992,
+   "kp_o": 4520,
+   "bdct_z": 16.619466910968526,
+   "bdct_z_wrongkey": -0.5012302669799212,
+   "valid_blocks": 27104,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-02.png",
+  "kind": "rotation",
+  "level": 1.0,
+  "wid": "GEL-0002",
+  "direct_bdct": -1.4238501611231,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.33832587591264796,
+   "inliers": 631,
+   "kp_q": 4039,
+   "kp_o": 4520,
+   "bdct_z": 16.169239767705434,
+   "bdct_z_wrongkey": 0.12201073587618975,
+   "valid_blocks": 26856,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  },
+  "homography": {
+   "corner_err": 0.3511205627191519,
+   "inliers": 629,
+   "kp_q": 4039,
+   "kp_o": 4520,
+   "bdct_z": 16.1699918782174,
+   "bdct_z_wrongkey": 0.28904302873165316,
+   "valid_blocks": 26856,
+   "tm": true,
+   "tm_text": "GEL-0002"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "resizedcrop",
+  "level": 0.2,
+  "wid": "GEL-0003",
+  "direct_bdct": 1.3139645054999376,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.13374963152226887,
+   "inliers": 5577,
+   "kp_q": 11940,
+   "kp_o": 12437,
+   "bdct_z": 36.32145389053324,
+   "bdct_z_wrongkey": -0.3446508651305022,
+   "valid_blocks": 39800,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  },
+  "homography": {
+   "corner_err": 0.132325844153295,
+   "inliers": 5577,
+   "kp_q": 11940,
+   "kp_o": 12437,
+   "bdct_z": 36.32217424800062,
+   "bdct_z_wrongkey": -0.8821728973918231,
+   "valid_blocks": 39800,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "resizedcrop",
+  "level": 0.4,
+  "wid": "GEL-0003",
+  "direct_bdct": 1.3139645054999376,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.13374963152226887,
+   "inliers": 5577,
+   "kp_q": 11940,
+   "kp_o": 12437,
+   "bdct_z": 36.32145389053324,
+   "bdct_z_wrongkey": -0.3627395212876355,
+   "valid_blocks": 39800,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  },
+  "homography": {
+   "corner_err": 0.132325844153295,
+   "inliers": 5577,
+   "kp_q": 11940,
+   "kp_o": 12437,
+   "bdct_z": 36.32217424800062,
+   "bdct_z_wrongkey": 0.48056544918824656,
+   "valid_blocks": 39800,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "resizedcrop",
+  "level": 0.6,
+  "wid": "GEL-0003",
+  "direct_bdct": 1.3455358547376675,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.13618078658180738,
+   "inliers": 4112,
+   "kp_q": 13333,
+   "kp_o": 12437,
+   "bdct_z": 28.754826370282167,
+   "bdct_z_wrongkey": 0.19970374660342577,
+   "valid_blocks": 38809,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  },
+  "homography": {
+   "corner_err": 0.1285111456605002,
+   "inliers": 4112,
+   "kp_q": 13333,
+   "kp_o": 12437,
+   "bdct_z": 28.74161823710425,
+   "bdct_z_wrongkey": 0.714658956301024,
+   "valid_blocks": 38809,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "resizedcrop",
+  "level": 0.8,
+  "wid": "GEL-0003",
+  "direct_bdct": 1.814917737514882,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.1442521188545805,
+   "inliers": 3123,
+   "kp_q": 13252,
+   "kp_o": 12437,
+   "bdct_z": 29.110051968334567,
+   "bdct_z_wrongkey": 0.8834252054975344,
+   "valid_blocks": 33306,
+   "tm": false,
+   "tm_text": null
+  },
+  "homography": {
+   "corner_err": 0.13214361341677985,
+   "inliers": 3123,
+   "kp_q": 13252,
+   "kp_o": 12437,
+   "bdct_z": 29.089270765264363,
+   "bdct_z_wrongkey": -1.566574207097911,
+   "valid_blocks": 33306,
+   "tm": false,
+   "tm_text": null
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "resizedcrop",
+  "level": 1.0,
+  "wid": "GEL-0003",
+  "direct_bdct": 0.6584951108996235,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.24202420915027023,
+   "inliers": 2239,
+   "kp_q": 9611,
+   "kp_o": 12437,
+   "bdct_z": 20.66694288877001,
+   "bdct_z_wrongkey": -0.7113109925614499,
+   "valid_blocks": 27556,
+   "tm": false,
+   "tm_text": null
+  },
+  "homography": {
+   "corner_err": 0.2277876534745164,
+   "inliers": 2238,
+   "kp_q": 9611,
+   "kp_o": 12437,
+   "bdct_z": 20.684211814547073,
+   "bdct_z_wrongkey": -0.39799880446214053,
+   "valid_blocks": 27556,
+   "tm": false,
+   "tm_text": null
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "rotation",
+  "level": 0.2,
+  "wid": "GEL-0003",
+  "direct_bdct": -0.0890891838950447,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.05755817575303019,
+   "inliers": 2946,
+   "kp_q": 15786,
+   "kp_o": 12437,
+   "bdct_z": 31.365953497234464,
+   "bdct_z_wrongkey": -0.805854084789735,
+   "valid_blocks": 51754,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  },
+  "homography": {
+   "corner_err": 0.057241794469757454,
+   "inliers": 2946,
+   "kp_q": 15786,
+   "kp_o": 12437,
+   "bdct_z": 31.35668047881981,
+   "bdct_z_wrongkey": -0.922357480009928,
+   "valid_blocks": 51754,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "rotation",
+  "level": 0.4,
+  "wid": "GEL-0003",
+  "direct_bdct": -0.6092781512269354,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.12948704089574228,
+   "inliers": 3461,
+   "kp_q": 16312,
+   "kp_o": 12437,
+   "bdct_z": 30.732547797934714,
+   "bdct_z_wrongkey": 0.9546248733073619,
+   "valid_blocks": 48790,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  },
+  "homography": {
+   "corner_err": 0.11744207656245256,
+   "inliers": 3460,
+   "kp_q": 16312,
+   "kp_o": 12437,
+   "bdct_z": 30.723494128018356,
+   "bdct_z_wrongkey": 0.1658978979941589,
+   "valid_blocks": 48790,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "rotation",
+  "level": 0.6,
+  "wid": "GEL-0003",
+  "direct_bdct": 0.9767159612186255,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.16396433061910973,
+   "inliers": 3472,
+   "kp_q": 13890,
+   "kp_o": 12437,
+   "bdct_z": 29.294158465673796,
+   "bdct_z_wrongkey": -1.2514515177775232,
+   "valid_blocks": 46659,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  },
+  "homography": {
+   "corner_err": 0.1943187432598008,
+   "inliers": 3473,
+   "kp_q": 13890,
+   "kp_o": 12437,
+   "bdct_z": 29.34164539227166,
+   "bdct_z_wrongkey": 1.0574944835537061,
+   "valid_blocks": 46658,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "rotation",
+  "level": 0.8,
+  "wid": "GEL-0003",
+  "direct_bdct": -0.0364530114778979,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2214984870995385,
+   "inliers": 3529,
+   "kp_q": 14709,
+   "kp_o": 12437,
+   "bdct_z": 27.210013068617272,
+   "bdct_z_wrongkey": -0.6132799914807933,
+   "valid_blocks": 45198,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  },
+  "homography": {
+   "corner_err": 0.22491718185079065,
+   "inliers": 3528,
+   "kp_q": 14709,
+   "kp_o": 12437,
+   "bdct_z": 27.21181403312002,
+   "bdct_z_wrongkey": -2.4356787014102834,
+   "valid_blocks": 45197,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  }
+ },
+ {
+  "fig": "assets/signed/buildings2026-03.png",
+  "kind": "rotation",
+  "level": 1.0,
+  "wid": "GEL-0003",
+  "direct_bdct": 0.8275547221905721,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2725103619615892,
+   "inliers": 3003,
+   "kp_q": 13212,
+   "kp_o": 12437,
+   "bdct_z": 26.36223116458868,
+   "bdct_z_wrongkey": -1.8733524654099916,
+   "valid_blocks": 44294,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  },
+  "homography": {
+   "corner_err": 0.17107546549887664,
+   "inliers": 3004,
+   "kp_q": 13212,
+   "kp_o": 12437,
+   "bdct_z": 25.957531008207926,
+   "bdct_z_wrongkey": 2.1725660203631465,
+   "valid_blocks": 44294,
+   "tm": true,
+   "tm_text": "GEL-0003"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "resizedcrop",
+  "level": 0.2,
+  "wid": "GEL-0004",
+  "direct_bdct": 0.2086611862946365,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2760091278845869,
+   "inliers": 1328,
+   "kp_q": 2804,
+   "kp_o": 3866,
+   "bdct_z": 23.992837061719758,
+   "bdct_z_wrongkey": -0.4148783099664066,
+   "valid_blocks": 12769,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.2760145815552786,
+   "inliers": 1328,
+   "kp_q": 2804,
+   "kp_o": 3866,
+   "bdct_z": 23.98750216059406,
+   "bdct_z_wrongkey": 0.3923466112385037,
+   "valid_blocks": 12769,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "resizedcrop",
+  "level": 0.4,
+  "wid": "GEL-0004",
+  "direct_bdct": 0.2086611862946365,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2760091278845869,
+   "inliers": 1328,
+   "kp_q": 2804,
+   "kp_o": 3866,
+   "bdct_z": 23.992837061719758,
+   "bdct_z_wrongkey": 1.5100955889694394,
+   "valid_blocks": 12769,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.2760145815552786,
+   "inliers": 1328,
+   "kp_q": 2804,
+   "kp_o": 3866,
+   "bdct_z": 23.98750216059406,
+   "bdct_z_wrongkey": -0.8136432060355446,
+   "valid_blocks": 12769,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "resizedcrop",
+  "level": 0.6,
+  "wid": "GEL-0004",
+  "direct_bdct": 0.2086611862946365,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2760091278845869,
+   "inliers": 1328,
+   "kp_q": 2804,
+   "kp_o": 3866,
+   "bdct_z": 23.992837061719758,
+   "bdct_z_wrongkey": 0.32572433180448485,
+   "valid_blocks": 12769,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.2760145815552786,
+   "inliers": 1328,
+   "kp_q": 2804,
+   "kp_o": 3866,
+   "bdct_z": 23.98750216059406,
+   "bdct_z_wrongkey": 0.40625482679338143,
+   "valid_blocks": 12769,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "resizedcrop",
+  "level": 0.8,
+  "wid": "GEL-0004",
+  "direct_bdct": 0.2086611862946365,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2760091278845869,
+   "inliers": 1328,
+   "kp_q": 2804,
+   "kp_o": 3866,
+   "bdct_z": 23.992837061719758,
+   "bdct_z_wrongkey": 3.0164207417393945,
+   "valid_blocks": 12769,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.2760145815552786,
+   "inliers": 1328,
+   "kp_q": 2804,
+   "kp_o": 3866,
+   "bdct_z": 23.98750216059406,
+   "bdct_z_wrongkey": -0.9138846593512839,
+   "valid_blocks": 12769,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "resizedcrop",
+  "level": 1.0,
+  "wid": "GEL-0004",
+  "direct_bdct": -0.5621504925269204,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2867241176871128,
+   "inliers": 861,
+   "kp_q": 3354,
+   "kp_o": 3866,
+   "bdct_z": 18.366207285201728,
+   "bdct_z_wrongkey": 1.979809708382054,
+   "valid_blocks": 11236,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.2881047289733971,
+   "inliers": 861,
+   "kp_q": 3354,
+   "kp_o": 3866,
+   "bdct_z": 18.412334859064824,
+   "bdct_z_wrongkey": -0.6818813645759315,
+   "valid_blocks": 11236,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "rotation",
+  "level": 0.2,
+  "wid": "GEL-0004",
+  "direct_bdct": -1.2592551423856118,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.061990049448024095,
+   "inliers": 991,
+   "kp_q": 6096,
+   "kp_o": 3866,
+   "bdct_z": 24.904601044985885,
+   "bdct_z_wrongkey": 1.6382933346751944,
+   "valid_blocks": 20704,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.10654767630659544,
+   "inliers": 991,
+   "kp_q": 6096,
+   "kp_o": 3866,
+   "bdct_z": 24.90026307874507,
+   "bdct_z_wrongkey": 0.46334220882962446,
+   "valid_blocks": 20706,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "rotation",
+  "level": 0.4,
+  "wid": "GEL-0004",
+  "direct_bdct": 0.9093690269991046,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.10625007988216863,
+   "inliers": 1112,
+   "kp_q": 5169,
+   "kp_o": 3866,
+   "bdct_z": 24.696014867476098,
+   "bdct_z_wrongkey": 0.3572396001348405,
+   "valid_blocks": 19290,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.09278300984142897,
+   "inliers": 1113,
+   "kp_q": 5169,
+   "kp_o": 3866,
+   "bdct_z": 24.65583645991844,
+   "bdct_z_wrongkey": -1.2891882245523734,
+   "valid_blocks": 19289,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "rotation",
+  "level": 0.6,
+  "wid": "GEL-0004",
+  "direct_bdct": -0.31872835591679716,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.1742159948269982,
+   "inliers": 1103,
+   "kp_q": 3828,
+   "kp_o": 3866,
+   "bdct_z": 23.359605213219375,
+   "bdct_z_wrongkey": 0.2756287204959177,
+   "valid_blocks": 18166,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.21369153336118862,
+   "inliers": 1103,
+   "kp_q": 3828,
+   "kp_o": 3866,
+   "bdct_z": 23.31795821693642,
+   "bdct_z_wrongkey": -1.2985771848959269,
+   "valid_blocks": 18167,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "rotation",
+  "level": 0.8,
+  "wid": "GEL-0004",
+  "direct_bdct": 2.0706396760584247,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.21454530607068154,
+   "inliers": 1082,
+   "kp_q": 4529,
+   "kp_o": 3866,
+   "bdct_z": 21.896095928118168,
+   "bdct_z_wrongkey": 0.5878504780543161,
+   "valid_blocks": 17255,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.2194915038948575,
+   "inliers": 1082,
+   "kp_q": 4529,
+   "kp_o": 3866,
+   "bdct_z": 21.894565671245804,
+   "bdct_z_wrongkey": -1.0171407739447316,
+   "valid_blocks": 17255,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-04.png",
+  "kind": "rotation",
+  "level": 1.0,
+  "wid": "GEL-0004",
+  "direct_bdct": 0.7240389285898419,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2812195519492559,
+   "inliers": 891,
+   "kp_q": 3471,
+   "kp_o": 3866,
+   "bdct_z": 20.764483445436444,
+   "bdct_z_wrongkey": 2.0134111537483284,
+   "valid_blocks": 16415,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  },
+  "homography": {
+   "corner_err": 0.27211826794843064,
+   "inliers": 891,
+   "kp_q": 3471,
+   "kp_o": 3866,
+   "bdct_z": 20.813175661500313,
+   "bdct_z_wrongkey": -0.31895075105144305,
+   "valid_blocks": 16415,
+   "tm": true,
+   "tm_text": "GEL-0004"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "resizedcrop",
+  "level": 0.2,
+  "wid": "GEL-0005",
+  "direct_bdct": 0.2074393827818737,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.191949408606275,
+   "inliers": 96,
+   "kp_q": 224,
+   "kp_o": 644,
+   "bdct_z": 11.555292367239007,
+   "bdct_z_wrongkey": -0.2824143762956333,
+   "valid_blocks": 7225,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.16312131884048567,
+   "inliers": 96,
+   "kp_q": 224,
+   "kp_o": 644,
+   "bdct_z": 11.450539901338075,
+   "bdct_z_wrongkey": -0.06690627803406958,
+   "valid_blocks": 7225,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "resizedcrop",
+  "level": 0.4,
+  "wid": "GEL-0005",
+  "direct_bdct": 0.2074393827818737,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.191949408606275,
+   "inliers": 96,
+   "kp_q": 224,
+   "kp_o": 644,
+   "bdct_z": 11.555292367239007,
+   "bdct_z_wrongkey": 0.6011159032910054,
+   "valid_blocks": 7225,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.16312131884048567,
+   "inliers": 96,
+   "kp_q": 224,
+   "kp_o": 644,
+   "bdct_z": 11.450539901338075,
+   "bdct_z_wrongkey": -0.8307195200448159,
+   "valid_blocks": 7225,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "resizedcrop",
+  "level": 0.6,
+  "wid": "GEL-0005",
+  "direct_bdct": 0.2074393827818737,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.191949408606275,
+   "inliers": 96,
+   "kp_q": 224,
+   "kp_o": 644,
+   "bdct_z": 11.555292367239007,
+   "bdct_z_wrongkey": -0.010053087739322205,
+   "valid_blocks": 7225,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.16312131884048567,
+   "inliers": 96,
+   "kp_q": 224,
+   "kp_o": 644,
+   "bdct_z": 11.450539901338075,
+   "bdct_z_wrongkey": 1.0747508796717742,
+   "valid_blocks": 7225,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "resizedcrop",
+  "level": 0.8,
+  "wid": "GEL-0005",
+  "direct_bdct": 0.2074393827818737,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.191949408606275,
+   "inliers": 96,
+   "kp_q": 224,
+   "kp_o": 644,
+   "bdct_z": 11.555292367239007,
+   "bdct_z_wrongkey": -1.1637673261144357,
+   "valid_blocks": 7225,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.16312131884048567,
+   "inliers": 96,
+   "kp_q": 224,
+   "kp_o": 644,
+   "bdct_z": 11.450539901338075,
+   "bdct_z_wrongkey": 0.5764543319070952,
+   "valid_blocks": 7225,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "resizedcrop",
+  "level": 1.0,
+  "wid": "GEL-0005",
+  "direct_bdct": 0.7259944288101263,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.5459105916230576,
+   "inliers": 55,
+   "kp_q": 198,
+   "kp_o": 644,
+   "bdct_z": 4.600582886931406,
+   "bdct_z_wrongkey": 1.5448603807847234,
+   "valid_blocks": 6241,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.14027300075468185,
+   "inliers": 57,
+   "kp_q": 198,
+   "kp_o": 644,
+   "bdct_z": 7.561377417324512,
+   "bdct_z_wrongkey": -0.5056671680251134,
+   "valid_blocks": 6241,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "rotation",
+  "level": 0.2,
+  "wid": "GEL-0005",
+  "direct_bdct": 1.119951561659507,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.13747368814493846,
+   "inliers": 186,
+   "kp_q": 733,
+   "kp_o": 644,
+   "bdct_z": 9.336869612280195,
+   "bdct_z_wrongkey": 0.19564054866526626,
+   "valid_blocks": 11393,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.14548747218359437,
+   "inliers": 186,
+   "kp_q": 733,
+   "kp_o": 644,
+   "bdct_z": 9.310193863892069,
+   "bdct_z_wrongkey": 1.0561306005820141,
+   "valid_blocks": 11395,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "rotation",
+  "level": 0.4,
+  "wid": "GEL-0005",
+  "direct_bdct": -2.0283661616297364,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.11487969118376909,
+   "inliers": 187,
+   "kp_q": 785,
+   "kp_o": 644,
+   "bdct_z": 8.326325627354652,
+   "bdct_z_wrongkey": 0.7309709021549706,
+   "valid_blocks": 10630,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.26499648149978244,
+   "inliers": 187,
+   "kp_q": 785,
+   "kp_o": 644,
+   "bdct_z": 8.018622288940268,
+   "bdct_z_wrongkey": -0.9088480705415103,
+   "valid_blocks": 10632,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "rotation",
+  "level": 0.6,
+  "wid": "GEL-0005",
+  "direct_bdct": 1.0281828662018049,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.13381956826496497,
+   "inliers": 174,
+   "kp_q": 683,
+   "kp_o": 644,
+   "bdct_z": 8.286853408513352,
+   "bdct_z_wrongkey": 1.0411185050854042,
+   "valid_blocks": 10038,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.31015746917797105,
+   "inliers": 174,
+   "kp_q": 683,
+   "kp_o": 644,
+   "bdct_z": 7.667050398362293,
+   "bdct_z_wrongkey": -0.29780150100654834,
+   "valid_blocks": 10040,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "rotation",
+  "level": 0.8,
+  "wid": "GEL-0005",
+  "direct_bdct": -1.5194633611130772,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.19152317106339936,
+   "inliers": 195,
+   "kp_q": 667,
+   "kp_o": 644,
+   "bdct_z": 7.893260204362675,
+   "bdct_z_wrongkey": 0.9069724143206118,
+   "valid_blocks": 9561,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.27233596741020083,
+   "inliers": 195,
+   "kp_q": 667,
+   "kp_o": 644,
+   "bdct_z": 8.053347330925632,
+   "bdct_z_wrongkey": -0.9334060777777081,
+   "valid_blocks": 9560,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/kiaebs2026-05.png",
+  "kind": "rotation",
+  "level": 1.0,
+  "wid": "GEL-0005",
+  "direct_bdct": -0.3499212690209739,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.22659657431605912,
+   "inliers": 165,
+   "kp_q": 580,
+   "kp_o": 644,
+   "bdct_z": 6.900298708871796,
+   "bdct_z_wrongkey": -0.8483690930423589,
+   "valid_blocks": 9161,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  },
+  "homography": {
+   "corner_err": 0.2519854314858142,
+   "inliers": 165,
+   "kp_q": 580,
+   "kp_o": 644,
+   "bdct_z": 6.9117595459341485,
+   "bdct_z_wrongkey": -1.187918723648299,
+   "valid_blocks": 9161,
+   "tm": true,
+   "tm_text": "GEL-0005"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "resizedcrop",
+  "level": 0.2,
+  "wid": "GEL-0006",
+  "direct_bdct": -1.297812064764721,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.14912659031115882,
+   "inliers": 1008,
+   "kp_q": 2370,
+   "kp_o": 3456,
+   "bdct_z": 14.691665900940475,
+   "bdct_z_wrongkey": 1.2817722188918368,
+   "valid_blocks": 9409,
+   "tm": false,
+   "tm_text": null
+  },
+  "homography": {
+   "corner_err": 0.14637076805831134,
+   "inliers": 1008,
+   "kp_q": 2370,
+   "kp_o": 3456,
+   "bdct_z": 14.690884333074166,
+   "bdct_z_wrongkey": -0.3388616734530527,
+   "valid_blocks": 9409,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "resizedcrop",
+  "level": 0.4,
+  "wid": "GEL-0006",
+  "direct_bdct": -1.297812064764721,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.14912659031115882,
+   "inliers": 1008,
+   "kp_q": 2370,
+   "kp_o": 3456,
+   "bdct_z": 14.691665900940475,
+   "bdct_z_wrongkey": -0.5117693029709675,
+   "valid_blocks": 9409,
+   "tm": false,
+   "tm_text": null
+  },
+  "homography": {
+   "corner_err": 0.14637076805831134,
+   "inliers": 1008,
+   "kp_q": 2370,
+   "kp_o": 3456,
+   "bdct_z": 14.690884333074166,
+   "bdct_z_wrongkey": -1.5537321454084,
+   "valid_blocks": 9409,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "resizedcrop",
+  "level": 0.6,
+  "wid": "GEL-0006",
+  "direct_bdct": -1.297812064764721,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.14912659031115882,
+   "inliers": 1008,
+   "kp_q": 2370,
+   "kp_o": 3456,
+   "bdct_z": 14.691665900940475,
+   "bdct_z_wrongkey": 1.0288646580302079,
+   "valid_blocks": 9409,
+   "tm": false,
+   "tm_text": null
+  },
+  "homography": {
+   "corner_err": 0.14637076805831134,
+   "inliers": 1008,
+   "kp_q": 2370,
+   "kp_o": 3456,
+   "bdct_z": 14.690884333074166,
+   "bdct_z_wrongkey": -0.15640287611065096,
+   "valid_blocks": 9409,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "resizedcrop",
+  "level": 0.8,
+  "wid": "GEL-0006",
+  "direct_bdct": -1.297812064764721,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.14912659031115882,
+   "inliers": 1008,
+   "kp_q": 2370,
+   "kp_o": 3456,
+   "bdct_z": 14.691665900940475,
+   "bdct_z_wrongkey": -0.5950611219916384,
+   "valid_blocks": 9409,
+   "tm": false,
+   "tm_text": null
+  },
+  "homography": {
+   "corner_err": 0.14637076805831134,
+   "inliers": 1008,
+   "kp_q": 2370,
+   "kp_o": 3456,
+   "bdct_z": 14.690884333074166,
+   "bdct_z_wrongkey": -0.18701617348749175,
+   "valid_blocks": 9409,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "resizedcrop",
+  "level": 1.0,
+  "wid": "GEL-0006",
+  "direct_bdct": 0.28714182176207925,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.14467857722323313,
+   "inliers": 624,
+   "kp_q": 2413,
+   "kp_o": 3456,
+   "bdct_z": 11.04489567428386,
+   "bdct_z_wrongkey": -1.098627649860585,
+   "valid_blocks": 9025,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  },
+  "homography": {
+   "corner_err": 0.12454060256912758,
+   "inliers": 623,
+   "kp_q": 2413,
+   "kp_o": 3456,
+   "bdct_z": 11.026922532896325,
+   "bdct_z_wrongkey": 0.7646745340353169,
+   "valid_blocks": 9025,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "rotation",
+  "level": 0.2,
+  "wid": "GEL-0006",
+  "direct_bdct": 0.4400070942817827,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.05933727780687569,
+   "inliers": 541,
+   "kp_q": 4115,
+   "kp_o": 3456,
+   "bdct_z": 13.332829414234784,
+   "bdct_z_wrongkey": 1.5501678894371997,
+   "valid_blocks": 16518,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  },
+  "homography": {
+   "corner_err": 0.052002710637626876,
+   "inliers": 541,
+   "kp_q": 4115,
+   "kp_o": 3456,
+   "bdct_z": 13.357138964986468,
+   "bdct_z_wrongkey": -0.266427099018591,
+   "valid_blocks": 16520,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "rotation",
+  "level": 0.4,
+  "wid": "GEL-0006",
+  "direct_bdct": -2.0590856705093583,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.11808060293502481,
+   "inliers": 697,
+   "kp_q": 4526,
+   "kp_o": 3456,
+   "bdct_z": 12.894534542658254,
+   "bdct_z_wrongkey": 1.996685220120126,
+   "valid_blocks": 15288,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  },
+  "homography": {
+   "corner_err": 0.1436643758387442,
+   "inliers": 697,
+   "kp_q": 4526,
+   "kp_o": 3456,
+   "bdct_z": 12.886012518380733,
+   "bdct_z_wrongkey": 0.3299690939313434,
+   "valid_blocks": 15288,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "rotation",
+  "level": 0.6,
+  "wid": "GEL-0006",
+  "direct_bdct": -0.7191146746374621,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.1878284449636246,
+   "inliers": 685,
+   "kp_q": 2981,
+   "kp_o": 3456,
+   "bdct_z": 12.518470846917568,
+   "bdct_z_wrongkey": 0.03439235620253891,
+   "valid_blocks": 14285,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  },
+  "homography": {
+   "corner_err": 0.2083907756972042,
+   "inliers": 685,
+   "kp_q": 2981,
+   "kp_o": 3456,
+   "bdct_z": 12.497636289198368,
+   "bdct_z_wrongkey": -0.9635401035158457,
+   "valid_blocks": 14285,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "rotation",
+  "level": 0.8,
+  "wid": "GEL-0006",
+  "direct_bdct": -1.8589666822789033,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.19368657708430187,
+   "inliers": 656,
+   "kp_q": 3555,
+   "kp_o": 3456,
+   "bdct_z": 11.789334557270363,
+   "bdct_z_wrongkey": -1.1613667189885513,
+   "valid_blocks": 13412,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  },
+  "homography": {
+   "corner_err": 0.18764800741323034,
+   "inliers": 656,
+   "kp_q": 3555,
+   "kp_o": 3456,
+   "bdct_z": 11.801352168450768,
+   "bdct_z_wrongkey": 0.40276649549830534,
+   "valid_blocks": 13411,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-06.png",
+  "kind": "rotation",
+  "level": 1.0,
+  "wid": "GEL-0006",
+  "direct_bdct": -2.228016190613559,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2541189176426684,
+   "inliers": 498,
+   "kp_q": 2739,
+   "kp_o": 3456,
+   "bdct_z": 11.003833886997427,
+   "bdct_z_wrongkey": 0.5043206422689,
+   "valid_blocks": 12563,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  },
+  "homography": {
+   "corner_err": 0.2869365570297654,
+   "inliers": 498,
+   "kp_q": 2739,
+   "kp_o": 3456,
+   "bdct_z": 11.026209597758005,
+   "bdct_z_wrongkey": 0.2432571220595792,
+   "valid_blocks": 12563,
+   "tm": true,
+   "tm_text": "GEL-0006"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "resizedcrop",
+  "level": 0.2,
+  "wid": "GEL-0007",
+  "direct_bdct": -0.2197954871866015,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.3015600170298146,
+   "inliers": 1508,
+   "kp_q": 2049,
+   "kp_o": 5742,
+   "bdct_z": 18.57374931269625,
+   "bdct_z_wrongkey": -0.3293086360605323,
+   "valid_blocks": 7569,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.30080051294136156,
+   "inliers": 1508,
+   "kp_q": 2049,
+   "kp_o": 5742,
+   "bdct_z": 18.57584311862091,
+   "bdct_z_wrongkey": 0.11163732074294926,
+   "valid_blocks": 7569,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "resizedcrop",
+  "level": 0.4,
+  "wid": "GEL-0007",
+  "direct_bdct": -0.2197954871866015,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.3015600170298146,
+   "inliers": 1508,
+   "kp_q": 2049,
+   "kp_o": 5742,
+   "bdct_z": 18.57374931269625,
+   "bdct_z_wrongkey": -0.06594964492463515,
+   "valid_blocks": 7569,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.30080051294136156,
+   "inliers": 1508,
+   "kp_q": 2049,
+   "kp_o": 5742,
+   "bdct_z": 18.57584311862091,
+   "bdct_z_wrongkey": 0.7732954242623938,
+   "valid_blocks": 7569,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "resizedcrop",
+  "level": 0.6,
+  "wid": "GEL-0007",
+  "direct_bdct": -0.2197954871866015,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.3015600170298146,
+   "inliers": 1508,
+   "kp_q": 2049,
+   "kp_o": 5742,
+   "bdct_z": 18.57374931269625,
+   "bdct_z_wrongkey": -1.2889351696941473,
+   "valid_blocks": 7569,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.30080051294136156,
+   "inliers": 1508,
+   "kp_q": 2049,
+   "kp_o": 5742,
+   "bdct_z": 18.57584311862091,
+   "bdct_z_wrongkey": 0.5769852030241538,
+   "valid_blocks": 7569,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "resizedcrop",
+  "level": 0.8,
+  "wid": "GEL-0007",
+  "direct_bdct": -0.2197954871866015,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.3015600170298146,
+   "inliers": 1508,
+   "kp_q": 2049,
+   "kp_o": 5742,
+   "bdct_z": 18.57374931269625,
+   "bdct_z_wrongkey": 0.7206021672355097,
+   "valid_blocks": 7569,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.30080051294136156,
+   "inliers": 1508,
+   "kp_q": 2049,
+   "kp_o": 5742,
+   "bdct_z": 18.57584311862091,
+   "bdct_z_wrongkey": 0.42109699263644457,
+   "valid_blocks": 7569,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "resizedcrop",
+  "level": 1.0,
+  "wid": "GEL-0007",
+  "direct_bdct": 1.7350563997726924,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.30004782755146653,
+   "inliers": 1051,
+   "kp_q": 2147,
+   "kp_o": 5742,
+   "bdct_z": 14.045121210815854,
+   "bdct_z_wrongkey": -1.5229973287547747,
+   "valid_blocks": 7396,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.30097861883604826,
+   "inliers": 1051,
+   "kp_q": 2147,
+   "kp_o": 5742,
+   "bdct_z": 14.050808527283635,
+   "bdct_z_wrongkey": -1.771862457504162,
+   "valid_blocks": 7396,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "rotation",
+  "level": 0.2,
+  "wid": "GEL-0007",
+  "direct_bdct": 0.13800683532398672,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.06270290060878825,
+   "inliers": 1374,
+   "kp_q": 6729,
+   "kp_o": 5742,
+   "bdct_z": 26.139005683291465,
+   "bdct_z_wrongkey": 0.6348037116109747,
+   "valid_blocks": 13621,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.10620169138511731,
+   "inliers": 1373,
+   "kp_q": 6729,
+   "kp_o": 5742,
+   "bdct_z": 25.99526040896381,
+   "bdct_z_wrongkey": 1.2820341222581564,
+   "valid_blocks": 13620,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "rotation",
+  "level": 0.4,
+  "wid": "GEL-0007",
+  "direct_bdct": -1.219102143251599,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.10911185409938978,
+   "inliers": 1496,
+   "kp_q": 5513,
+   "kp_o": 5742,
+   "bdct_z": 23.543127754854815,
+   "bdct_z_wrongkey": 0.4322286589461145,
+   "valid_blocks": 12587,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.12676038556984012,
+   "inliers": 1495,
+   "kp_q": 5513,
+   "kp_o": 5742,
+   "bdct_z": 23.69773113762628,
+   "bdct_z_wrongkey": -1.224413485893783,
+   "valid_blocks": 12589,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "rotation",
+  "level": 0.6,
+  "wid": "GEL-0007",
+  "direct_bdct": 2.1555670177218067,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.16444449820458906,
+   "inliers": 1354,
+   "kp_q": 3559,
+   "kp_o": 5742,
+   "bdct_z": 22.212924380853533,
+   "bdct_z_wrongkey": 0.05482094762441966,
+   "valid_blocks": 11731,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.16656085680204386,
+   "inliers": 1354,
+   "kp_q": 3559,
+   "kp_o": 5742,
+   "bdct_z": 22.23766359236581,
+   "bdct_z_wrongkey": 0.05916667118146658,
+   "valid_blocks": 11731,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "rotation",
+  "level": 0.8,
+  "wid": "GEL-0007",
+  "direct_bdct": -1.4610455150636883,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.21222665533699286,
+   "inliers": 1245,
+   "kp_q": 3783,
+   "kp_o": 5742,
+   "bdct_z": 19.896957072054068,
+   "bdct_z_wrongkey": -0.45385011215489746,
+   "valid_blocks": 10981,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.21252686429903733,
+   "inliers": 1244,
+   "kp_q": 3783,
+   "kp_o": 5742,
+   "bdct_z": 19.883726736393182,
+   "bdct_z_wrongkey": 0.5030831495723481,
+   "valid_blocks": 10981,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/energy2024-07.png",
+  "kind": "rotation",
+  "level": 1.0,
+  "wid": "GEL-0007",
+  "direct_bdct": -1.1171792330425159,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.28266388313190266,
+   "inliers": 1023,
+   "kp_q": 2954,
+   "kp_o": 5742,
+   "bdct_z": 18.5596182697435,
+   "bdct_z_wrongkey": 0.6060079896371764,
+   "valid_blocks": 10259,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  },
+  "homography": {
+   "corner_err": 0.29308880011632127,
+   "inliers": 1023,
+   "kp_q": 2954,
+   "kp_o": 5742,
+   "bdct_z": 18.613848825469432,
+   "bdct_z_wrongkey": -0.6933224209536882,
+   "valid_blocks": 10259,
+   "tm": true,
+   "tm_text": "GEL-0007"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "resizedcrop",
+  "level": 0.2,
+  "wid": "GEL-0008",
+  "direct_bdct": -1.907475685189386,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2731462879428849,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.069559899618522,
+   "bdct_z_wrongkey": 1.3184629778856118,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.26712614367472437,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.059459652368362,
+   "bdct_z_wrongkey": -0.14150168279273914,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "resizedcrop",
+  "level": 0.4,
+  "wid": "GEL-0008",
+  "direct_bdct": -1.907475685189386,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2731462879428849,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.069559899618522,
+   "bdct_z_wrongkey": 0.809940449965912,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.26712614367472437,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.059459652368362,
+   "bdct_z_wrongkey": -0.0727887102958276,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "resizedcrop",
+  "level": 0.6,
+  "wid": "GEL-0008",
+  "direct_bdct": -1.907475685189386,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2731462879428849,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.069559899618522,
+   "bdct_z_wrongkey": 0.5340828913137865,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.26712614367472437,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.059459652368362,
+   "bdct_z_wrongkey": -0.9373915536083057,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "resizedcrop",
+  "level": 0.8,
+  "wid": "GEL-0008",
+  "direct_bdct": -1.907475685189386,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2731462879428849,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.069559899618522,
+   "bdct_z_wrongkey": 1.0743923112271898,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.26712614367472437,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.059459652368362,
+   "bdct_z_wrongkey": 1.7842745134427749,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "resizedcrop",
+  "level": 1.0,
+  "wid": "GEL-0008",
+  "direct_bdct": -1.907475685189386,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.2731462879428849,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.069559899618522,
+   "bdct_z_wrongkey": -0.16070277879076109,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.26712614367472437,
+   "inliers": 1948,
+   "kp_q": 3526,
+   "kp_o": 5072,
+   "bdct_z": 14.059459652368362,
+   "bdct_z_wrongkey": -0.2216095381390048,
+   "valid_blocks": 8836,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "rotation",
+  "level": 0.2,
+  "wid": "GEL-0008",
+  "direct_bdct": 1.2316379069547898,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.06828689982919228,
+   "inliers": 1288,
+   "kp_q": 5672,
+   "kp_o": 5072,
+   "bdct_z": 14.352910860186775,
+   "bdct_z_wrongkey": -0.3299564978390772,
+   "valid_blocks": 17034,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.10145504521195031,
+   "inliers": 1286,
+   "kp_q": 5672,
+   "kp_o": 5072,
+   "bdct_z": 14.318419478548881,
+   "bdct_z_wrongkey": 1.5449448759641307,
+   "valid_blocks": 17035,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "rotation",
+  "level": 0.4,
+  "wid": "GEL-0008",
+  "direct_bdct": 1.0690665791864435,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.11013799842255856,
+   "inliers": 1426,
+   "kp_q": 6632,
+   "kp_o": 5072,
+   "bdct_z": 13.685886861352568,
+   "bdct_z_wrongkey": -0.8847478947438736,
+   "valid_blocks": 15641,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.10193080828717026,
+   "inliers": 1426,
+   "kp_q": 6632,
+   "kp_o": 5072,
+   "bdct_z": 13.698819138727119,
+   "bdct_z_wrongkey": 0.7238551216568605,
+   "valid_blocks": 15641,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "rotation",
+  "level": 0.6,
+  "wid": "GEL-0008",
+  "direct_bdct": -1.4250160542819381,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.16404879671145567,
+   "inliers": 1447,
+   "kp_q": 4102,
+   "kp_o": 5072,
+   "bdct_z": 12.100282712852373,
+   "bdct_z_wrongkey": 0.02561535678508653,
+   "valid_blocks": 14460,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.1690761488907507,
+   "inliers": 1447,
+   "kp_q": 4102,
+   "kp_o": 5072,
+   "bdct_z": 12.099567878021471,
+   "bdct_z_wrongkey": 2.0922998591322886,
+   "valid_blocks": 14461,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "rotation",
+  "level": 0.8,
+  "wid": "GEL-0008",
+  "direct_bdct": -0.6012324807230304,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.20982241211363734,
+   "inliers": 1311,
+   "kp_q": 5142,
+   "kp_o": 5072,
+   "bdct_z": 11.079528764292917,
+   "bdct_z_wrongkey": -0.7336661241853949,
+   "valid_blocks": 13372,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.22160510139402723,
+   "inliers": 1311,
+   "kp_q": 5142,
+   "kp_o": 5072,
+   "bdct_z": 11.089881542238938,
+   "bdct_z_wrongkey": -1.1552952866225932,
+   "valid_blocks": 13373,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-08.png",
+  "kind": "rotation",
+  "level": 1.0,
+  "wid": "GEL-0008",
+  "direct_bdct": 1.1023547397787505,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.28049539147046915,
+   "inliers": 1135,
+   "kp_q": 3259,
+   "kp_o": 5072,
+   "bdct_z": 10.625347741215988,
+   "bdct_z_wrongkey": 0.0792481307132549,
+   "valid_blocks": 12203,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  },
+  "homography": {
+   "corner_err": 0.2858591814881175,
+   "inliers": 1135,
+   "kp_q": 3259,
+   "kp_o": 5072,
+   "bdct_z": 10.633479304962048,
+   "bdct_z_wrongkey": 1.6355407109384663,
+   "valid_blocks": 12203,
+   "tm": true,
+   "tm_text": "GEL-0008"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "resizedcrop",
+  "level": 0.2,
+  "wid": "GEL-0009",
+  "direct_bdct": -0.026081673830414858,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.26232223901528817,
+   "inliers": 1267,
+   "kp_q": 2135,
+   "kp_o": 3609,
+   "bdct_z": 26.470517212095107,
+   "bdct_z_wrongkey": -0.3919588964292213,
+   "valid_blocks": 10920,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  },
+  "homography": {
+   "corner_err": 0.26673639726980214,
+   "inliers": 1267,
+   "kp_q": 2135,
+   "kp_o": 3609,
+   "bdct_z": 26.478485399163574,
+   "bdct_z_wrongkey": -1.8894529448489334,
+   "valid_blocks": 10920,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "resizedcrop",
+  "level": 0.4,
+  "wid": "GEL-0009",
+  "direct_bdct": -0.026081673830414858,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.26232223901528817,
+   "inliers": 1267,
+   "kp_q": 2135,
+   "kp_o": 3609,
+   "bdct_z": 26.470517212095107,
+   "bdct_z_wrongkey": 1.3668026847489505,
+   "valid_blocks": 10920,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  },
+  "homography": {
+   "corner_err": 0.26673639726980214,
+   "inliers": 1267,
+   "kp_q": 2135,
+   "kp_o": 3609,
+   "bdct_z": 26.478485399163574,
+   "bdct_z_wrongkey": 0.23261003524114032,
+   "valid_blocks": 10920,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "resizedcrop",
+  "level": 0.6,
+  "wid": "GEL-0009",
+  "direct_bdct": -0.026081673830414858,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.26232223901528817,
+   "inliers": 1267,
+   "kp_q": 2135,
+   "kp_o": 3609,
+   "bdct_z": 26.470517212095107,
+   "bdct_z_wrongkey": -0.06851662323456355,
+   "valid_blocks": 10920,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  },
+  "homography": {
+   "corner_err": 0.26673639726980214,
+   "inliers": 1267,
+   "kp_q": 2135,
+   "kp_o": 3609,
+   "bdct_z": 26.478485399163574,
+   "bdct_z_wrongkey": 1.330911005479426,
+   "valid_blocks": 10920,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "resizedcrop",
+  "level": 0.8,
+  "wid": "GEL-0009",
+  "direct_bdct": 1.1277056813707484,
+  "direct_tm": true,
+  "affine": {
+   "corner_err": 0.26263188781149416,
+   "inliers": 764,
+   "kp_q": 1826,
+   "kp_o": 3609,
+   "bdct_z": 20.93985986131468,
+   "bdct_z_wrongkey": -0.5240377383108143,
+   "valid_blocks": 9801,
+   "tm": false,
+   "tm_text": null
+  },
+  "homography": {
+   "corner_err": 0.25513039752432026,
+   "inliers": 764,
+   "kp_q": 1826,
+   "kp_o": 3609,
+   "bdct_z": 20.942868900819185,
+   "bdct_z_wrongkey": -0.9986087343988015,
+   "valid_blocks": 9801,
+   "tm": false,
+   "tm_text": null
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "resizedcrop",
+  "level": 1.0,
+  "wid": "GEL-0009",
+  "direct_bdct": -1.4119170411274833,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.26357396705083214,
+   "inliers": 763,
+   "kp_q": 1841,
+   "kp_o": 3609,
+   "bdct_z": 19.969235005219446,
+   "bdct_z_wrongkey": 0.44171589275722356,
+   "valid_blocks": 8100,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  },
+  "homography": {
+   "corner_err": 0.25584988924347773,
+   "inliers": 763,
+   "kp_q": 1841,
+   "kp_o": 3609,
+   "bdct_z": 19.960731193642776,
+   "bdct_z_wrongkey": -0.9409285333734894,
+   "valid_blocks": 8100,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "rotation",
+  "level": 0.2,
+  "wid": "GEL-0009",
+  "direct_bdct": 0.21027818489862737,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.05946708645717953,
+   "inliers": 724,
+   "kp_q": 3402,
+   "kp_o": 3609,
+   "bdct_z": 26.56542924188829,
+   "bdct_z_wrongkey": -0.14594526044200432,
+   "valid_blocks": 15256,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  },
+  "homography": {
+   "corner_err": 0.0710277367358613,
+   "inliers": 724,
+   "kp_q": 3402,
+   "kp_o": 3609,
+   "bdct_z": 26.578659069285447,
+   "bdct_z_wrongkey": 0.9729598501796074,
+   "valid_blocks": 15256,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "rotation",
+  "level": 0.4,
+  "wid": "GEL-0009",
+  "direct_bdct": -0.1335618807143607,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.11488254890904721,
+   "inliers": 919,
+   "kp_q": 3027,
+   "kp_o": 3609,
+   "bdct_z": 25.44968433052015,
+   "bdct_z_wrongkey": -2.5996903972723464,
+   "valid_blocks": 14334,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  },
+  "homography": {
+   "corner_err": 0.12552234237260113,
+   "inliers": 919,
+   "kp_q": 3027,
+   "kp_o": 3609,
+   "bdct_z": 25.402707206365353,
+   "bdct_z_wrongkey": -1.1258812197178012,
+   "valid_blocks": 14334,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "rotation",
+  "level": 0.6,
+  "wid": "GEL-0009",
+  "direct_bdct": -0.8396660817317927,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.16202885843717596,
+   "inliers": 949,
+   "kp_q": 2464,
+   "kp_o": 3609,
+   "bdct_z": 24.07577403334234,
+   "bdct_z_wrongkey": 1.4833660409539133,
+   "valid_blocks": 13656,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  },
+  "homography": {
+   "corner_err": 0.17798170580664185,
+   "inliers": 949,
+   "kp_q": 2464,
+   "kp_o": 3609,
+   "bdct_z": 24.039017925003385,
+   "bdct_z_wrongkey": -1.0324098027870965,
+   "valid_blocks": 13655,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "rotation",
+  "level": 0.8,
+  "wid": "GEL-0009",
+  "direct_bdct": -0.6008070902788714,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.22564213679775041,
+   "inliers": 876,
+   "kp_q": 2473,
+   "kp_o": 3609,
+   "bdct_z": 22.902939553227434,
+   "bdct_z_wrongkey": 1.1925877282162993,
+   "valid_blocks": 13155,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  },
+  "homography": {
+   "corner_err": 0.22866778215401729,
+   "inliers": 876,
+   "kp_q": 2473,
+   "kp_o": 3609,
+   "bdct_z": 22.898319335684747,
+   "bdct_z_wrongkey": 1.3134295403327472,
+   "valid_blocks": 13155,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  }
+ },
+ {
+  "fig": "assets/signed/enbuild2024-09.png",
+  "kind": "rotation",
+  "level": 1.0,
+  "wid": "GEL-0009",
+  "direct_bdct": 1.1946122495865708,
+  "direct_tm": false,
+  "affine": {
+   "corner_err": 0.27944383844591897,
+   "inliers": 829,
+   "kp_q": 2442,
+   "kp_o": 3609,
+   "bdct_z": 22.120768736212067,
+   "bdct_z_wrongkey": 1.203165632652216,
+   "valid_blocks": 12806,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  },
+  "homography": {
+   "corner_err": 0.2837539139513684,
+   "inliers": 829,
+   "kp_q": 2442,
+   "kp_o": 3609,
+   "bdct_z": 22.029292691148257,
+   "bdct_z_wrongkey": -1.403276169030701,
+   "valid_blocks": 12806,
+   "tm": true,
+   "tm_text": "GEL-0009"
+  }
+ }
+]
