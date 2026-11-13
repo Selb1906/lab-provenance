@@ -10,3 +10,6 @@ __pycache__/
 
 # 연구실 루트 인증서(공개용)는 예외
 !docs/assets/trust/lab-root.pem
+
+# Claude Code 작업 폴더(에이전트 worktree)
+.claude/
