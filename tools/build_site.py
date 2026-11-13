@@ -358,14 +358,14 @@ def build_verify(figs):
     opts = "".join(f'<option value="{f["file"]}">{esc(f["caption"])}</option>' for f in figs)
     opts += (
         '<option value="assets/samples/kiaebs2026-05-resaved.png">[변형] 다시 저장한 그림 — 증명서가 지워짐</option>'
-        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 하나를 바꾼 그림 — 증명서는 남지만 깨짐</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 엄격한 기준에서는 못 찾음</option>'
+        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 하나를 바꾼 그림 — 증명서는 남지만 깨짐</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 엄격한 기준에서는 못 찾음</option><option value="assets/media/tones.wav">[다른 형식] 음원(WAV) — 같은 서명 코드로 서명</option><option value="assets/media/slides.mp4">[다른 형식] 영상(MP4) — 같은 서명 코드로 서명</option>'
     )
     body = f"""
 <section class="head"><h1>검증하기</h1>
 <p class="lead">파일을 올리면 브라우저 안에서 C2PA 증명서를 읽습니다. 파일은 서버로 보내지 않습니다.</p></section>
 <section class="verify">
   <div class="panel">
-    <label class="drop" for="file"><input id="file" type="file" accept="image/*"><span>이미지 파일을 고르거나 끌어다 놓기</span></label>
+    <label class="drop" for="file"><input id="file" type="file" accept="image/*,audio/wav,audio/mpeg,video/mp4"><span>그림·음원·영상 파일을 고르거나 끌어다 놓기</span></label>
     <p class="muted small">또는 이 사이트의 그림으로 해 보기</p>
     <div class="row"><select id="sample">{opts}</select><button id="useSample" class="btn">불러오기</button></div>
     <label class="check"><input id="trustLab" type="checkbox"> 연구실 루트 인증서를 신뢰 목록에 넣기</label>

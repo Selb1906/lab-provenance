@@ -106,6 +106,23 @@ async function ledgerSection(hash, blob) {
   return `<h2 class="sub">원장 조회</h2>${body}<details><summary>자세히</summary><dl>${detail}<dt>이 파일의 지각 해시</dt><dd class="mono">${ph}</dd></dl></details>`;
 }
 
+// 음원·영상도 C2PA 서명은 같은 방식으로 읽는다(조사 05). 지각 해시 원장은 그림만 등록되어 있어 그림일 때만 조회
+function kind(blob) {
+  const t = blob.type || "";
+  return t.startsWith("audio/") ? "audio" : t.startsWith("video/") ? "video" : "image";
+}
+function preview(blob, url) {
+  const k = kind(blob);
+  if (k === "audio") return `<audio class="thumb" controls src="${url}"></audio>`;
+  if (k === "video") return `<video class="thumb" controls muted src="${url}"></video>`;
+  return `<img class="thumb" src="${url}" alt="">`;
+}
+async function ledgerOrNote(hash, blob) {
+  if (kind(blob) !== "image")
+    return `<h2 class="sub">원장 조회</h2><p class="muted small">원장의 지각 해시는 그림에만 등록되어 있어 음원·영상은 서명만 확인합니다. 음원·영상의 지문(예: 오디오 핑거프린트)은 아직 만들지 않았습니다.</p>`;
+  return ledgerSection(hash, blob);
+}
+
 function context() {
   return trustLab.checked
     ? new Context({ verify: { verifyTrust: true }, trust: { trustAnchors: LAB_ROOT } })
@@ -128,7 +145,7 @@ async function show(blob, name) {
   lastBlob = blob;
   lastName = name;
   const url = URL.createObjectURL(blob);
-  result.innerHTML = `<img class="thumb" src="${url}" alt=""><p class="muted">읽는 중…</p>`;
+  result.innerHTML = `${preview(blob, url)}<p class="muted">읽는 중…</p>`;
   const hash = await sha256(blob);
   let reader;
   try {
@@ -137,11 +154,11 @@ async function show(blob, name) {
     reader = null;
   }
   if (!reader) {
-    result.innerHTML = `<img class="thumb" src="${url}" alt="">
+    result.innerHTML = `${preview(blob, url)}
       <p class="state none"><span class="dot"></span>출처 정보가 없습니다 (C2PA 증명서 없음)</p>
       <p>가짜라는 뜻이 아니라, 이 파일만으로는 누가 만들었는지 알 수 없다는 뜻입니다. 다시 저장하거나 메신저·SNS를 거치면 증명서가 지워지는 경우가 많습니다.</p>
       <dl><dt>파일</dt><dd>${esc(name)}</dd><dt>SHA-256</dt><dd class="mono">${hash}</dd></dl>`;
-    result.insertAdjacentHTML("beforeend", await ledgerSection(hash, blob));
+    result.insertAdjacentHTML("beforeend", await ledgerOrNote(hash, blob));
     return;
   }
   const store = await reader.manifestStore();
@@ -153,7 +170,7 @@ async function show(blob, name) {
   const acts = actions ? actions.data.actions.map((a) => { const k = a.action.replace("c2pa.", ""); return ACT[k] || k; }).join(" → ") : "";
   const [cls, text] = verdict(store);
   const codes = (store.validation_status || []).map((s) => `<li class="mono">${esc(s.code)}</li>`).join("");
-  result.innerHTML = `<img class="thumb" src="${url}" alt="">
+  result.innerHTML = `${preview(blob, url)}
     <p class="state ${cls}"><span class="dot"></span>${text}</p>
     ${cls === "bad" ? `<p class="muted small">아래 정보는 유효하지 않은 증명서에서 읽은 것이므로 서명자의 것으로 볼 수 없습니다(C2PA 규격 15.3).</p>` : ""}
     <dl>
@@ -169,7 +186,7 @@ async function show(blob, name) {
       <dt>검증 코드</dt><dd><ul class="plain">${codes || "<li>없음</li>"}</ul></dd>
     </dl></details>
     <p class="muted small">서명은 누가 서명했는지와 서명 뒤 바뀌지 않았다는 것만 보증합니다. 그림 내용이 사실이라는 보증은 아닙니다. 작업 기록은 서명자가 적은 것이고 검증기가 직접 본 것이 아닙니다.</p>`;
-  result.insertAdjacentHTML("beforeend", await ledgerSection(hash, blob));
+  result.insertAdjacentHTML("beforeend", await ledgerOrNote(hash, blob));
 }
 
 fileInput.addEventListener("change", () => fileInput.files[0] && show(fileInput.files[0], fileInput.files[0].name));

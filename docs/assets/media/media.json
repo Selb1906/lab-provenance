@@ -1,0 +1,20 @@
+[
+ {
+  "file": "assets/media/tones.wav",
+  "bytes": 278218,
+  "raw_bytes": 264644,
+  "validation_state": "Valid",
+  "codes": [
+   "signingCredential.untrusted"
+  ]
+ },
+ {
+  "file": "assets/media/slides.mp4",
+  "bytes": 216047,
+  "raw_bytes": 202356,
+  "validation_state": "Valid",
+  "codes": [
+   "signingCredential.untrusted"
+  ]
+ }
+]
