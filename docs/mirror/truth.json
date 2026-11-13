@@ -1,0 +1,56 @@
+[
+ {
+  "page": "blog",
+  "img": "blog-1.jpg",
+  "source": "kiaebs2026-05",
+  "how": "JPEG 재압축 품질 74 (WAVES 0.2)"
+ },
+ {
+  "page": "blog",
+  "img": "blog-2.png",
+  "source": "buildings2026-01",
+  "how": "크롭 면적 0.8 (WAVES 0.4)"
+ },
+ {
+  "page": "blog",
+  "img": "blog-3.jpg",
+  "source": null,
+  "how": "상관없는 이미지(CC0)"
+ },
+ {
+  "page": "forum",
+  "img": "forum-1.png",
+  "source": "journey 0-published (GEL-0002)",
+  "how": "브라우저 화면 캡처 1920×1080"
+ },
+ {
+  "page": "forum",
+  "img": "forum-2.jpg",
+  "source": "energy2024-06",
+  "how": "JPEG 재압축 품질 58 (WAVES 0.4)"
+ },
+ {
+  "page": "forum",
+  "img": "forum-3.jpg",
+  "source": null,
+  "how": "상관없는 이미지(퍼블릭 도메인)"
+ },
+ {
+  "page": "news",
+  "img": "news-1.jpg",
+  "source": "enbuild2024-08",
+  "how": "크롭 면적 0.6 (WAVES 0.8) + JPEG 품질 74"
+ },
+ {
+  "page": "news",
+  "img": "news-2.jpg",
+  "source": "journey 사본 RCV-B002",
+  "how": "받는 사람 B의 사본이 재압축되어 유출"
+ },
+ {
+  "page": "news",
+  "img": "news-3.jpg",
+  "source": null,
+  "how": "상관없는 이미지(퍼블릭 도메인)"
+ }
+]
