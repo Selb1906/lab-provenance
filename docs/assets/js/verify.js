@@ -26,7 +26,7 @@ async function sha256(blob) {
 
 // lab-phash: tools/fphash.py 와 같은 규격. 회색조 → 32x32 구역 평균 → DCT-II → 8x8 → 중앙값 비교
 const N = 32;
-const PHASH_T = 15; // 실험 이미지 76장(2,850쌍)에서 쌍당 오탐 1% 이하가 되는 가장 큰 거리. 개발일지 참고
+const PHASH_T = 5; // 원장의 서로 다른 그림 14장 × 쌍 오탐 0.07% ≤ 질의 오탐 1% (실험 9). 원장이 커지면 다시 낮춰야 함
 const TILE_T = 5; // 조각 125개와 비교할 때: 질의 하나를 원장 전체와 비교해 오탐 1% 이하가 되는 거리(실험 8). 비교 횟수가 많아 훨씬 엄격해야 함
 async function labPhash(blob) {
   const bmp = await createImageBitmap(blob, { colorSpaceConversion: "none", premultiplyAlpha: "none" });

@@ -29,7 +29,7 @@ LEDGERS = [ROOT / "docs" / "assets" / "ledger.jsonl", ROOT / "docs" / "assets" /
 # 받는 사람별 식별자 대응표(능동 포렌식). 실제 운영에서는 비공개 원장에 둔다
 RECIPIENTS = {"RCV-A001": "공동연구기관 A", "RCV-B002": "자료 요청자 B", "RCV-C003": "기업 C"}
 UA = "lab-provenance-monitor/0.1 (research prototype)"
-PHASH_T = 15
+PHASH_T = 5  # 원장 14장 기준 질의 오탐 1% 이하(실험 9). 원장이 커지면 다시 낮춰야 함
 TILE_T = 5  # 조각 비교는 질의당 오탐 1% 기준(실험 8). 조각이 많아 우연히 가까운 것이 생기므로 훨씬 엄격
 
 
