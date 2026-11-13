@@ -70,8 +70,18 @@ function loadLedger() {
 
 async function ledgerSection(hash, blob) {
   const [entries, ph] = await Promise.all([loadLedger(), labPhash(blob)]);
-  const exact = entries.find((e) => e.record.sha256 === hash);
-  const near = entries.map((e) => ({ e, d: hamming(ph, e.record.lab_phash) })).sort((a, b) => a.d - b.d)[0];
+  const exact = entries.find((e) => e.record.sha256 && e.record.sha256 === hash);
+  const near = entries.filter((e) => e.record.lab_phash).map((e) => ({ e, d: hamming(ph, e.record.lab_phash) })).sort((a, b) => a.d - b.d)[0];
+  // 전체 해시로 못 찾으면 발행 때 등록한 조각 해시와 비교(잘라 쓴 그림 찾기, 실험 5)
+  let tile = null;
+  if (!exact && !(near && near.d <= PHASH_T)) {
+    for (const e of entries.filter((x) => x.record.type === "tiles")) {
+      for (const t of e.record.tiles) {
+        const d = hamming(ph, t);
+        if (!tile || d < tile.d) tile = { e, d };
+      }
+    }
+  }
   let body;
   if (exact) {
     body = `<p class="state ok"><span class="dot"></span>원장에 같은 파일이 있습니다 (SHA-256 일치, 기록 #${exact.index})</p>`;
@@ -79,6 +89,11 @@ async function ledgerSection(hash, blob) {
     body = `<p class="state warn"><span class="dot"></span>파일은 다르지만 내용이 같은 그림을 원장에서 찾았습니다 (지각 해시 거리 ${near.d} ≤ ${PHASH_T})</p>
       <p>원래 발행본: <a href="${esc(near.e.record.file)}">${esc(near.e.record.caption)}</a><br>
       <span class="muted small">원래 증명서 ${esc(near.e.record.c2pa_manifest)}</span></p>`;
+  } else if (tile && tile.d <= PHASH_T) {
+    const main = entries.find((e) => e.record.sha256 === tile.e.record.of_sha256);
+    body = `<p class="state warn"><span class="dot"></span>그림 전체와는 다르지만 발행된 그림의 일부(조각)와 일치합니다 (거리 ${tile.d} ≤ ${PHASH_T}) — 잘라서 쓴 것으로 보입니다</p>
+      <p>원래 발행본: <a href="${esc(tile.e.record.file)}">${esc(main ? main.record.caption : tile.e.record.file)}</a><br>
+      <span class="muted small">원래 증명서 ${esc(main ? main.record.c2pa_manifest : "-")}</span></p>`;
   } else {
     body = `<p class="state bad"><span class="dot"></span>원장에서 찾지 못했습니다</p>
       <p class="muted small">가장 가까운 기록과의 지각 해시 거리 ${near ? near.d : "-"} (문턱 ${PHASH_T})</p>`;

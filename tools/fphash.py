@@ -41,6 +41,24 @@ def lab_phash(img):
     return "".join("1" if b else "0" for b in bits)
 
 
+TILE_AREAS = [0.5, 0.6, 0.7, 0.8, 0.9]  # 실험 5: WAVES 크롭 면적 5단계와 같게
+TILE_GRID = 5
+
+
+def tile_hashes(img):
+    """정사각형 조각 125개(면적 비율 5 × 위치 5×5)의 lab-phash. 크롭본을 찾는 데 쓴다(실험 5)."""
+    w, h = img.size
+    out = []
+    for s in TILE_AREAS:
+        side = max(1, min(int(round((s * w * h) ** 0.5)), w, h))
+        for gy in range(TILE_GRID):
+            for gx in range(TILE_GRID):
+                left = round(gx * (w - side) / (TILE_GRID - 1))
+                top = round(gy * (h - side) / (TILE_GRID - 1))
+                out.append(to_hex(lab_phash(img.crop((left, top, left + side, top + side)))))
+    return out
+
+
 def to_hex(bits):
     return f"{int(bits, 2):016x}"
 

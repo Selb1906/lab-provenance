@@ -1,0 +1,30 @@
+{
+ "tiles_per_image": 126,
+ "t_tile": 15,
+ "fpr": 0.0061695906432748535,
+ "n_impostor": 34200,
+ "tpr": {
+  "figure/tiles/0.2": 0.6451612903225806,
+  "figure/whole_t15/0.2": 0.03225806451612903,
+  "figure/tiles/0.4": 0.6451612903225806,
+  "figure/whole_t15/0.4": 0.03225806451612903,
+  "figure/tiles/0.6": 0.6451612903225806,
+  "figure/whole_t15/0.6": 0.016129032258064516,
+  "figure/tiles/0.8": 0.5967741935483871,
+  "figure/whole_t15/0.8": 0.03225806451612903,
+  "figure/tiles/1.0": 0.6129032258064516,
+  "figure/whole_t15/1.0": 0.03225806451612903,
+  "photo/tiles/0.2": 1.0,
+  "photo/whole_t15/0.2": 0.4444444444444444,
+  "photo/tiles/0.4": 1.0,
+  "photo/whole_t15/0.4": 0.1111111111111111,
+  "photo/tiles/0.6": 1.0,
+  "photo/whole_t15/0.6": 0.0,
+  "photo/tiles/0.8": 1.0,
+  "photo/whole_t15/0.8": 0.0,
+  "photo/tiles/1.0": 0.8888888888888888,
+  "photo/whole_t15/1.0": 0.0
+ },
+ "fpr_figure_vs_figure": 0.008857747223691169,
+ "fpr_photo_vs_photo": 0.004629629629629629
+}

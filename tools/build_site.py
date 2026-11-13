@@ -84,6 +84,12 @@ def record_in_ledger(figs):
             "lab_phash": fphash.to_hex(fphash.lab_phash(Image.open(p))),
             "c2pa_manifest": manifest_id, "caption": f["caption"], "paper": f["paper"],
         })
+    # 크롭본을 찾기 위한 조각 해시(실험 5). 본 기록과 별도의 줄로 덧붙인다(이미 고정된 앞 줄은 건드리지 않음)
+    for f in figs:
+        if ledger.lookup(path, type="tiles", of_sha256=f["sha256"]):
+            continue
+        ledger.append(path, {"type": "tiles", "of_sha256": f["sha256"], "file": f["file"],
+                             "tiles": fphash.tile_hashes(Image.open(DOCS / f["file"]))})
     bad = ledger.verify(path)
     if bad is not None:
         raise SystemExit(f"ledger broken at index {bad}")
@@ -296,7 +302,7 @@ def build_verify(figs):
     opts = "".join(f'<option value="{f["file"]}">{esc(f["caption"])}</option>' for f in figs)
     opts += (
         '<option value="assets/samples/kiaebs2026-05-resaved.png">[변형] 다시 저장한 그림 — 증명서가 지워짐</option>'
-        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 1바이트를 바꾼 그림 — 증명서는 남음</option>'
+        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 1바이트를 바꾼 그림 — 증명서는 남음</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 조각으로 찾음</option>'
     )
     body = f"""
 <section class="head"><h1>검증하기</h1>
