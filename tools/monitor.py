@@ -30,6 +30,7 @@ LEDGERS = [ROOT / "docs" / "assets" / "ledger.jsonl", ROOT / "docs" / "assets" /
 RECIPIENTS = {"RCV-A001": "공동연구기관 A", "RCV-B002": "자료 요청자 B", "RCV-C003": "기업 C"}
 UA = "lab-provenance-monitor/0.1 (research prototype)"
 PHASH_T = 15
+TILE_T = 5  # 조각 비교는 질의당 오탐 1% 기준(실험 8). 조각이 많아 우연히 가까운 것이 생기므로 훨씬 엄격
 
 
 class _Imgs(HTMLParser):
@@ -117,7 +118,7 @@ def check_image(data, refs, tm):
         src, how = exact, ["원본 파일 그대로"]
     elif near[0] <= PHASH_T:
         src, how = near[1], [f"다시 저장·압축됨(지각 해시 거리 {near[0]})"]
-    elif tile[0] <= PHASH_T:
+    elif tile[0] <= TILE_T:
         src = next((m for m in mains if m.get("sha256") == tile[1]["of_sha256"]), None)
         how = [f"일부를 잘라 씀(조각 해시 거리 {tile[0]})"]
     if wid in wm:

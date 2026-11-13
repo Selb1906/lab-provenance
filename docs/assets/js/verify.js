@@ -26,7 +26,8 @@ async function sha256(blob) {
 
 // lab-phash: tools/fphash.py 와 같은 규격. 회색조 → 32x32 구역 평균 → DCT-II → 8x8 → 중앙값 비교
 const N = 32;
-const PHASH_T = 15; // 실험 이미지 76장(2,850쌍)에서 오탐 1% 이하가 되는 가장 큰 거리. 개발일지 참고
+const PHASH_T = 15; // 실험 이미지 76장(2,850쌍)에서 쌍당 오탐 1% 이하가 되는 가장 큰 거리. 개발일지 참고
+const TILE_T = 5; // 조각 125개와 비교할 때: 질의 하나를 원장 전체와 비교해 오탐 1% 이하가 되는 거리(실험 8). 비교 횟수가 많아 훨씬 엄격해야 함
 async function labPhash(blob) {
   const bmp = await createImageBitmap(blob, { colorSpaceConversion: "none", premultiplyAlpha: "none" });
   const cv = new OffscreenCanvas(bmp.width, bmp.height);
@@ -90,9 +91,9 @@ async function ledgerSection(hash, blob) {
       <p>원래 발행본: <a href="${esc(near.e.record.file)}">${esc(near.e.record.caption)}</a><br>
       <span class="muted small">원본의 증명서 ${esc(near.e.record.c2pa_manifest)}</span></p>
       <p class="muted small">이 파일 자체가 인증된 것은 아닙니다. 내용이 같아 보이는 원본의 증명서를 찾아 온 것이라 신뢰 수준이 낮습니다(C2PA 2.5 규격 16.4.1.10).</p>`;
-  } else if (tile && tile.d <= PHASH_T) {
+  } else if (tile && tile.d <= TILE_T) {
     const main = entries.find((e) => e.record.sha256 === tile.e.record.of_sha256);
-    body = `<p class="state warn"><span class="dot"></span>그림 전체와는 다르지만 발행된 그림의 일부(조각)와 일치합니다 (거리 ${tile.d} ≤ ${PHASH_T}) — 잘라서 쓴 것으로 보입니다</p>
+    body = `<p class="state warn"><span class="dot"></span>그림 전체와는 다르지만 발행된 그림의 일부(조각)와 일치합니다 (거리 ${tile.d} ≤ ${TILE_T}) — 잘라서 쓴 것으로 보입니다</p>
       <p>원래 발행본: <a href="${esc(tile.e.record.file)}">${esc(main ? main.record.caption : tile.e.record.file)}</a><br>
       <span class="muted small">원본의 증명서 ${esc(main ? main.record.c2pa_manifest : "-")}</span></p>
       <p class="muted small">이 파일 자체가 인증된 것은 아닙니다. 일부가 같아 보이는 원본의 증명서를 찾아 온 것이라 신뢰 수준이 낮습니다.</p>`;

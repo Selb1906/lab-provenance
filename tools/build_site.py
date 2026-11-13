@@ -357,7 +357,7 @@ def build_verify(figs):
     opts = "".join(f'<option value="{f["file"]}">{esc(f["caption"])}</option>' for f in figs)
     opts += (
         '<option value="assets/samples/kiaebs2026-05-resaved.png">[변형] 다시 저장한 그림 — 증명서가 지워짐</option>'
-        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 1바이트를 바꾼 그림 — 증명서는 남음</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 조각으로 찾음</option>'
+        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 1바이트를 바꾼 그림 — 증명서는 남음</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 엄격한 기준에서는 못 찾음</option>'
     )
     body = f"""
 <section class="head"><h1>검증하기</h1>
