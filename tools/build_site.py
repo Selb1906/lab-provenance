@@ -113,7 +113,7 @@ JOURNEY_STEPS = [
     ("0-published.png", "발행", "연구실이 그림을 발행한다. 픽셀 안에 식별자 GEL-0002를 워터마크로 숨기고, C2PA로 서명하고, 원장에 한 줄을 남긴다.",
      "모든 층이 같은 그림을 가리킨다. 이 상태가 기준이다."),
     ("1-messenger.jpg", "메신저로 전달", "누군가 그림을 메신저로 보낸다. 메신저는 사진을 JPEG로 다시 압축한다(품질 74, 공개 벤치마크 WAVES의 가장 약한 압축 단계).",
-     "C2PA 증명서가 통째로 사라진다. 그래도 워터마크 식별자와 지각 해시로 원장을 찾아 원래 증명서로 돌아갈 수 있다."),
+     "C2PA 증명서가 통째로 사라진다. 그래도 워터마크 식별자와 지각 해시로 원장을 찾아 원본의 증명서를 찾아낼 수 있다. 다만 이 파일 자체가 인증된 것은 아니고 '같은 그림으로 보이는 원본의 기록'이라는 낮은 신뢰다."),
     ("2-cropped.png", "잘라서 사용", "누군가 그림의 일부(면적 80%)만 잘라 원래 크기로 늘려 쓴다(WAVES 크롭 단계 0.4).",
      "지각 해시는 그림 전체 구도를 보기 때문에 놓친다. 워터마크와 특징점이 대신 찾는다."),
     ("3-screenshot.png", "화면 캡처", "누군가 그림을 브라우저에서 열고 화면 전체(1920×1080)를 캡처한다. 그림 주변에 어두운 배경이 함께 찍힌다.",
@@ -261,7 +261,7 @@ def build_journey():
             ("워터마크", _mark(bool(wid), f"식별자 {esc(wid)} ({esc(RECIPIENT_NAMES.get(wid, ''))})", "못 읽음")),
             ("지각 해시", _mark(r["phash_ok"], f"같은 그림 (거리 {r['phash_d']})", f"놓침 (거리 {r['phash_d']} &gt; 15)")),
             ("특징점(ORB)", _mark(r["orb_ok"], f"같은 그림 (일치 {r['orb_inliers']}개)", f"놓침 (일치 {r['orb_inliers']}개)")),
-            ("원장 조회", _mark(ledger_hit, "원래 기록과 증명서를 찾음", "찾지 못함")),
+            ("원장 조회", _mark(ledger_hit, "원본 기록과 증명서를 찾음(낮은 신뢰)", "찾지 못함")),
         ]
         table = "".join(f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in rows)
         cards.append(f"""
@@ -289,9 +289,9 @@ def build_journey():
     <thead><tr><th>일어난 일</th><th>C2PA</th><th>워터마크</th><th>지각 해시</th><th>특징점</th><th>원장</th></tr></thead>
     <tbody>
       <tr><td>그대로</td><td>확인</td><td>확인</td><td>확인</td><td>확인</td><td>기준</td></tr>
-      <tr><td>재압축(증명서 삭제)</td><td class="muted">사라짐</td><td>찾음</td><td>찾음</td><td>찾음</td><td>원래 증명서로 연결</td></tr>
-      <tr><td>잘라서 사용</td><td class="muted">사라짐</td><td>찾음</td><td class="muted">놓침</td><td>찾음</td><td>원래 증명서로 연결</td></tr>
-      <tr><td>화면 캡처</td><td class="muted">사라짐</td><td>찾음(위치 검출)</td><td class="muted">놓침</td><td>찾음</td><td>원래 증명서로 연결</td></tr>
+      <tr><td>재압축(증명서 삭제)</td><td class="muted">사라짐</td><td>찾음</td><td>찾음</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
+      <tr><td>잘라서 사용</td><td class="muted">사라짐</td><td>찾음</td><td class="muted">놓침</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
+      <tr><td>화면 캡처</td><td class="muted">사라짐</td><td>찾음(위치 검출)</td><td class="muted">놓침</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
       <tr><td>내용 조작</td><td><strong>조작 탐지</strong></td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td>원래 기록과 비교 가능</td></tr>
       <tr><td>유출</td><td class="muted">알 수 없음</td><td><strong>유출자 식별</strong></td><td class="muted">알 수 없음</td><td class="muted">알 수 없음</td><td>받는 사람 대응표 보관</td></tr>
       <tr><td>원장 조작</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td><strong>해시체인 + 비트코인 고정</strong></td></tr>

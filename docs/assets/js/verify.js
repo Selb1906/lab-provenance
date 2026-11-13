@@ -88,12 +88,14 @@ async function ledgerSection(hash, blob) {
   } else if (near && near.d <= PHASH_T) {
     body = `<p class="state warn"><span class="dot"></span>파일은 다르지만 내용이 같은 그림을 원장에서 찾았습니다 (지각 해시 거리 ${near.d} ≤ ${PHASH_T})</p>
       <p>원래 발행본: <a href="${esc(near.e.record.file)}">${esc(near.e.record.caption)}</a><br>
-      <span class="muted small">원래 증명서 ${esc(near.e.record.c2pa_manifest)}</span></p>`;
+      <span class="muted small">원본의 증명서 ${esc(near.e.record.c2pa_manifest)}</span></p>
+      <p class="muted small">이 파일 자체가 인증된 것은 아닙니다. 내용이 같아 보이는 원본의 증명서를 찾아 온 것이라 신뢰 수준이 낮습니다(C2PA 2.5 규격 16.4.1.10).</p>`;
   } else if (tile && tile.d <= PHASH_T) {
     const main = entries.find((e) => e.record.sha256 === tile.e.record.of_sha256);
     body = `<p class="state warn"><span class="dot"></span>그림 전체와는 다르지만 발행된 그림의 일부(조각)와 일치합니다 (거리 ${tile.d} ≤ ${PHASH_T}) — 잘라서 쓴 것으로 보입니다</p>
       <p>원래 발행본: <a href="${esc(tile.e.record.file)}">${esc(main ? main.record.caption : tile.e.record.file)}</a><br>
-      <span class="muted small">원래 증명서 ${esc(main ? main.record.c2pa_manifest : "-")}</span></p>`;
+      <span class="muted small">원본의 증명서 ${esc(main ? main.record.c2pa_manifest : "-")}</span></p>
+      <p class="muted small">이 파일 자체가 인증된 것은 아닙니다. 일부가 같아 보이는 원본의 증명서를 찾아 온 것이라 신뢰 수준이 낮습니다.</p>`;
   } else {
     body = `<p class="state bad"><span class="dot"></span>원장에서 찾지 못했습니다</p>
       <p class="muted small">가장 가까운 기록과의 지각 해시 거리 ${near ? near.d : "-"} (문턱 ${PHASH_T})</p>`;

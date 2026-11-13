@@ -23,7 +23,7 @@
   <div class="step-body">
     <p class="meta"><span class="year">0</span>발행</p>
     <p>연구실이 그림을 발행한다. 픽셀 안에 식별자 GEL-0002를 워터마크로 숨기고, C2PA로 서명하고, 원장에 한 줄을 남긴다.</p>
-    <table class="data compact"><tr><th>C2PA</th><td><span class="state ok inline"><span class="dot"></span>유효(신뢰 목록 밖)</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (거리 0)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 1000개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원래 기록과 증명서를 찾음</span></td></tr></table>
+    <table class="data compact"><tr><th>C2PA</th><td><span class="state ok inline"><span class="dot"></span>유효(신뢰 목록 밖)</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (거리 0)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 1000개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원본 기록과 증명서를 찾음(낮은 신뢰)</span></td></tr></table>
     <p class="lesson">모든 층이 같은 그림을 가리킨다. 이 상태가 기준이다.</p>
   </div>
 </article>
@@ -32,8 +32,8 @@
   <div class="step-body">
     <p class="meta"><span class="year">1</span>메신저로 전달</p>
     <p>누군가 그림을 메신저로 보낸다. 메신저는 사진을 JPEG로 다시 압축한다(품질 74, 공개 벤치마크 WAVES의 가장 약한 압축 단계).</p>
-    <table class="data compact"><tr><th>C2PA</th><td><span class="state warn inline"><span class="dot"></span>증명서 없음</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (거리 0)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 714개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원래 기록과 증명서를 찾음</span></td></tr></table>
-    <p class="lesson">C2PA 증명서가 통째로 사라진다. 그래도 워터마크 식별자와 지각 해시로 원장을 찾아 원래 증명서로 돌아갈 수 있다.</p>
+    <table class="data compact"><tr><th>C2PA</th><td><span class="state warn inline"><span class="dot"></span>증명서 없음</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (거리 0)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 714개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원본 기록과 증명서를 찾음(낮은 신뢰)</span></td></tr></table>
+    <p class="lesson">C2PA 증명서가 통째로 사라진다. 그래도 워터마크 식별자와 지각 해시로 원장을 찾아 원본의 증명서를 찾아낼 수 있다. 다만 이 파일 자체가 인증된 것은 아니고 &#x27;같은 그림으로 보이는 원본의 기록&#x27;이라는 낮은 신뢰다.</p>
   </div>
 </article>
 <article class="step">
@@ -41,7 +41,7 @@
   <div class="step-body">
     <p class="meta"><span class="year">2</span>잘라서 사용</p>
     <p>누군가 그림의 일부(면적 80%)만 잘라 원래 크기로 늘려 쓴다(WAVES 크롭 단계 0.4).</p>
-    <table class="data compact"><tr><th>C2PA</th><td><span class="state warn inline"><span class="dot"></span>증명서 없음</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state bad inline"><span class="dot"></span>놓침 (거리 16 &gt; 15)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 151개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원래 기록과 증명서를 찾음</span></td></tr></table>
+    <table class="data compact"><tr><th>C2PA</th><td><span class="state warn inline"><span class="dot"></span>증명서 없음</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state bad inline"><span class="dot"></span>놓침 (거리 16 &gt; 15)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 151개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원본 기록과 증명서를 찾음(낮은 신뢰)</span></td></tr></table>
     <p class="lesson">지각 해시는 그림 전체 구도를 보기 때문에 놓친다. 워터마크와 특징점이 대신 찾는다.</p>
   </div>
 </article>
@@ -50,7 +50,7 @@
   <div class="step-body">
     <p class="meta"><span class="year">3</span>화면 캡처</p>
     <p>누군가 그림을 브라우저에서 열고 화면 전체(1920×1080)를 캡처한다. 그림 주변에 어두운 배경이 함께 찍힌다.</p>
-    <table class="data compact"><tr><th>C2PA</th><td><span class="state warn inline"><span class="dot"></span>증명서 없음</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state bad inline"><span class="dot"></span>놓침 (거리 22 &gt; 15)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 336개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원래 기록과 증명서를 찾음</span></td></tr></table>
+    <table class="data compact"><tr><th>C2PA</th><td><span class="state warn inline"><span class="dot"></span>증명서 없음</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state bad inline"><span class="dot"></span>놓침 (거리 22 &gt; 15)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 336개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원본 기록과 증명서를 찾음(낮은 신뢰)</span></td></tr></table>
     <p class="lesson">그림 주변이 섞이면 지각 해시는 놓친다. 워터마크는 위치 검출을 켜면 그림 영역을 찾아 읽는다.</p>
   </div>
 </article>
@@ -59,7 +59,7 @@
   <div class="step-body">
     <p class="meta"><span class="year">4</span>내용 조작</p>
     <p>누군가 히트맵의 한 칸을 다른 색으로 칠한다. 증명서는 그대로 남겨 둔다.</p>
-    <table class="data compact"><tr><th>C2PA</th><td><span class="state bad inline"><span class="dot"></span>변조됨</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (거리 2)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 996개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원래 기록과 증명서를 찾음</span></td></tr></table>
+    <table class="data compact"><tr><th>C2PA</th><td><span class="state bad inline"><span class="dot"></span>변조됨</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 GEL-0002 (연구실 발행본)</span></td></tr><tr><th>지각 해시</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (거리 2)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 996개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원본 기록과 증명서를 찾음(낮은 신뢰)</span></td></tr></table>
     <p class="lesson">C2PA만 조작을 잡는다(서명 뒤 바뀜). 워터마크·지각 해시·특징점은 &#x27;같은 그림&#x27;이라고 답한다 — 이들은 &#x27;원래 기록이 어디 있나&#x27;를 찾는 도구이지, 변조를 잡는 도구가 아니다.</p>
   </div>
 </article>
@@ -68,7 +68,7 @@
   <div class="step-body">
     <p class="meta"><span class="year">5</span>유출</p>
     <p>같은 그림을 세 곳에 보낼 때 받는 사람마다 다른 식별자를 숨겨 보냈다. 그중 하나가 메신저를 거쳐 퍼진다.</p>
-    <table class="data compact"><tr><th>C2PA</th><td><span class="state warn inline"><span class="dot"></span>증명서 없음</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 RCV-B002 (자료 요청자 B)</span></td></tr><tr><th>지각 해시</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (거리 0)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 598개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원래 기록과 증명서를 찾음</span></td></tr></table>
+    <table class="data compact"><tr><th>C2PA</th><td><span class="state warn inline"><span class="dot"></span>증명서 없음</span></td></tr><tr><th>워터마크</th><td><span class="state ok inline"><span class="dot"></span>식별자 RCV-B002 (자료 요청자 B)</span></td></tr><tr><th>지각 해시</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (거리 0)</span></td></tr><tr><th>특징점(ORB)</th><td><span class="state ok inline"><span class="dot"></span>같은 그림 (일치 598개)</span></td></tr><tr><th>원장 조회</th><td><span class="state ok inline"><span class="dot"></span>원본 기록과 증명서를 찾음(낮은 신뢰)</span></td></tr></table>
     <p class="lesson">퍼진 사본에서 읽은 식별자 RCV-B002로 누구의 사본이 퍼졌는지 안다. C2PA로는 알 수 없는 정보다.</p>
   </div>
 </article>
@@ -82,9 +82,9 @@
     <thead><tr><th>일어난 일</th><th>C2PA</th><th>워터마크</th><th>지각 해시</th><th>특징점</th><th>원장</th></tr></thead>
     <tbody>
       <tr><td>그대로</td><td>확인</td><td>확인</td><td>확인</td><td>확인</td><td>기준</td></tr>
-      <tr><td>재압축(증명서 삭제)</td><td class="muted">사라짐</td><td>찾음</td><td>찾음</td><td>찾음</td><td>원래 증명서로 연결</td></tr>
-      <tr><td>잘라서 사용</td><td class="muted">사라짐</td><td>찾음</td><td class="muted">놓침</td><td>찾음</td><td>원래 증명서로 연결</td></tr>
-      <tr><td>화면 캡처</td><td class="muted">사라짐</td><td>찾음(위치 검출)</td><td class="muted">놓침</td><td>찾음</td><td>원래 증명서로 연결</td></tr>
+      <tr><td>재압축(증명서 삭제)</td><td class="muted">사라짐</td><td>찾음</td><td>찾음</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
+      <tr><td>잘라서 사용</td><td class="muted">사라짐</td><td>찾음</td><td class="muted">놓침</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
+      <tr><td>화면 캡처</td><td class="muted">사라짐</td><td>찾음(위치 검출)</td><td class="muted">놓침</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
       <tr><td>내용 조작</td><td><strong>조작 탐지</strong></td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td>원래 기록과 비교 가능</td></tr>
       <tr><td>유출</td><td class="muted">알 수 없음</td><td><strong>유출자 식별</strong></td><td class="muted">알 수 없음</td><td class="muted">알 수 없음</td><td>받는 사람 대응표 보관</td></tr>
       <tr><td>원장 조작</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td><strong>해시체인 + 비트코인 고정</strong></td></tr>
