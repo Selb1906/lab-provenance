@@ -44,13 +44,14 @@ def main():
     for fpr in [0.01, 0.001]:
         t = max([t for t in range(65) if np.mean(neg <= t) <= fpr], default=-1)
         res["thresholds"][str(fpr)] = {"t": t, "fpr": float(np.mean(neg <= t))}
-    for T in sorted({15} | {v["t"] for v in res["thresholds"].values()}):
+    for T in range(0, 17):  # 원장 크기마다 맞는 문턱이 달라서 전 구간을 남긴다(2차 실행, 11-13 22:00)
         for g in ["all", "figure", "photo"]:
             for a in ["orig", *attacks.RANGES]:
                 for lv in ([0.0] if a == "orig" else LEVELS):
                     rs = [r for r in rows if r[2] == a and r[3] == lv and (g == "all" or r[1] == g)]
                     ok = [r[4][r[0]] <= T and r[4][r[0]] == min(r[4]) for r in rs]
                     res["tpr"][f"{T}/{g}/{a}/{lv}"] = float(np.mean(ok))
+    (OUT / "rows.json").write_text(json.dumps([(r[0], r[1], r[2], r[3], r[4]) for r in rows]), encoding="utf-8")
     (OUT / "summary.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
     print(json.dumps({k: res[k] for k in ["pair_threshold_1pct", "thresholds"]}, indent=1))
 

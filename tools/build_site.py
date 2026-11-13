@@ -17,12 +17,13 @@ import ledger
 import sign as signer_mod
 import wm_blockdct
 
-WM_KEY = 20261113  # 블록 DCT 키(실험 2·7과 같음)
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 SIGNED = DOCS / "assets" / "signed"
 KEYS = Path("E:/envs/c2pa-site-keys")
+# 블록 DCT 워터마크 키는 서명 키처럼 저장소 밖에 둔다. 키를 알면 누구나 위조·제거할 수 있다(개발일지 11-13 22:05)
+WM_KEY = int((KEYS / "wm_key.txt").read_text().strip())
 FIG_SRC = Path("E:/envs/c2pa-work/figs")
 MAX_W = 1600
 
