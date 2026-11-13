@@ -1,5 +1,5 @@
 {
- "time": "2026-11-13T21:39:45+0900",
+ "time": "2026-11-13T21:46:43+0900",
  "pages": [
   "http://localhost:8765/mirror/blog.html",
   "http://localhost:8765/mirror/forum.html",
@@ -18,7 +18,35 @@
    ],
    "phash_d": 0,
    "tile_d": 14,
-   "watermark": null
+   "watermark": null,
+   "evidence": {
+    "page": {
+     "url": "http://localhost:8765/mirror/blog.html",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:44:52+0900",
+     "sha256": "9f323baf1f8bca923dedbd83fbaa71a8066359d981c145a7a2ea95a1340f0b8e",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:44:52 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "1065",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    },
+    "image": {
+     "url": "http://localhost:8765/mirror/img/blog-1.jpg",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:44:52+0900",
+     "sha256": "f6b24e2bacf7b661e2f080cdcd9975361ab7a5d21f0a1468eb35ae51dcb4b868",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:44:52 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
+      "Content-Type": "image/jpeg",
+      "Content-Length": "72906",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    }
+   }
   },
   {
    "page": "http://localhost:8765/mirror/blog.html",
@@ -31,7 +59,35 @@
    ],
    "phash_d": 18,
    "tile_d": 2,
-   "watermark": null
+   "watermark": null,
+   "evidence": {
+    "page": {
+     "url": "http://localhost:8765/mirror/blog.html",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:44:52+0900",
+     "sha256": "9f323baf1f8bca923dedbd83fbaa71a8066359d981c145a7a2ea95a1340f0b8e",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:44:52 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "1065",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    },
+    "image": {
+     "url": "http://localhost:8765/mirror/img/blog-2.png",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:45:04+0900",
+     "sha256": "15ecdd6747d6c9267526c25955aaf035348c4b7a7e73fb8e36a4cb2b1f39e3b0",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:45:04 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
+      "Content-Type": "image/png",
+      "Content-Length": "660718",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    }
+   }
   },
   {
    "page": "http://localhost:8765/mirror/forum.html",
@@ -44,7 +100,35 @@
    ],
    "phash_d": 22,
    "tile_d": 18,
-   "watermark": "GEL-0002"
+   "watermark": "GEL-0002",
+   "evidence": {
+    "page": {
+     "url": "http://localhost:8765/mirror/forum.html",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:45:30+0900",
+     "sha256": "ae02f3c5d810518369ec5bac14788640fc8bf63ce9e43258e05c91ab4e59406f",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:45:30 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "1060",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    },
+    "image": {
+     "url": "http://localhost:8765/mirror/img/forum-1.png",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:45:30+0900",
+     "sha256": "0608c22b8c6ef212d829af3366537e385a2eb870adc478888ac839e0018e3393",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:45:30 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
+      "Content-Type": "image/png",
+      "Content-Length": "679278",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    }
+   }
   },
   {
    "page": "http://localhost:8765/mirror/forum.html",
@@ -57,7 +141,35 @@
    ],
    "phash_d": 4,
    "tile_d": 20,
-   "watermark": null
+   "watermark": null,
+   "evidence": {
+    "page": {
+     "url": "http://localhost:8765/mirror/forum.html",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:45:30+0900",
+     "sha256": "ae02f3c5d810518369ec5bac14788640fc8bf63ce9e43258e05c91ab4e59406f",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:45:30 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "1060",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    },
+    "image": {
+     "url": "http://localhost:8765/mirror/img/forum-2.jpg",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:45:45+0900",
+     "sha256": "151a36065fc7824dd0eac74adec7c1bf59334d5d03dc171d65b568096f5d7a57",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:45:45 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
+      "Content-Type": "image/jpeg",
+      "Content-Length": "144555",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    }
+   }
   },
   {
    "page": "http://localhost:8765/mirror/news.html",
@@ -71,7 +183,35 @@
    ],
    "phash_d": 0,
    "tile_d": 10,
-   "watermark": "RCV-B002"
+   "watermark": "RCV-B002",
+   "evidence": {
+    "page": {
+     "url": "http://localhost:8765/mirror/news.html",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:46:05+0900",
+     "sha256": "11339d3ed93e3f1d49fdc604f801aa99cfb6a6c029ead2d9cc4f2dce9faf401a",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:46:05 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:16 GMT",
+      "Content-Type": "text/html",
+      "Content-Length": "1065",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    },
+    "image": {
+     "url": "http://localhost:8765/mirror/img/news-2.jpg",
+     "status": 200,
+     "fetched_at": "2026-11-13T21:46:17+0900",
+     "sha256": "f51081125d0942bf73c754ef3d49db19da34330198ad0858e3dcf20f8f9204b5",
+     "headers": {
+      "Date": "Fri, 13 Nov 2026 12:46:17 GMT",
+      "Last-Modified": "Fri, 13 Nov 2026 02:49:15 GMT",
+      "Content-Type": "image/jpeg",
+      "Content-Length": "363683",
+      "Server": "SimpleHTTP/0.6 Python/3.11.9"
+     }
+    }
+   }
   }
  ]
 }

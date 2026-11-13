@@ -45,10 +45,19 @@ class _Imgs(HTMLParser):
                 self.srcs.append(src)
 
 
-def _get(url):
+# 증거 보존(조사 12): 발견 시점의 응답 헤더 중 날짜·서버·형식만 남긴다(쿠키 등 개인 정보가 섞일 수 있는 헤더는 버림)
+KEEP_HEADERS = ("Date", "Last-Modified", "Content-Type", "Content-Length", "Server", "ETag")
+
+
+def _get(url, meta=None):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=30) as r:
-        return r.read()
+        data = r.read()
+        if meta is not None:
+            meta.update({"url": url, "status": r.status, "fetched_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+                         "sha256": hashlib.sha256(data).hexdigest(),
+                         "headers": {k: r.headers[k] for k in KEEP_HEADERS if r.headers.get(k)}})
+        return data
 
 
 def _allowed(url, cache={}):
@@ -142,15 +151,17 @@ def crawl(starts):
             print("robots.txt disallows", page)
             continue
         p = _Imgs()
-        p.feed(_get(page).decode("utf-8", "replace"))
+        page_meta = {}
+        p.feed(_get(page, page_meta).decode("utf-8", "replace"))
         for src in p.srcs:
             url = urllib.parse.urljoin(page, src)
             if not _allowed(url):
                 continue
             checked += 1
-            hit = check_image(_get(url), refs, tm)
+            img_meta = {}
+            hit = check_image(_get(url, img_meta), refs, tm)
             if hit:
-                found.append({"page": page, "image": url, **hit})
+                found.append({"page": page, "image": url, **hit, "evidence": {"page": page_meta, "image": img_meta}})
             time.sleep(0.5)  # 상대 서버에 부담을 주지 않도록 요청 간격
     return {"time": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "pages": starts, "images_checked": checked, "found": found}
 
@@ -158,5 +169,11 @@ def crawl(starts):
 if __name__ == "__main__":
     rep = crawl(sys.argv[1:])
     out = ROOT / "docs" / "assets" / "monitor-report.json"
-    out.write_text(json.dumps(rep, ensure_ascii=False, indent=1), encoding="utf-8")
+    text = json.dumps(rep, ensure_ascii=False, indent=1)
+    out.write_text(text, encoding="utf-8", newline=chr(10))
+    # 보고서 자체의 해시를 원장에 남긴다 → 다음 비트코인 고정(anchor.py stamp)에 함께 묶여 '이 시각에 이렇게 발견했다'가 고정된다
+    if rep["found"]:
+        e = ledger.append(LEDGERS[0], {"type": "monitor-evidence", "report_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
+                                       "time": rep["time"], "n_found": len(rep["found"])})
+        print("ledger #", e["index"], file=sys.stderr)
     print(json.dumps(rep, ensure_ascii=False, indent=1))
