@@ -1,0 +1,44 @@
+{
+ "tempo/-5": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.05040053404539386
+ },
+ "tempo/-2": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.022613484646194927
+ },
+ "tempo/2": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.025492323097463285
+ },
+ "tempo/5": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.05002503337783712
+ },
+ "both/-5": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.31412716955941256
+ },
+ "both/-2": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.06421061415220294
+ },
+ "both/2": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.23667279411764705
+ },
+ "both/5": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.3182993991989319
+ },
+ "impostor_min_ber_with_search": 0.3930899064171123,
+ "impostor_min_ber_without_search": 0.41908557046979866
+}

@@ -30,9 +30,35 @@ def load_audio(path):
             return np.frombuffer(w.readframes(w.getnframes()), np.int16) / 32767, w.getframerate()
 
 
-def lookup(path):
-    x, sr = load_audio(path)
-    fq = afp.fingerprint(x, sr)
+TEMPO_FACTORS = [0.95, 0.96, 0.97, 0.98, 0.99, 1.01, 1.02, 1.03, 1.04, 1.05]  # 실험 25: 속도 ±5%까지 10/10
+
+
+def _tempo_variants(path):
+    """처음 비교에서 못 찾으면 질의 속도를 1% 간격으로 되돌려 본다(음 높이 유지, ffmpeg atempo)."""
+    with tempfile.TemporaryDirectory(dir="E:/envs/tmp") as d:
+        for f in TEMPO_FACTORS:
+            out = Path(d) / f"t{f}.wav"
+            subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error", "-i", str(path), "-af", f"atempo={f}",
+                            "-ac", "1", "-ar", "44100", str(out)], check=True)
+            with wave.open(str(out), "rb") as w:
+                yield f, afp.fingerprint(np.frombuffer(w.readframes(w.getnframes()), np.int16) / 32767, w.getframerate())
+
+
+def lookup(path, tempo_search=True):
+    r = _lookup_fp(*load_audio(path))
+    if r["found"] or not tempo_search:
+        return r
+    best = r
+    for f, fq in _tempo_variants(path):
+        rr = _lookup_fp(None, None, fq)
+        if rr.get("ber") is not None and (best.get("ber") is None or rr["ber"] < best["ber"]):
+            best = dict(rr, tempo_factor=f)
+    return best
+
+
+def _lookup_fp(x, sr, fq=None):
+    if fq is None:
+        fq = afp.fingerprint(x, sr)
     best = None
     for e in ledger.load(ROOT / "docs" / "assets" / "ledger.jsonl"):
         r = e["record"]
