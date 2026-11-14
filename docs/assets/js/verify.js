@@ -298,7 +298,7 @@ async function show(blob, name) {
       <dt>SHA-256</dt><dd class="mono">${hash}</dd>
       <dt>검증 코드</dt><dd><ul class="plain">${codes || "<li>없음</li>"}</ul></dd>
     </dl></details>
-    <p class="muted small">서명은 누가 서명했는지와 서명 뒤 바뀌지 않았다는 것만 보증합니다. 그림 내용이 사실이라는 보증은 아닙니다. 작업 기록은 서명자가 적은 것이고 검증기가 직접 본 것이 아닙니다.</p>`;
+    <p class="muted small">서명은 누가 서명했는지와 서명 뒤 바뀌지 않았다는 것만 보증합니다. 내용이 사실이라는 보증은 아닙니다. 작업 기록은 서명자가 적은 것이고 검증기가 직접 본 것이 아닙니다.</p>`;
   result.insertAdjacentHTML("beforeend", await ledgerOrNote(hash, blob));
 }
 
