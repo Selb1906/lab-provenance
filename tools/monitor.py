@@ -99,11 +99,48 @@ def _load_refs():
     return mains, tiles, wm, origs
 
 
+SSCD_ABOVE = int(__import__("os").environ.get("MONITOR_SSCD_ABOVE", "20"))  # 이보다 원장이 크면 SSCD 후보 단계 사용
+SSCD_K = 5
+PHASH_ALONE_MAX = 18  # 지각 해시 단독 판정이 query 오탐 1%를 지키는 원장 해시 수 상한(일지 11-14 16:45 계산)
+_SSCD = {}
+
+
+def _sscd_top(im, origs, k):
+    """SSCD(sscd_disc_mixup) 조각 embedding 코사인 상위 k개 원본 이름. 모델·원장 embedding은 처음 한 번만 계산."""
+    import numpy as np
+    import torch
+    from torchvision import transforms
+    if "model" not in _SSCD:
+        _SSCD["model"] = torch.jit.load("E:/envs/c2pa-work/models/sscd/sscd_disc_mixup.torchscript.pt", map_location="cpu").eval()
+        _SSCD["prep"] = transforms.Compose([transforms.Resize(288), transforms.ToTensor(),
+                                           transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+
+    def tiles(x):
+        w, h = x.size
+        return [x.crop(b) for b in [(0, 0, w, h), (0, 0, w // 2, h // 2), (w // 2, 0, w, h // 2), (0, h // 2, w // 2, h),
+                                    (w // 2, h // 2, w, h), (w // 4, h // 4, 3 * w // 4, 3 * h // 4)]]
+
+    @torch.no_grad()
+    def emb(ims):
+        return np.stack([torch.nn.functional.normalize(_SSCD["model"](_SSCD["prep"](x.convert("RGB")).unsqueeze(0)), dim=1).numpy()[0] for x in ims])
+
+    names = list(origs)
+    if _SSCD.get("names") != names:
+        _SSCD["ref"], _SSCD["names"] = np.stack([emb(tiles(origs[n]["im"])) for n in names]), names
+    s = np.einsum("qd,ntd->nqt", emb(tiles(im)), _SSCD["ref"]).max(axis=(1, 2))
+    return [names[j] for j in np.argsort(-s)[:k]]
+
+
 def _aligned_watermark(im, origs, tm):
     """앞 단계에서 못 찾았을 때: 후보 원본을 고르고(ORB, 눌러 보기 포함) 정합해 되돌린 뒤 워터마크를 읽는다(실험 11b·12).
     판정은 워터마크(블록 DCT z > 2.326 또는 TrustMark 식별자가 후보의 식별자와 일치)로만 한다."""
     import align
-    name, n_orb = align.candidate(im, [(k, v["orb"]) for k, v in origs.items()])
+    pool = list(origs.items())
+    if len(pool) > SSCD_ABOVE:
+        # 원장이 크면 ORB를 전부와 맞추지 않고 SSCD 상위 K개 후보만 확인(실험 14: 상위 5개 적중 760/760)
+        keep = set(_sscd_top(im, origs, SSCD_K))
+        pool = [(k, v) for k, v in pool if k in keep]
+    name, n_orb = align.candidate(im, [(k, v["orb"]) for k, v in pool])
     if name is None:
         return None
     o = origs[name]
@@ -161,8 +198,11 @@ def check_image(data, refs, tm):
     how, src = [], None
     if exact:
         src, how = exact, ["원본 파일 그대로"]
-    elif near[0] <= PHASH_T:
+    elif near[0] <= PHASH_T and len({m["lab_phash"] for m in mains}) <= PHASH_ALONE_MAX:
         src, how = near[1], [f"다시 저장·압축됨(지각 해시 거리 {near[0]})"]
+    elif near[0] <= PHASH_T:
+        # 원장이 커서 지각 해시 단독 판정의 오탐을 보증할 수 없음 → 정합 후 워터마크로 확인될 때만 발견(아래 단계)
+        how = []
     elif tile[0] <= TILE_T:
         src = next((m for m in mains if m.get("sha256") == tile[1]["of_sha256"]), None)
         how = [f"일부를 잘라 씀(조각 해시 거리 {tile[0]})"]
