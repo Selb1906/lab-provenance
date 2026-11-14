@@ -1,0 +1,802 @@
+{
+ "genuine": [
+  {
+   "v": 0,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 0,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 0,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 0,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.5
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 1,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 1,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 1,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 1,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.5
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 2,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 2,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 2,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 2,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.75
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 3,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 3,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 3,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 3,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.5
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 4,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 4,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 4,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 4,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.5
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 5,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 5,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 5,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 5,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.75
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 6,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 6,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 6,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 6,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.5
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 7,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 7,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 7,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 7,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.5
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 8,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 8,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 8,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 8,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.75
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 9,
+   "kind": "crf35",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 9,
+   "kind": "480p",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 9,
+   "kind": "15fps",
+   "self": [
+    1.0,
+    1.0
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  },
+  {
+   "v": 9,
+   "kind": "sub4s",
+   "self": [
+    1.0,
+    0.625
+   ],
+   "others_best_pc": 0.0,
+   "others_best_pq": 0.0
+  }
+ ],
+ "impostor": [
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ],
+  [
+   0.0,
+   0.0
+  ]
+ ],
+ "summary": {
+  "crf35": {
+   "readme_rule(P_c>=0.8)": 10,
+   "query_side>=0.8": 10,
+   "n": 10,
+   "self_pq_min": 1.0,
+   "self_pc_min": 1.0,
+   "others_pq_max": 0.0
+  },
+  "480p": {
+   "readme_rule(P_c>=0.8)": 10,
+   "query_side>=0.8": 10,
+   "n": 10,
+   "self_pq_min": 1.0,
+   "self_pc_min": 1.0,
+   "others_pq_max": 0.0
+  },
+  "15fps": {
+   "readme_rule(P_c>=0.8)": 10,
+   "query_side>=0.8": 10,
+   "n": 10,
+   "self_pq_min": 1.0,
+   "self_pc_min": 1.0,
+   "others_pq_max": 0.0
+  },
+  "sub4s": {
+   "readme_rule(P_c>=0.8)": 0,
+   "query_side>=0.8": 10,
+   "n": 10,
+   "self_pq_min": 1.0,
+   "self_pc_min": 0.5,
+   "others_pq_max": 0.0
+  },
+  "impostor_pc_max": 0.0,
+  "impostor_pq_max": 0.0
+ }
+}

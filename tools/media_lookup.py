@@ -1,6 +1,8 @@
-"""음원 파일을 원장의 음원 fingerprint(Philips 방식, tools/afp.py)와 대조한다. C2PA 증명서가 재압축으로 사라진 음원의 원래 기록 찾기.
+"""음원·영상 파일을 원장의 fingerprint와 대조한다. C2PA 증명서가 재압축으로 사라진 음원·영상의 원래 기록 찾기.
 
-사용법: python tools/audio_lookup.py <음원 파일(wav, mp3 등)>
+- 음원: Philips 방식(tools/afp.py), BER < 0.35
+- 영상: vPDQ 방식(tools/vfp.py), 질의측 매칭 비율 ≥ 0.8 (잘라 올린 영상도 찾도록 — 실험 21)
+사용법: python tools/media_lookup.py <파일(wav, mp3, mp4 등)>
 """
 import json
 import subprocess
@@ -14,6 +16,7 @@ import numpy as np
 
 import afp
 import ledger
+import vfp
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -44,5 +47,24 @@ def lookup(path):
     return {"found": False, "ber": best[0] if best else None}
 
 
+def lookup_video(path, q_min=0.8):
+    hq = vfp.frame_hashes(path)
+    best = None
+    for e in ledger.load(ROOT / "docs" / "assets" / "ledger.jsonl"):
+        r = e["record"]
+        if "vpdq" not in r:
+            continue
+        hr = (np.array([np.unpackbits(np.frombuffer(bytes.fromhex(x), np.uint8)) for x in r["vpdq"]]), np.array(r["vpdq_quality"]))
+        pq, pc = vfp.match(hq, hr)
+        if best is None or pq > best[0]:
+            best = (pq, pc, e)
+    if best and best[0] >= q_min:
+        return {"found": True, "query_side": best[0], "ref_side": best[1], "index": best[2]["index"],
+                "file": best[2]["record"]["file"], "caption": best[2]["record"]["caption"]}
+    return {"found": False, "query_side": best[0] if best else None}
+
+
 if __name__ == "__main__":
-    print(json.dumps(lookup(sys.argv[1]), ensure_ascii=False, indent=1))
+    f = sys.argv[1]
+    is_video = Path(f).suffix.lower() in (".mp4", ".mov", ".webm", ".mkv", ".avi")
+    print(json.dumps(lookup_video(f) if is_video else lookup(f), ensure_ascii=False, indent=1))
