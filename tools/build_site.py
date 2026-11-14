@@ -64,7 +64,7 @@ def prepare_figures(papers, resign):
             if tm is None:
                 from trustmark import TrustMark
                 tm = TrustMark(verbose=False, model_type="Q", loadRemover=False)
-            im = wm_blockdct.embed(tm.encode(im, wid, MODE="text"), WM_KEY)
+            im = wm_blockdct.embed(tm.encode(im, wid, MODE="text"), wm_blockdct.derive_key(WM_KEY, wid))  # 그림마다 다른 key(실험 18)
             web = tmp / name
             im.save(web, optimize=True)
             note = f"Figure from {p['venue']} ({p['year']}), doi:{p['doi']}, license {p['license']}. Watermark id {wid}. Published by Green Energy Lab, Sangmyung University."

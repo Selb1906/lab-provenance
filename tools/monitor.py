@@ -23,6 +23,7 @@ from PIL import Image
 
 import fphash
 import ledger
+import wm_blockdct as W
 
 ROOT = Path(__file__).resolve().parent.parent
 LEDGERS = [ROOT / "docs" / "assets" / "ledger.jsonl", ROOT / "docs" / "assets" / "journey" / "journey-ledger.jsonl"]
@@ -110,7 +111,8 @@ def _aligned_watermark(im, origs, tm):
     if r is None:
         return None
     back, valid, _, n_sift = r
-    z = align.bdct_z_valid(back, valid, int(WM_KEY_FILE.read_text().strip())) if WM_KEY_FILE.exists() else None
+    z = (align.bdct_z_valid(back, valid, W.derive_key(int(WM_KEY_FILE.read_text().strip()), o["fig"]["watermark_id"]))
+         if WM_KEY_FILE.exists() else None)  # 후보 원본의 식별자로 그림별 key 유도(실험 18)
     s, ok, _ = tm.decode(back, MODE="text")
     tm_ok = bool(ok and s == o["fig"]["watermark_id"])
     if not ((z is not None and z > align.Z_T) or tm_ok):
