@@ -132,7 +132,7 @@ def check():
         s2, ok2, _ = tm.decode(im, MODE="text", DETECTFIRST=True)
         wid = s1 if ok1 else (s2 if ok2 else None)
         inl = orb_score(orb(im), O)
-        res[f] = {"c2pa": c2, "codes": codes, "sha256_match": sha_hit, "phash_d": d, "phash_ok": d <= 15,
+        res[f] = {"c2pa": c2, "codes": codes, "sha256_match": sha_hit, "phash_d": d, "phash_ok": d <= 2,  # 사이트 threshold(verify.js·monitor.py)와 같게 — 11-14 조사 14 반영
                   "watermark": wid, "orb_inliers": inl, "orb_ok": inl >= 38}
         print(f, res[f])
     res["ledger_ok"] = ledger.verify(JLEDGER) is None
