@@ -1,0 +1,4 @@
+lab-provenance ledger checkpoint
+entries: 56
+head: 0d5b55b297f0a1f98ef8ee972a12b25618b10717127c09c3eb29cd5588be8665
+created: 2026-11-14T13:38:21+0900
