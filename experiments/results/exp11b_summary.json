@@ -1,0 +1,57 @@
+{
+ "n_queries": 760,
+ "thresholds": {
+  "A": {
+   "t": 101,
+   "fpr": 0.009210526315789473,
+   "neg_max": 118
+  },
+  "B": {
+   "t": 96,
+   "fpr": 0.009210526315789473,
+   "neg_max": 105
+  }
+ },
+ "tpr": {
+  "A/figure/resizedcrop/0.2": 0.8870967741935484,
+  "A/figure/resizedcrop/0.4": 0.8870967741935484,
+  "A/figure/resizedcrop/0.6": 0.8709677419354839,
+  "A/figure/resizedcrop/0.8": 0.7903225806451613,
+  "A/figure/resizedcrop/1.0": 0.6290322580645161,
+  "A/figure/rotation/0.2": 0.9516129032258065,
+  "A/figure/rotation/0.4": 0.8709677419354839,
+  "A/figure/rotation/0.6": 0.7903225806451613,
+  "A/figure/rotation/0.8": 0.7741935483870968,
+  "A/figure/rotation/1.0": 0.7258064516129032,
+  "A/photo/resizedcrop/0.2": 0.8888888888888888,
+  "A/photo/resizedcrop/0.4": 0.8888888888888888,
+  "A/photo/resizedcrop/0.6": 0.8888888888888888,
+  "A/photo/resizedcrop/0.8": 0.8888888888888888,
+  "A/photo/resizedcrop/1.0": 0.8888888888888888,
+  "A/photo/rotation/0.2": 0.8888888888888888,
+  "A/photo/rotation/0.4": 0.8888888888888888,
+  "A/photo/rotation/0.6": 0.8888888888888888,
+  "A/photo/rotation/0.8": 0.8888888888888888,
+  "A/photo/rotation/1.0": 0.8888888888888888,
+  "B/figure/resizedcrop/0.2": 0.8870967741935484,
+  "B/figure/resizedcrop/0.4": 0.8870967741935484,
+  "B/figure/resizedcrop/0.6": 0.8709677419354839,
+  "B/figure/resizedcrop/0.8": 0.8064516129032258,
+  "B/figure/resizedcrop/1.0": 0.6612903225806451,
+  "B/figure/rotation/0.2": 0.967741935483871,
+  "B/figure/rotation/0.4": 0.8548387096774194,
+  "B/figure/rotation/0.6": 0.7903225806451613,
+  "B/figure/rotation/0.8": 0.7741935483870968,
+  "B/figure/rotation/1.0": 0.7419354838709677,
+  "B/photo/resizedcrop/0.2": 0.8888888888888888,
+  "B/photo/resizedcrop/0.4": 0.8888888888888888,
+  "B/photo/resizedcrop/0.6": 0.8888888888888888,
+  "B/photo/resizedcrop/0.8": 0.8888888888888888,
+  "B/photo/resizedcrop/1.0": 0.8888888888888888,
+  "B/photo/rotation/0.2": 0.8888888888888888,
+  "B/photo/rotation/0.4": 0.8888888888888888,
+  "B/photo/rotation/0.6": 0.8888888888888888,
+  "B/photo/rotation/0.8": 0.8888888888888888,
+  "B/photo/rotation/1.0": 0.8888888888888888
+ }
+}
