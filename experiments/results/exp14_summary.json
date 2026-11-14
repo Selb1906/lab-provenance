@@ -1,0 +1,42 @@
+{
+ "thresholds": {
+  "whole": {
+   "t": 0.8004419803619385,
+   "neg_max": 0.853101372718811
+  },
+  "tiles": {
+   "t": 0.8115389394760131,
+   "neg_max": 0.8743600845336914
+  }
+ },
+ "tpr": {
+  "whole/figure/resizedcrop": 0.36451612903225805,
+  "whole/figure/rotation": 0.0064516129032258064,
+  "whole/photo/resizedcrop": 0.8222222222222222,
+  "whole/photo/rotation": 0.3111111111111111,
+  "tiles/figure/resizedcrop": 0.5709677419354838,
+  "tiles/figure/rotation": 0.01935483870967742,
+  "tiles/photo/resizedcrop": 0.8444444444444444,
+  "tiles/photo/rotation": 0.4444444444444444
+ },
+ "top1": {
+  "whole/figure/resizedcrop": 0.9193548387096774,
+  "whole/figure/rotation": 0.9903225806451613,
+  "whole/photo/resizedcrop": 1.0,
+  "whole/photo/rotation": 1.0,
+  "tiles/figure/resizedcrop": 0.9806451612903225,
+  "tiles/figure/rotation": 0.9741935483870968,
+  "tiles/photo/resizedcrop": 1.0,
+  "tiles/photo/rotation": 1.0
+ },
+ "top5": {
+  "whole/figure/resizedcrop": 1.0,
+  "whole/figure/rotation": 1.0,
+  "whole/photo/resizedcrop": 1.0,
+  "whole/photo/rotation": 1.0,
+  "tiles/figure/resizedcrop": 1.0,
+  "tiles/figure/rotation": 1.0,
+  "tiles/photo/resizedcrop": 1.0,
+  "tiles/photo/rotation": 1.0
+ }
+}
