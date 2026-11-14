@@ -1,0 +1,92 @@
+{
+ "tempo/-5": {
+  "found": 0,
+  "n": 10,
+  "self_ber_median": 0.4281124833110814
+ },
+ "tempo/-2": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.21303404539385848
+ },
+ "tempo/-1": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.11106475300400534
+ },
+ "tempo/1": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.10964912280701754
+ },
+ "tempo/2": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.20578956343792634
+ },
+ "tempo/5": {
+  "found": 0,
+  "n": 10,
+  "self_ber_median": 0.42073384831460675
+ },
+ "pitch/-5": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.30315420560747663
+ },
+ "pitch/-2": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.060497329773030704
+ },
+ "pitch/-1": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.03387850467289719
+ },
+ "pitch/1": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.05238970588235294
+ },
+ "pitch/2": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.23880347593582887
+ },
+ "pitch/5": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.3170477303070761
+ },
+ "both/-5": {
+  "found": 0,
+  "n": 10,
+  "self_ber_median": 0.4818508010680908
+ },
+ "both/-2": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.22671895861148197
+ },
+ "both/-1": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.1184913217623498
+ },
+ "both/1": {
+  "found": 10,
+  "n": 10,
+  "self_ber_median": 0.12057186234817814
+ },
+ "both/2": {
+  "found": 5,
+  "n": 10,
+  "self_ber_median": 0.3519781718963165
+ },
+ "both/5": {
+  "found": 0,
+  "n": 10,
+  "self_ber_median": 0.48340941011235955
+ }
+}
