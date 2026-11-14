@@ -110,10 +110,12 @@ async function ledgerSection(hash, blob) {
 function kind(blob) {
   const t = blob.type || (/\.(mp3|wav|m4a|aac|ogg)$/i.test(lastName) ? "audio/" : /\.(mp4|mov|webm)$/i.test(lastName) ? "video/" : /\.pdf$/i.test(lastName) ? "application/pdf" : "");
   if (t === "application/pdf") return "document";
+  if (/officedocument|opendocument|epub/.test(t) || /\.(docx|xlsx|pptx|odt|epub)$/i.test(lastName)) return "office";
   return t.startsWith("audio/") ? "audio" : t.startsWith("video/") ? "video" : "image";
 }
 function preview(blob, url) {
   const k = kind(blob);
+  if (k === "office" || k === "document") return `<p class="muted">문서: ${esc(lastName)}</p>`;
   if (k === "audio") return `<audio class="thumb" controls src="${url}"></audio>`;
   if (k === "video") return `<video class="thumb" controls muted src="${url}"></video>`;
   return `<img class="thumb" src="${url}" alt="">`;
@@ -223,6 +225,8 @@ async function docSection(hash, blob) {
 }
 
 async function ledgerOrNote(hash, blob) {
+  if (kind(blob) === "office")
+    return `<h2 class="sub">원장 조회</h2><p class="muted small">Office 문서는 서명만 확인합니다(본문 지문 조회는 PDF만). 다른 프로그램으로 다시 저장하면 증명서가 사라지는 것은 그림과 같습니다.</p>`;
   if (kind(blob) === "document") return docSection(hash, blob);
   if (kind(blob) === "audio") return audioSection(hash, blob);
   if (kind(blob) === "video") return videoSection(hash, blob);
@@ -255,7 +259,10 @@ async function show(blob, name) {
   const hash = await sha256(blob);
   let reader;
   try {
-    reader = await Reader.fromBlob(await c2pa(), blob.type || "image/png", blob, context());
+    const ext = (lastName.split(".").pop() || "").toLowerCase();
+    const MIME = { docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation", pdf: "application/pdf", wav: "audio/wav", mp3: "audio/mpeg", mp4: "video/mp4", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png" };
+    reader = await Reader.fromBlob(await c2pa(), blob.type || MIME[ext] || "image/png", blob, context());
   } catch (e) {
     reader = null;
   }

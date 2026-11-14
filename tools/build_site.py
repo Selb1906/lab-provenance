@@ -358,14 +358,14 @@ def build_verify(figs):
     opts = "".join(f'<option value="{f["file"]}">{esc(f["caption"])}</option>' for f in figs)
     opts += (
         '<option value="assets/samples/kiaebs2026-05-resaved.png">[변형] 다시 저장한 그림 — 증명서가 지워짐</option>'
-        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 하나를 바꾼 그림 — 증명서는 남지만 깨짐</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 엄격한 기준에서는 못 찾음</option><option value="assets/media/melody.wav">[다른 형식] 음원(WAV) — 같은 서명 코드로 서명</option><option value="assets/samples/melody-32k.mp3">[변형] 음원을 MP3 32kbps로 다시 압축 — 증명서 지워짐, 음원 지문으로 찾음</option><option value="assets/media/slides.mp4">[다른 형식] 영상(MP4) — 같은 서명 코드로 서명</option><option value="assets/docs/report-1117.pdf">[다른 형식] 문서(PDF) — 원장에 본문 지문 등록</option><option value="assets/samples/report-excerpt.pdf">[변형] 문서 일부(2쪽)만 다시 저장한 PDF — 문서 지문으로 찾음</option><option value="assets/samples/slides-flipped.mp4">[변형] 영상을 좌우 반전해 다시 인코딩 — 증명서 지워짐, 반전 비교로 찾음</option><option value="assets/samples/slides-480p.mp4">[변형] 영상을 480p로 줄이고 앞부분을 잘라 다시 인코딩 — 증명서 지워짐, 영상 지문으로 찾음</option>'
+        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 하나를 바꾼 그림 — 증명서는 남지만 깨짐</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 엄격한 기준에서는 못 찾음</option><option value="assets/media/melody.wav">[다른 형식] 음원(WAV) — 같은 서명 코드로 서명</option><option value="assets/samples/melody-32k.mp3">[변형] 음원을 MP3 32kbps로 다시 압축 — 증명서 지워짐, 음원 지문으로 찾음</option><option value="assets/media/slides.mp4">[다른 형식] 영상(MP4) — 같은 서명 코드로 서명</option><option value="assets/docs/report-1117.docx">[다른 형식] 문서(DOCX) — 파일 안에 C2PA 서명</option><option value="assets/docs/report-1117.pdf">[다른 형식] 문서(PDF) — 원장에 본문 지문 등록</option><option value="assets/samples/report-excerpt.pdf">[변형] 문서 일부(2쪽)만 다시 저장한 PDF — 문서 지문으로 찾음</option><option value="assets/samples/slides-flipped.mp4">[변형] 영상을 좌우 반전해 다시 인코딩 — 증명서 지워짐, 반전 비교로 찾음</option><option value="assets/samples/slides-480p.mp4">[변형] 영상을 480p로 줄이고 앞부분을 잘라 다시 인코딩 — 증명서 지워짐, 영상 지문으로 찾음</option>'
     )
     body = f"""
 <section class="head"><h1>검증하기</h1>
 <p class="lead">파일을 올리면 브라우저 안에서 C2PA 증명서를 읽고, 증명서가 없으면 지문(그림·음원·영상·문서)으로 연구실 원장을 찾습니다. 파일은 서버로 보내지 않습니다.</p></section>
 <section class="verify">
   <div class="panel">
-    <label class="drop" for="file"><input id="file" type="file" accept="image/*,audio/*,video/mp4,application/pdf"><span>그림·음원·영상·PDF 파일을 고르거나 끌어다 놓기</span></label>
+    <label class="drop" for="file"><input id="file" type="file" accept="image/*,audio/*,video/mp4,application/pdf,.docx,.xlsx,.pptx"><span>그림·음원·영상·PDF 파일을 고르거나 끌어다 놓기</span></label>
     <p class="muted small">또는 이 사이트의 그림으로 해 보기</p>
     <div class="row"><select id="sample">{opts}</select><button id="useSample" class="btn">불러오기</button></div>
     <label class="check"><input id="trustLab" type="checkbox"> 연구실 루트 인증서를 신뢰 목록에 넣기</label>
