@@ -108,7 +108,7 @@ async function ledgerSection(hash, blob) {
 
 // 음원·영상도 C2PA 서명은 같은 방식으로 읽는다(조사 05). 지각 해시 원장은 그림만 등록되어 있어 그림일 때만 조회
 function kind(blob) {
-  const t = blob.type || "";
+  const t = blob.type || (/\.(mp3|wav|m4a|aac|ogg)$/i.test(lastName) ? "audio/" : /\.(mp4|mov|webm)$/i.test(lastName) ? "video/" : "");
   return t.startsWith("audio/") ? "audio" : t.startsWith("video/") ? "video" : "image";
 }
 function preview(blob, url) {
@@ -117,9 +117,32 @@ function preview(blob, url) {
   if (k === "video") return `<video class="thumb" controls muted src="${url}"></video>`;
   return `<img class="thumb" src="${url}" alt="">`;
 }
+async function audioSection(hash, blob) {
+  // 음원 지문(Philips 방식, afp.js = tools/afp.py와 같은 규격)으로 원장 조회 — 증명서가 지워진 MP3 사본도 원래 기록을 찾는다
+  try {
+    const [entries, afp] = await Promise.all([loadLedger(), import("./afp.js")]);
+    const exact = entries.find((e) => e.record.sha256 === hash);
+    if (exact) return `<h2 class="sub">원장 조회</h2><p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
+    const fq = afp.fingerprint(await afp.decodeTo5k(blob));
+    let best = null;
+    for (const e of entries.filter((x) => x.record.afp_philips)) {
+      const b = afp.ber(fq, afp.fromLedger(e.record.afp_philips, e.record.afp_frames));
+      if (!best || b < best.b) best = { e, b };
+    }
+    if (best && best.b < afp.BER_T)
+      return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 원장에 등록된 음원과 같은 소리로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
+        <p>닮아 보이는 원본: <a href="${esc(best.e.record.file)}">${esc(best.e.record.caption)}</a> (기록 #${best.e.index})</p>
+        <details><summary>자세히</summary><dl><dt>근거</dt><dd>음원 지문 비트 오류율 ${best.b.toFixed(3)} (${afp.BER_T} 미만이면 같은 음원으로 봄, Philips 방식)</dd></dl></details>`;
+    return `<h2 class="sub">원장 조회</h2><p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 음원입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
+  } catch (err) {
+    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 브라우저에서 음원을 풀지 못해 원장 조회를 건너뜁니다 (${esc(err.message)})</p>`;
+  }
+}
+
 async function ledgerOrNote(hash, blob) {
+  if (kind(blob) === "audio") return audioSection(hash, blob);
   if (kind(blob) !== "image")
-    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 페이지는 음원·영상의 서명만 확인합니다. 원장에는 음원 지문(Philips 방식)과 영상 지문(vPDQ 방식)도 등록되어 있어, 연구실 도구(tools/media_lookup.py)로 다시 압축·축소·잘라 올린 사본도 원래 기록을 찾을 수 있습니다(음원 MP3 32kbps, 영상 480p·일부 구간까지 시험). 브라우저 안의 음원·영상 조회는 아직 만들지 않았습니다.</p>`;
+    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 페이지는 영상의 서명만 확인합니다. 원장에는 영상 지문(vPDQ 방식)도 등록되어 있어, 연구실 도구(tools/media_lookup.py)로 다시 인코딩·축소·잘라 올린 사본도 원래 기록을 찾을 수 있습니다. 브라우저 안의 영상 조회는 아직 만들지 않았습니다.</p>`;
   return ledgerSection(hash, blob);
 }
 
