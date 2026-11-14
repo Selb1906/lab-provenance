@@ -107,3 +107,12 @@ export async function decodeTo5k(blob) {
   const r = await off.startRendering();
   return r.getChannelData(0);
 }
+
+// 속도 되돌려 보기(실험 25의 브라우저판): 5kHz 신호를 선형 보간으로 f배 늘이거나 줄여(속도·음 높이 함께) 지문을 만든다.
+// 속도만 바뀐 질의는 음 높이가 최대 5% 어긋난 채 남지만, 대역 폭이 5.9%라 판정에는 견딘다(실험 24).
+export const TEMPO_FACTORS = [0.95, 0.96, 0.97, 0.98, 0.99, 1.01, 1.02, 1.03, 1.04, 1.05];
+export function stretch(y, f) {
+  const n = Math.floor(y.length / f), out = new Float64Array(n);
+  for (let i = 0; i < n; i++) { const x = i * f, j = Math.floor(x), a = x - j; out[i] = (y[j] ?? 0) * (1 - a) + (y[j + 1] ?? y[j] ?? 0) * a; }
+  return out;
+}

@@ -124,16 +124,18 @@ async function audioSection(hash, blob) {
     const [entries, afp] = await Promise.all([loadLedger(), import("./afp.js")]);
     const exact = entries.find((e) => e.record.sha256 === hash);
     if (exact) return `<h2 class="sub">원장 조회</h2><p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
-    const fq = afp.fingerprint(await afp.decodeTo5k(blob));
-    let best = null;
-    for (const e of entries.filter((x) => x.record.afp_philips)) {
-      const b = afp.ber(fq, afp.fromLedger(e.record.afp_philips, e.record.afp_frames));
-      if (!best || b < best.b) best = { e, b };
+    const y = await afp.decodeTo5k(blob);
+    const refs = entries.filter((x) => x.record.afp_philips).map((e) => ({ e, fp: afp.fromLedger(e.record.afp_philips, e.record.afp_frames) }));
+    const scan = (fq, f) => { let bb = null; for (const r of refs) { const b = afp.ber(fq, r.fp); if (!bb || b < bb.b) bb = { e: r.e, b, f }; } return bb; };
+    let best = scan(afp.fingerprint(y), 1);
+    if (!best || best.b >= afp.BER_T) {
+      // 속도가 바뀐 사본 대비: 1% 간격으로 되돌려 본다(실험 25 브라우저판 — 속도·음 높이 함께, Node 시험에서 4경우 중 3경우 회복)
+      for (const f of afp.TEMPO_FACTORS) { const r = scan(afp.fingerprint(afp.stretch(y, f)), f); if (r && (!best || r.b < best.b)) best = r; }
     }
     if (best && best.b < afp.BER_T)
       return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 원장에 등록된 음원과 같은 소리로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
         <p>닮아 보이는 원본: <a href="${esc(best.e.record.file)}">${esc(best.e.record.caption)}</a> (기록 #${best.e.index})</p>
-        <details><summary>자세히</summary><dl><dt>근거</dt><dd>음원 지문 비트 오류율 ${best.b.toFixed(3)} (${afp.BER_T} 미만이면 같은 음원으로 봄, Philips 방식)</dd></dl></details>`;
+        <details><summary>자세히</summary><dl><dt>근거</dt><dd>음원 지문 비트 오류율 ${best.b.toFixed(3)} (${afp.BER_T} 미만이면 같은 음원으로 봄, Philips 방식)${best.f !== 1 ? ` — 속도를 ${best.f}배로 되돌렸을 때` : ""}</dd></dl></details>`;
     return `<h2 class="sub">원장 조회</h2><p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 음원입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
   } catch (err) {
     return `<h2 class="sub">원장 조회</h2><p class="muted small">이 브라우저에서 음원을 풀지 못해 원장 조회를 건너뜁니다 (${esc(err.message)})</p>`;
