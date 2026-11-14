@@ -119,7 +119,7 @@ function preview(blob, url) {
 }
 async function ledgerOrNote(hash, blob) {
   if (kind(blob) !== "image")
-    return `<h2 class="sub">원장 조회</h2><p class="muted small">원장의 지각 해시는 그림에만 등록되어 있어 음원·영상은 서명만 확인합니다. 음원·영상의 지문(예: 오디오 핑거프린트)은 아직 만들지 않았습니다.</p>`;
+    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 페이지는 음원·영상의 서명만 확인합니다. 음원은 원장에 음원 지문(Philips 방식)이 등록되어 있어, 연구실 도구(tools/audio_lookup.py)로 다시 압축된 사본(MP3 32kbps까지 시험)도 원래 기록을 찾을 수 있습니다. 브라우저 조회와 영상 지문은 아직 만들지 않았습니다.</p>`;
   return ledgerSection(hash, blob);
 }
 

@@ -24,10 +24,11 @@ SR = 44100  # CD 음질 표본율(WAV에서 가장 흔한 값)
 
 
 def make_wav(path):
-    t = np.arange(int(SR * 3)) / SR
-    # 세 음(도·미·솔)을 1초씩 — 사람이 들어도 구별되는 내용이면 충분하다
-    f = np.where(t < 1, 523.25, np.where(t < 2, 659.25, 783.99))
-    y = (0.3 * np.sin(2 * np.pi * f * t) * 32767).astype(np.int16)
+    # 처음 판(순음 세 개, 3초)은 주파수 대역 대부분이 비어 있어 음원 fingerprint(Philips 방식)가 MP3 재압축 뒤
+    # BER 0.37로 실패했다(11-14 22:45). 실제 음악처럼 화음·리듬·잡음이 있는 10초 합성음으로 바꿈(실험 20과 같은 생성기, seed 0)
+    sys.path.insert(0, str(ROOT / "experiments"))
+    from exp20_audio_fp import synth
+    y = (synth(0) * 32767).astype(np.int16)
     with wave.open(str(path), "wb") as w:
         w.setnchannels(1)
         w.setsampwidth(2)
@@ -48,7 +49,7 @@ def make_mp4(path):
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     tmp = Path(tempfile.mkdtemp(dir="E:/envs/tmp"))
-    jobs = [("tones.wav", make_wav, "안내음 3초(도·미·솔)"), ("slides.mp4", make_mp4, "발행 그림 3장 슬라이드 6초")]
+    jobs = [("melody.wav", make_wav, "합성 선율 10초"), ("slides.mp4", make_mp4, "발행 그림 3장 슬라이드 6초")]
     report = []
     for name, make, title in jobs:
         raw = tmp / name

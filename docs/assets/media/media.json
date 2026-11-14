@@ -1,8 +1,8 @@
 [
  {
-  "file": "assets/media/tones.wav",
-  "bytes": 278218,
-  "raw_bytes": 264644,
+  "file": "assets/media/melody.wav",
+  "bytes": 895606,
+  "raw_bytes": 882044,
   "validation_state": "Valid",
   "codes": [
    "signingCredential.untrusted"
@@ -10,8 +10,8 @@
  },
  {
   "file": "assets/media/slides.mp4",
-  "bytes": 216047,
-  "raw_bytes": 202356,
+  "bytes": 215812,
+  "raw_bytes": 202121,
   "validation_state": "Valid",
   "codes": [
    "signingCredential.untrusted"
