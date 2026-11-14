@@ -24,15 +24,21 @@ K = 5
 def main():
     items = load_set()
     n = len(items)
-    dis = [Image.open(p).convert("RGB") for p in sorted((OUT / "distractors").glob("*.png"))]
-    refs = [im for _, _, im in items] + dis   # 앞 n개가 실험 집합(정답 후보), 뒤가 방해 그림
-    print("ledger", n, "+ distractors", len(dis), flush=True)
+    # 첫 실행(11-14 17:50)은 방해 그림 502장을 한꺼번에 메모리에 올렸다가 시스템 메모리 부족으로 중지됨
+    # → 방해 그림은 경로만 들고 필요할 때 한 장씩 연다. embedding은 50장마다 중간 저장
+    dis_paths = sorted((OUT / "distractors").glob("*.png"))
+    N_ALL = n + len(dis_paths)
+
+    def ref_image(j):
+        return items[j][2] if j < n else Image.open(dis_paths[j - n]).convert("RGB")
+
+    print("ledger", n, "+ distractors", len(dis_paths), flush=True)
     emb_f = OUT / "ref_emb.npy"
-    if emb_f.exists() and np.load(emb_f).shape[0] == len(refs):
-        REF = np.load(emb_f)
-    else:
-        REF = np.stack([embed(tiles(im)) for im in refs])
-        np.save(emb_f, REF)
+    REF = np.load(emb_f) if emb_f.exists() else np.zeros((0, 6, 512), np.float32)
+    for j in range(len(REF), N_ALL):
+        REF = np.concatenate([REF, embed(tiles(ref_image(j)))[None]], 0)
+        if (j + 1) % 50 == 0 or j + 1 == N_ALL:
+            np.save(emb_f, REF)
     print("ref embeddings", REF.shape, flush=True)
     ORBF = {}
     part = OUT / "rows.jsonl"
@@ -51,7 +57,7 @@ def main():
                 orb = {}
                 for j in top:
                     if j not in ORBF:
-                        ORBF[j] = feats(refs[j])
+                        ORBF[j] = feats(ref_image(j))
                     orb[j] = max(inliers(qq, ORBF[j], "B") for qq in Q)
                 row = {"i": i, "kind": kind, "atk": atk, "lv": lv, "rank_small": rank_small, "rank_big": rank_big,
                        "top": top, "orb": {str(k): v for k, v in orb.items()}}
