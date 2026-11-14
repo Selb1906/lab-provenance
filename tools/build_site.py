@@ -314,7 +314,7 @@ def build_monitor():
         f = found.get(t["img"])
         ours = t["source"] is not None
         if f:
-            res = _mark(True, "찾음", "") + f' <span class="muted small">{esc("; ".join(f["how"]))}</span>'
+            res = _mark(True, "찾음", "") + f' <span class="muted small">{esc("; ".join(f["how"]))}</span>' + (f'<br><span class="small">근거: {esc(f["basis"])}</span>' if f.get("basis") else "")
             src = f'<a href="{esc(f["source"])}">{esc(f["caption"] or f["source"])}</a>' if f["source"] and f["source"].startswith("assets") else esc(f["caption"] or "")
         else:
             res = _mark(not ours, "매칭 없음(정상)", "놓침")

@@ -178,7 +178,22 @@ def check_image(data, refs, tm):
         src, how, aligned_z = a[0], [a[1]], a[2]
         wid = wid or a[3]
     return {"c2pa": _c2pa(data), "source": (src or {}).get("file"), "caption": (src or {}).get("caption"),
-            "how": how, "phash_d": near[0], "tile_d": tile[0], "watermark": wid, "aligned_bdct_z": aligned_z}
+            "how": how, "phash_d": near[0], "tile_d": tile[0], "watermark": wid, "aligned_bdct_z": aligned_z,
+            "basis": _basis(exact, near[0] <= PHASH_T, tile[0] <= TILE_T, bool(wid), aligned_z is not None)}
+
+
+def _basis(exact, near, tile, wm, aligned):
+    """발견의 근거 등급(조사 14 권고 6): 원장 대조는 우리 원장 기록과 내용이 맞는다는 것,
+    워터마크는 공개 사본만으로 위조될 수 있어(실험 10) 단서일 뿐이라는 것을 구분해 보고한다."""
+    if exact:
+        return "원장 대조: 같은 파일(SHA-256)"
+    if near:
+        return "원장 대조: 닮은 그림(지각 해시)" + (" + 워터마크 단서" if wm else "")
+    if tile:
+        return "원장 대조: 그림 일부(조각 해시)" + (" + 워터마크 단서" if wm else "")
+    if aligned:
+        return "원본에 맞춘 뒤 워터마크 단서(위조 가능 — 원장 대조 아님)"
+    return "워터마크 단서만(위조 가능 — 원장 대조 아님)"
 
 
 def crawl(starts):
