@@ -1,0 +1,55 @@
+{
+ "n_docs": 34,
+ "thresholds": {
+  "jac": {
+   "t": 0.109375,
+   "neg_max": 0.109375
+  },
+  "con": {
+   "t": 0.3520631099544569,
+   "neg_max": 0.425531914893617
+  }
+ },
+ "found": {
+  "jac/resave": {
+   "rate": 1.0,
+   "self_min": 1.0
+  },
+  "jac/excerpt50": {
+   "rate": 1.0,
+   "self_min": 0.3671875
+  },
+  "jac/excerpt20": {
+   "rate": 0.9705882352941176,
+   "self_min": 0.0703125
+  },
+  "jac/replace10": {
+   "rate": 1.0,
+   "self_min": 0.375
+  },
+  "jac/shuffle": {
+   "rate": 1.0,
+   "self_min": 0.9765625
+  },
+  "con/resave": {
+   "rate": 1.0,
+   "self_min": 1.0
+  },
+  "con/excerpt50": {
+   "rate": 1.0,
+   "self_min": 1.0
+  },
+  "con/excerpt20": {
+   "rate": 1.0,
+   "self_min": 1.0
+  },
+  "con/replace10": {
+   "rate": 1.0,
+   "self_min": 0.514480408858603
+  },
+  "con/shuffle": {
+   "rate": 1.0,
+   "self_min": 0.9823874755381604
+  }
+ }
+}
