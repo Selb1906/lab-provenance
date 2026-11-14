@@ -362,7 +362,7 @@ def build_verify(figs):
     )
     body = f"""
 <section class="head"><h1>검증하기</h1>
-<p class="lead">파일을 올리면 브라우저 안에서 C2PA 증명서를 읽습니다. 파일은 서버로 보내지 않습니다.</p></section>
+<p class="lead">파일을 올리면 브라우저 안에서 C2PA 증명서를 읽고, 증명서가 없으면 지문(그림·음원·영상)으로 연구실 원장을 찾습니다. 파일은 서버로 보내지 않습니다.</p></section>
 <section class="verify">
   <div class="panel">
     <label class="drop" for="file"><input id="file" type="file" accept="image/*,audio/*,video/mp4"><span>그림·음원·영상 파일을 고르거나 끌어다 놓기</span></label>
