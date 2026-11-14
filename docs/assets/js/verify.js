@@ -108,7 +108,8 @@ async function ledgerSection(hash, blob) {
 
 // 음원·영상도 C2PA 서명은 같은 방식으로 읽는다(조사 05). 지각 해시 원장은 그림만 등록되어 있어 그림일 때만 조회
 function kind(blob) {
-  const t = blob.type || (/\.(mp3|wav|m4a|aac|ogg)$/i.test(lastName) ? "audio/" : /\.(mp4|mov|webm)$/i.test(lastName) ? "video/" : "");
+  const t = blob.type || (/\.(mp3|wav|m4a|aac|ogg)$/i.test(lastName) ? "audio/" : /\.(mp4|mov|webm)$/i.test(lastName) ? "video/" : /\.pdf$/i.test(lastName) ? "application/pdf" : "");
+  if (t === "application/pdf") return "document";
   return t.startsWith("audio/") ? "audio" : t.startsWith("video/") ? "video" : "image";
 }
 function preview(blob, url) {
@@ -188,7 +189,30 @@ async function videoSection(hash, blob) {
   }
 }
 
+async function docSection(hash, blob) {
+  // 문서 지문(본문 5단어 shingle의 포함도, dfp.js = tools/dfp.py와 같은 규격) — 다시 저장·일부 발췌된 PDF도 원래 기록을 찾는다
+  try {
+    const [entries, dfp] = await Promise.all([loadLedger(), import("./dfp.js")]);
+    const exact = entries.find((e) => e.record.sha256 === hash);
+    if (exact) return `<h2 class="sub">원장 조회</h2><p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
+    const q = await dfp.shingleHashes(await dfp.pdfText(blob));
+    let best = null;
+    for (const e of entries.filter((x) => x.record.dfp_bottom)) {
+      const c = dfp.containment(q, e.record.dfp_bottom);
+      if (!best || c > best.c) best = { e, c };
+    }
+    if (best && best.c > dfp.CON_T)
+      return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 본문이 원장에 등록된 문서에서 나온 것으로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
+        <p>닮아 보이는 원본: <a href="${esc(best.e.record.file)}">${esc(best.e.record.caption)}</a> (기록 #${best.e.index})</p>
+        <details><summary>자세히</summary><dl><dt>근거</dt><dd>이 문서의 5단어 묶음 중 ${(best.c * 100).toFixed(0)}%가 원본에도 있음(${dfp.CON_T} 넘으면 같은 문서에서 나온 것으로 봄, MinHash 포함도)</dd></dl></details>`;
+    return `<h2 class="sub">원장 조회</h2><p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 문서입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
+  } catch (err) {
+    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 브라우저에서 문서를 읽지 못해 원장 조회를 건너뜁니다 (${esc(err.message)})</p>`;
+  }
+}
+
 async function ledgerOrNote(hash, blob) {
+  if (kind(blob) === "document") return docSection(hash, blob);
   if (kind(blob) === "audio") return audioSection(hash, blob);
   if (kind(blob) === "video") return videoSection(hash, blob);
   return ledgerSection(hash, blob);

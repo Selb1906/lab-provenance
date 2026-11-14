@@ -24,7 +24,8 @@ def words(text):
 
 def shingles(text):
     w = words(text)
-    return {int.from_bytes(hashlib.blake2b(" ".join(w[i:i + K_SHINGLE]).encode(), digest_size=8).digest(), "big") >> 3
+    # SHA-256 앞 8바이트(브라우저 WebCrypto와 같게 — 처음 판은 blake2b였음, 11-15 변경). >>3 으로 61비트 소수 아래로
+    return {int.from_bytes(hashlib.sha256(" ".join(w[i:i + K_SHINGLE]).encode()).digest()[:8], "big") >> 3
             for i in range(max(0, len(w) - K_SHINGLE + 1))}
 
 
