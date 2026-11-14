@@ -38,7 +38,7 @@ def true_map(kind, rel, seed, w, h):
         # PIL resize(BILINEAR)의 화소 중심 규약: 원본 x = left + (x + 0.5) * sx - 0.5
         return np.array([[sx, 0, left + 0.5 * sx - 0.5], [0, sy, top + 0.5 * sy - 0.5], [0, 0, 1]])
     th = math.radians(s)
-    cx, cy = w / 2, h / 2
+    cx, cy = w / 2 - 0.5, h / 2 - 0.5  # PIL은 화소 중심(x+0.5)을 (w/2,h/2) 둘레로 돌림 → 정수 화소 중심 좌표에선 -0.5 (조사 14 지적 7)
     c, si = math.cos(th), math.sin(th)
     # PIL rotate(각도)는 화면에서 반시계 회전. 되돌리기: o = c + R(-θ)(q - c) (y가 아래로 커지는 좌표계)
     R = np.array([[c, -si], [si, c]])

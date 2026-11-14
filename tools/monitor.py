@@ -29,7 +29,7 @@ LEDGERS = [ROOT / "docs" / "assets" / "ledger.jsonl", ROOT / "docs" / "assets" /
 # 받는 사람별 식별자 대응표(능동 포렌식). 실제 운영에서는 비공개 원장에 둔다
 RECIPIENTS = {"RCV-A001": "공동연구기관 A", "RCV-B002": "자료 요청자 B", "RCV-C003": "기업 C"}
 UA = "lab-provenance-monitor/0.1 (research prototype)"
-PHASH_T = 5  # 원장 14장 기준 질의 오탐 1% 이하(실험 9). 원장이 커지면 다시 낮춰야 함
+PHASH_T = 2  # 원장 해시 14개 × 그림-그림 쌍 FPR 1/1,891 ≤ query FPR 1% (실험 9, 조사 14). 거리는 짝수라 2=3
 TILE_T = 5
 SIGNED = ROOT / "docs" / "assets" / "signed"
 WM_KEY_FILE = Path("E:/envs/c2pa-site-keys/wm_key.txt")  # 블록 DCT 키(비공개). 없으면 정합 단계는 TrustMark만 본다  # 조각 비교는 질의당 오탐 1% 기준(실험 8). 조각이 많아 우연히 가까운 것이 생기므로 훨씬 엄격
