@@ -15,10 +15,10 @@ from PIL import Image
 D, F, P_C, P_Q = 31, 50, 0.80, 0.0  # README 예시값
 
 
-def frame_hashes(path, fps=1):
-    """(해시 배열 (n,256) uint8, 품질 배열 (n,))."""
+def frame_hashes(path, fps=1, hflip=False):
+    """(해시 배열 (n,256) uint8, 품질 배열 (n,)). hflip=True면 좌우 반전한 프레임으로(반전해 올린 영상 대비)."""
     with tempfile.TemporaryDirectory(dir="E:/envs/tmp") as d:
-        subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error", "-i", str(path), "-vf", f"fps={fps}",
+        subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-y", "-loglevel", "error", "-i", str(path), "-vf", f"fps={fps}" + (",hflip" if hflip else ""),
                         str(Path(d) / "f%04d.png")], check=True)
         hs, qs = [], []
         for f in sorted(Path(d).glob("f*.png")):

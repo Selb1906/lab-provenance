@@ -142,7 +142,7 @@ async function audioSection(hash, blob) {
   }
 }
 
-async function videoFrames(blob) {
+async function videoFrames(blob, flip = false) {
   // 1초마다 한 장(tools/vfp.py의 fps=1과 같은 간격)을 그려 PDQ 계산
   const pdq = await import("./pdq.js");
   const v = document.createElement("video");
@@ -153,7 +153,9 @@ async function videoFrames(blob) {
   for (let t = 0; t < v.duration; t += 1) {
     v.currentTime = t;
     await new Promise((ok) => { v.onseeked = ok; });
+    if (flip) { cx.setTransform(-1, 0, 0, 1, v.videoWidth, 0); } // 좌우 반전해 그리기(반전해 올린 영상 대비)
     cx.drawImage(v, 0, 0);
+    cx.setTransform(1, 0, 0, 1, 0, 0);
     const d = cx.getImageData(0, 0, v.videoWidth, v.videoHeight).data;
     out.push(pdq.pdqFromLuma(pdq.lumaFromRGBA(d, v.videoHeight, v.videoWidth), v.videoHeight, v.videoWidth));
   }
@@ -173,18 +175,25 @@ async function videoSection(hash, blob) {
     const entries = await loadLedger();
     const exact = entries.find((e) => e.record.sha256 === hash);
     if (exact) return `<h2 class="sub">원장 조회</h2><p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
-    const q = (await videoFrames(blob)).filter((f) => f.quality >= 50);
-    let best = null;
-    for (const e of entries.filter((x) => x.record.vpdq)) {
-      const ref = e.record.vpdq.map(hexBits).filter((_, i) => e.record.vpdq_quality[i] >= 50);
-      const hit = q.filter((f) => ref.some((r) => { let d = 0; for (let k = 0; k < 256; k++) d += f.bits[k] !== r[k]; return d <= 31; })).length;
-      const side = q.length ? hit / q.length : 0;
-      if (!best || side > best.side) best = { e, side };
+    const refs = entries.filter((x) => x.record.vpdq).map((e) => ({ e, ref: e.record.vpdq.map(hexBits).filter((_, i) => e.record.vpdq_quality[i] >= 50) }));
+    const scan = (q, flipped) => {
+      let bb = null;
+      for (const { e, ref } of refs) {
+        const hit = q.filter((f) => ref.some((r) => { let d = 0; for (let k = 0; k < 256; k++) d += f.bits[k] !== r[k]; return d <= 31; })).length;
+        const side = q.length ? hit / q.length : 0;
+        if (!bb || side > bb.side) bb = { e, side, flipped };
+      }
+      return bb;
+    };
+    let best = scan((await videoFrames(blob)).filter((f) => f.quality >= 50), false);
+    if (!best || best.side < 0.8) {
+      const fb = scan((await videoFrames(blob, true)).filter((f) => f.quality >= 50), true); // PDQ는 좌우 반전에 약함 → 다시 반전해 비교
+      if (fb && (!best || fb.side > best.side)) best = fb;
     }
     if (best && best.side >= 0.8)
       return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 원장에 등록된 영상과 같은 장면으로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
         <p>닮아 보이는 원본: <a href="${esc(best.e.record.file)}">${esc(best.e.record.caption)}</a> (기록 #${best.e.index})</p>
-        <details><summary>자세히</summary><dl><dt>근거</dt><dd>이 영상의 프레임 중 ${(best.side * 100).toFixed(0)}%가 원본 프레임과 PDQ 거리 31 이하(80% 이상이면 같은 영상으로 봄, vPDQ 방식)</dd></dl></details>`;
+        <details><summary>자세히</summary><dl><dt>근거</dt><dd>이 영상의 프레임 중 ${(best.side * 100).toFixed(0)}%가 원본 프레임과 PDQ 거리 31 이하(80% 이상이면 같은 영상으로 봄, vPDQ 방식)${best.flipped ? " — 좌우 반전된 영상" : ""}</dd></dl></details>`;
     return `<h2 class="sub">원장 조회</h2><p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 영상입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
   } catch (err) {
     return `<h2 class="sub">원장 조회</h2><p class="muted small">이 브라우저에서 영상을 풀지 못해 원장 조회를 건너뜁니다 (${esc(err.message)})</p>`;

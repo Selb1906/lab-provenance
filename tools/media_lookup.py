@@ -74,7 +74,15 @@ def _lookup_fp(x, sr, fq=None):
 
 
 def lookup_video(path, q_min=0.8):
-    hq = vfp.frame_hashes(path)
+    r = _lookup_video_h(vfp.frame_hashes(path), q_min)
+    if r["found"]:
+        return r
+    # 좌우 반전해 올린 영상: PDQ는 반전에 약하므로 질의를 다시 반전해 한 번 더 비교(PDQ 백서의 dihedral 처리와 같은 발상)
+    rf = _lookup_video_h(vfp.frame_hashes(path, hflip=True), q_min)
+    return dict(rf, flipped=True) if rf["found"] else r
+
+
+def _lookup_video_h(hq, q_min):
     best = None
     for e in ledger.load(ROOT / "docs" / "assets" / "ledger.jsonl"):
         r = e["record"]
