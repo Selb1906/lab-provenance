@@ -24,19 +24,17 @@ KEY = W.derive_key(int(Path("E:/envs/c2pa-site-keys/wm_key.txt").read_text().str
 Z_T = 2.326
 
 
-def frames_of(path, size=None):
-    with tempfile.TemporaryDirectory(dir="E:/envs/tmp") as d:
-        vf = ["-vf", f"scale={size[0]}:{size[1]}"] if size else []
-        subprocess.run([FF, "-y", "-loglevel", "error", "-i", str(path), *vf, str(Path(d) / "f%04d.png")], check=True)
-        return [np.asarray(Image.open(f).convert("RGB")) for f in sorted(Path(d).glob("f*.png"))]
+# 첫 실행(11-15 03:09)은 720p 프레임 240장을 원본·삽입본·공격본마다 리스트로 메모리에 올려(영상 하나에 1GB 넘음)
+# 시스템 메모리 부족으로 자동 중지됨 → 프레임은 디스크 PNG로 두고 한 장씩 읽어 처리한다.
+def extract(path, d, size=None):
+    vf = ["-vf", f"scale={size[0]}:{size[1]}"] if size else []
+    subprocess.run([FF, "-y", "-loglevel", "error", "-i", str(path), *vf, str(Path(d) / "f%04d.png")], check=True)
+    return sorted(Path(d).glob("f*.png"))
 
 
-def encode(frames, out, crf, fps=30):
-    with tempfile.TemporaryDirectory(dir="E:/envs/tmp") as d:
-        for k, f in enumerate(frames):
-            Image.fromarray(f).save(Path(d) / f"f{k:04d}.png")
-        subprocess.run([FF, "-y", "-loglevel", "error", "-framerate", str(fps), "-i", str(Path(d) / "f%04d.png"),
-                        "-c:v", "libx264", "-crf", str(crf), "-pix_fmt", "yuv420p", str(out)], check=True)
+def encode_dir(d, out, crf, fps=30):
+    subprocess.run([FF, "-y", "-loglevel", "error", "-framerate", str(fps), "-i", str(Path(d) / "f%04d.png"),
+                    "-c:v", "libx264", "-crf", str(crf), "-pix_fmt", "yuv420p", str(out)], check=True)
 
 
 def corr_parts(frame, key):
@@ -47,11 +45,17 @@ def corr_parts(frame, key):
     return float((C * s).sum()), float((C[s != 0] ** 2).sum())
 
 
-def zs(frames, key):
-    parts = [corr_parts(f, key) for f in frames]
-    single = [n / np.sqrt(d) for n, d in parts]
-    total = sum(n for n, _ in parts) / np.sqrt(sum(d for _, d in parts))
-    return float(np.median(single)), float(total)
+def zs(paths, keys):
+    """프레임 PNG 경로들 → key마다 (프레임 하나 z 중앙값, 누적 z). 한 장씩 읽는다."""
+    acc = {k: [0.0, 0.0, []] for k in keys}
+    for p in paths:
+        f = np.asarray(Image.open(p).convert("RGB"))
+        for k in keys:
+            n, d = corr_parts(f, k)
+            acc[k][0] += n
+            acc[k][1] += d
+            acc[k][2].append(n / np.sqrt(d))
+    return {k: (float(np.median(v[2])), float(v[0] / np.sqrt(v[1]))) for k, v in acc.items()}
 
 
 def main():
@@ -59,12 +63,14 @@ def main():
     res = []
     for k in range(10):
         src = SRC / f"v{k}.mp4"
-        fr = frames_of(src)
-        w, h = fr[0].shape[1], fr[0].shape[0]
-        marked = [np.asarray(W.embed(Image.fromarray(f), KEY)) for f in fr]
         base = OUT / f"m{k}.mp4"
-        encode(marked, base, 18)
-        row = {"v": k, "frames": len(fr)}
+        with tempfile.TemporaryDirectory(dir="E:/envs/tmp") as d:
+            paths = extract(src, d)
+            w, h = Image.open(paths[0]).size
+            for p in paths:  # 제자리 삽입: 읽고 심고 같은 파일에 쓰기
+                W.embed(Image.open(p).convert("RGB"), KEY).save(p)
+            encode_dir(d, base, 18)
+        row = {"v": k}
         for name, crf, scale, cut in [("crf18", 18, None, None), ("crf28", 28, None, None), ("crf35", 35, None, None),
                                       ("480p", 23, (854, 480), None), ("sub2s", 23, None, (3, 2))]:
             q = OUT / f"q{k}_{name}.mp4"
@@ -72,12 +78,14 @@ def main():
             cutargs = ["-ss", str(cut[0]), "-t", str(cut[1])] if cut else []
             subprocess.run([FF, "-y", "-loglevel", "error", *cutargs, "-i", str(base), *vf, "-c:v", "libx264", "-crf", str(crf),
                             "-pix_fmt", "yuv420p", str(q)], check=True)
-            qf = frames_of(q, size=(w, h) if scale else None)  # 축소본은 원래 크기로 다시 늘려 블록 격자를 맞춤
-            z1, zt = zs(qf, KEY)
-            z1n, ztn = zs(qf, KEY + 1)  # 음성 대조(틀린 key)
-            row[name] = {"z_single_median": z1, "z_accum": zt, "n": len(qf), "neg_single": z1n, "neg_accum": ztn}
+            with tempfile.TemporaryDirectory(dir="E:/envs/tmp") as d:
+                qp = extract(q, d, size=(w, h) if scale else None)  # 축소본은 원래 크기로 다시 늘려 블록 격자를 맞춤
+                r = zs(qp, [KEY, KEY + 1])  # KEY+1: 음성 대조(틀린 key)
+            row[name] = {"z_single_median": r[KEY][0], "z_accum": r[KEY][1], "n": len(qp), "neg_single": r[KEY + 1][0], "neg_accum": r[KEY + 1][1]}
             q.unlink()
         res.append(row)
+        with (OUT / "rows.jsonl").open("a", encoding="utf-8") as f:
+            f.write(json.dumps(row) + chr(10))
         print(k, {n: (round(row[n]["z_single_median"], 1), round(row[n]["z_accum"], 1)) for n in ["crf18", "crf28", "crf35", "480p", "sub2s"]}, flush=True)
     (OUT / "summary.json").write_text(json.dumps(res, indent=1), encoding="utf-8")
 
