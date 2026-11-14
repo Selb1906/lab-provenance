@@ -60,3 +60,16 @@ def score(img, key):
     num = (C * s).sum()
     den = np.sqrt((C[s != 0] ** 2).sum()) + 1e-12
     return float(num / den)
+
+
+def derive_key(master_key, item_id):
+    """그림마다 다른 반송파 key: HMAC-SHA256(주 key, 원장 식별자)의 앞 63비트.
+
+    같은 주 key로 여러 그림에 같은 패턴을 심으면 공개 사본을 평균해 패턴이 드러나 위조된다(실험 10).
+    그림마다 key가 다르면 패턴끼리 독립이라 평균해도 0으로 간다. 검출할 때는 원장에서 원본을 찾은 뒤
+    그 원본의 식별자로 key를 다시 만든다(실험 18).
+    """
+    import hashlib
+    import hmac
+    d = hmac.new(str(master_key).encode(), str(item_id).encode(), hashlib.sha256).digest()
+    return int.from_bytes(d[:8], "big") & ((1 << 63) - 1)
