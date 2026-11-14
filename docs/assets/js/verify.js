@@ -139,10 +139,58 @@ async function audioSection(hash, blob) {
   }
 }
 
+async function videoFrames(blob) {
+  // 1초마다 한 장(tools/vfp.py의 fps=1과 같은 간격)을 그려 PDQ 계산
+  const pdq = await import("./pdq.js");
+  const v = document.createElement("video");
+  v.muted = true; v.preload = "auto"; v.src = URL.createObjectURL(blob);
+  await new Promise((ok, bad) => { v.onloadeddata = ok; v.onerror = () => bad(new Error("영상을 열 수 없음")); });
+  const cv = new OffscreenCanvas(v.videoWidth, v.videoHeight), cx = cv.getContext("2d", { willReadFrequently: true });
+  const out = [];
+  for (let t = 0; t < v.duration; t += 1) {
+    v.currentTime = t;
+    await new Promise((ok) => { v.onseeked = ok; });
+    cx.drawImage(v, 0, 0);
+    const d = cx.getImageData(0, 0, v.videoWidth, v.videoHeight).data;
+    out.push(pdq.pdqFromLuma(pdq.lumaFromRGBA(d, v.videoHeight, v.videoWidth), v.videoHeight, v.videoWidth));
+  }
+  URL.revokeObjectURL(v.src);
+  return out;
+}
+
+function hexBits(hex) {
+  const b = new Uint8Array(256);
+  for (let i = 0; i < 32; i++) { const x = parseInt(hex.substr(i * 2, 2), 16); for (let k = 0; k < 8; k++) b[i * 8 + k] = (x >> (7 - k)) & 1; }
+  return b;
+}
+
+async function videoSection(hash, blob) {
+  // 영상 지문(vPDQ 방식, tools/vfp.py와 같은 값: 프레임 거리 31 이하, 품질 50 미만 제외, 질의측 비율 0.8 이상 — 실험 21)
+  try {
+    const entries = await loadLedger();
+    const exact = entries.find((e) => e.record.sha256 === hash);
+    if (exact) return `<h2 class="sub">원장 조회</h2><p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
+    const q = (await videoFrames(blob)).filter((f) => f.quality >= 50);
+    let best = null;
+    for (const e of entries.filter((x) => x.record.vpdq)) {
+      const ref = e.record.vpdq.map(hexBits).filter((_, i) => e.record.vpdq_quality[i] >= 50);
+      const hit = q.filter((f) => ref.some((r) => { let d = 0; for (let k = 0; k < 256; k++) d += f.bits[k] !== r[k]; return d <= 31; })).length;
+      const side = q.length ? hit / q.length : 0;
+      if (!best || side > best.side) best = { e, side };
+    }
+    if (best && best.side >= 0.8)
+      return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 원장에 등록된 영상과 같은 장면으로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
+        <p>닮아 보이는 원본: <a href="${esc(best.e.record.file)}">${esc(best.e.record.caption)}</a> (기록 #${best.e.index})</p>
+        <details><summary>자세히</summary><dl><dt>근거</dt><dd>이 영상의 프레임 중 ${(best.side * 100).toFixed(0)}%가 원본 프레임과 PDQ 거리 31 이하(80% 이상이면 같은 영상으로 봄, vPDQ 방식)</dd></dl></details>`;
+    return `<h2 class="sub">원장 조회</h2><p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 영상입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
+  } catch (err) {
+    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 브라우저에서 영상을 풀지 못해 원장 조회를 건너뜁니다 (${esc(err.message)})</p>`;
+  }
+}
+
 async function ledgerOrNote(hash, blob) {
   if (kind(blob) === "audio") return audioSection(hash, blob);
-  if (kind(blob) !== "image")
-    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 페이지는 영상의 서명만 확인합니다. 원장에는 영상 지문(vPDQ 방식)도 등록되어 있어, 연구실 도구(tools/media_lookup.py)로 다시 인코딩·축소·잘라 올린 사본도 원래 기록을 찾을 수 있습니다. 브라우저 안의 영상 조회는 아직 만들지 않았습니다.</p>`;
+  if (kind(blob) === "video") return videoSection(hash, blob);
   return ledgerSection(hash, blob);
 }
 
