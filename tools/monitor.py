@@ -203,7 +203,9 @@ def check_image(data, refs, tm):
     elif near[0] <= PHASH_T:
         # 원장이 커서 지각 해시 단독 판정의 오탐을 보증할 수 없음 → 정합 후 워터마크로 확인될 때만 발견(아래 단계)
         how = []
-    elif tile[0] <= TILE_T:
+    elif tile[0] <= TILE_T and not WM_KEY_FILE.exists():
+        # 조각 해시는 실제 crop에서 0~45%만 찾고(실험 19) 오탐만 더한다. 정합 단계(특징점 82~100%)를 쓸 수 있는
+        # 발행자 쪽 monitor에서는 조각 해시 일치를 확정 근거로 쓰지 않고 정합 후 워터마크로 확인한다(아래 단계).
         src = next((m for m in mains if m.get("sha256") == tile[1]["of_sha256"]), None)
         how = [f"일부를 잘라 씀(조각 해시 거리 {tile[0]})"]
     if wid in wm:
