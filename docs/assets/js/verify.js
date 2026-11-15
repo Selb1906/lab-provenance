@@ -12,6 +12,12 @@ let c2paPromise = null;
 let lastBlob = null;
 let lastName = "";
 
+// OffscreenCanvas가 없는 브라우저(11-15 WebKit 시험)는 보이지 않는 일반 canvas로 대신한다
+function makeCanvas(w, h) {
+  if (typeof OffscreenCanvas !== "undefined") return new OffscreenCanvas(w, h);
+  const c = document.createElement("canvas"); c.width = w; c.height = h; return c;
+}
+
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 function c2pa() {
@@ -30,7 +36,7 @@ const PHASH_T = 2; // 원장 해시 14개 × 그림-그림 쌍 FPR 0.053%(1/1,89
 const TILE_T = 5; // 조각 125개와 비교할 때: 질의 하나를 원장 전체와 비교해 오탐 1% 이하가 되는 거리(실험 8). 비교 횟수가 많아 훨씬 엄격해야 함
 async function labPhash(blob) {
   const bmp = await createImageBitmap(blob, { colorSpaceConversion: "none", premultiplyAlpha: "none" });
-  const cv = new OffscreenCanvas(bmp.width, bmp.height);
+  const cv = makeCanvas(bmp.width, bmp.height);
   const cx = cv.getContext("2d", { willReadFrequently: true });
   cx.drawImage(bmp, 0, 0);
   const { data, width: w, height: h } = cx.getImageData(0, 0, bmp.width, bmp.height);
@@ -156,7 +162,7 @@ async function videoFrames(blob, flip = false) {
   const v = document.createElement("video");
   v.muted = true; v.preload = "auto"; v.src = URL.createObjectURL(blob);
   await new Promise((ok, bad) => { v.onloadeddata = ok; v.onerror = () => bad(new Error("영상을 열 수 없음")); });
-  const cv = new OffscreenCanvas(v.videoWidth, v.videoHeight), cx = cv.getContext("2d", { willReadFrequently: true });
+  const cv = makeCanvas(v.videoWidth, v.videoHeight), cx = cv.getContext("2d", { willReadFrequently: true });
   const out = [];
   const dur = Number.isFinite(v.duration) ? Math.min(v.duration, 600) : 0;  // Infinity/NaN 방어, 최대 10분(조사 15 지적 7)
   for (let t = 0; t < dur; t += 1) {

@@ -95,14 +95,17 @@ export function fromLedger(hex, frames) {
 // 브라우저: 파일 → 5kHz 모노 신호
 export async function decodeTo5k(blob) {
   const ab = await blob.arrayBuffer();
-  const tmp = new AudioContext();
+  // Safari 옛 판·일부 WebKit 빌드는 접두어 판만 있다(11-15 WebKit 시험에서 AudioContext 없음)
+  const AC = globalThis.AudioContext || globalThis.webkitAudioContext, OAC = globalThis.OfflineAudioContext || globalThis.webkitOfflineAudioContext;
+  if (!AC || !OAC) throw new Error("이 브라우저는 Web Audio를 지원하지 않습니다");
+  const tmp = new AC();
   const audio = await tmp.decodeAudioData(ab);
   await tmp.close();
   // 5,000Hz OfflineAudioContext는 Web Audio 규격의 필수 지원 범위(8,000~96,000Hz) 밖이라 브라우저에 따라 거절될 수 있다(조사 15 지적 8).
   // 8,000Hz로 풀고(저역 통과 포함) JS 선형 보간으로 5kHz로 내린다 — 대역이 300~2,000Hz라 보간 영향은 BER 0.003 수준(11-15 Node 시험).
   const R = 8000;
   const len = Math.ceil(audio.duration * R);
-  const off = new OfflineAudioContext(1, len, R);
+  const off = new OAC(1, len, R);
   const src = off.createBufferSource();
   src.buffer = audio;
   src.connect(off.destination);
