@@ -1,0 +1,62 @@
+{
+ "n_docs": 34,
+ "by_length": {
+  "50": {
+   "queries": 102,
+   "found": 0.8431372549019608,
+   "false_hit": 0.00980392156862745,
+   "sample_n_median": 3,
+   "sample_n_min": 0
+  },
+  "100": {
+   "queries": 102,
+   "found": 0.9803921568627451,
+   "false_hit": 0.029411764705882353,
+   "sample_n_median": 6,
+   "sample_n_min": 0
+  },
+  "200": {
+   "queries": 102,
+   "found": 0.9901960784313726,
+   "false_hit": 0.0392156862745098,
+   "sample_n_median": 13,
+   "sample_n_min": 0
+  },
+  "400": {
+   "queries": 102,
+   "found": 0.9901960784313726,
+   "false_hit": 0.0196078431372549,
+   "sample_n_median": 24,
+   "sample_n_min": 0
+  },
+  "800": {
+   "queries": 102,
+   "found": 0.9901960784313726,
+   "false_hit": 0.0196078431372549,
+   "sample_n_median": 47,
+   "sample_n_min": 0
+  }
+ },
+ "false_hit_by_sample_n": {
+  "0-5": {
+   "n": 5,
+   "false_hit": 0.0
+  },
+  "5-10": {
+   "n": 33,
+   "false_hit": 0.0
+  },
+  "10-20": {
+   "n": 85,
+   "false_hit": 0.023529411764705882
+  },
+  "20-40": {
+   "n": 92,
+   "false_hit": 0.021739130434782608
+  },
+  "40-1000000000": {
+   "n": 295,
+   "false_hit": 0.02711864406779661
+  }
+ }
+}
