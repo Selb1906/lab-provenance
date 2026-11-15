@@ -1,0 +1,55 @@
+{
+  "_note": "월요일 발표 자료 차트용 핵심 수치 모음(11-15). 모든 값은 개발일지·experiments/results의 결과 파일에서 옮김. n·조건·출처를 함께 적음 — 조건 없는 수치로 쓰지 말 것(조사 14·15).",
+  "survival_matrix": {
+    "_desc": "공격마다 각 층이 원본을 되찾는 비율(그림 기준). null = 해당 없음/시험 안 함",
+    "columns": ["C2PA", "perceptual hash", "특징점(ORB)", "watermark(둘 중 하나)"],
+    "rows": [
+      {"attack": "다시 저장(JPEG)", "values": [0, 0.94, null, 1.0], "n": "그림 62장", "src": "exp09·exp02"},
+      {"attack": "실제 crop(늘리지 않음, 면적 0.5~0.9)", "values": [0, 0.02, 0.89, null], "n": "그림 62장, threshold 표본 내", "src": "exp19"},
+      {"attack": "회전 9~45°", "values": [0, 0.0, 0.85, 0.0], "n": "그림 62장(ORB) / 37장(watermark, 원본 없이)", "src": "exp11b·exp02"},
+      {"attack": "회전·crop → 원본에 맞춘 뒤 watermark", "values": [0, null, null, 1.0], "n": "그림 9장, crop 25종·회전 45종", "src": "exp12"},
+      {"attack": "AI denoiser(FFDNet)", "values": [0, 0.94, 0.87, 0.37], "n": "그림 62장 / watermark 23장(1%·0.1% 범위 26~48%의 중간)", "src": "exp13·exp02"},
+      {"attack": "AI 재생성(SD-VAE)", "values": [0, 0.92, 0.89, 0.72], "n": "그림 62장 / watermark 23장", "src": "exp13·exp02"}
+    ]
+  },
+  "threshold_vs_ledger": {
+    "_desc": "perceptual hash threshold와 query 단위 오탐(원장 75장)",
+    "threshold": [2, 4, 6, 10, 15],
+    "query_fpr": [0.0096, 0.0244, 0.0478, 0.0915, 0.1797],
+    "src": "exp09 summary (query_fpr_at; 거리는 짝수라 3=2, 5=4)"
+  },
+  "watermark_forgery": {
+    "_desc": "공개 사본 9장 평균화 위조가 detector를 통과한 비율",
+    "bars": [
+      {"label": "모든 그림 같은 key", "value": 1.0, "n": 20, "src": "exp10"},
+      {"label": "그림별 key(key 하나 기준)", "value": 0.10, "n": "20×9", "src": "exp18b"},
+      {"label": "그림별 key + 원장 대조 → 정합", "value": 0.0, "n": 80, "note": "1% 검정 기대 0.8건, 95% 상한 4.5%", "src": "exp18"}
+    ]
+  },
+  "crop_identification": {
+    "_desc": "crop된 그림의 원본 찾기(query 단위 1%)",
+    "bars": [
+      {"label": "ORB 그대로(정사각 crop·늘림)", "value": 0.07, "src": "exp11 A(3~10% 중간)"},
+      {"label": "ORB + 늘림 되돌려 보기", "value": 0.78, "src": "exp11b B(66~89% 중간)"},
+      {"label": "ORB, 늘리지 않은 실제 crop", "value": 0.92, "src": "exp19(82~100% 중간)"}
+    ],
+    "n": "그림 62장"
+  },
+  "multimodal": {
+    "_desc": "C2PA 증명서가 사라진 사본을 원장에서 되찾은 비율",
+    "rows": [
+      {"format": "음원(MP3 32kbps)", "found": "10/10", "lower95": 0.69, "method": "Philips fingerprint", "src": "exp20"},
+      {"format": "음원(속도 ±5%)", "found": "10/10", "lower95": 0.69, "method": "+속도 되돌려 보기", "src": "exp25"},
+      {"format": "영상(재인코딩·축소·잘라 올림)", "found": "10/10", "lower95": 0.69, "method": "vPDQ", "src": "exp21"},
+      {"format": "문서(재저장·발췌·수정)", "found": "34/34", "lower95": 0.90, "method": "MinHash 포함도", "src": "exp22"},
+      {"format": "문서(100단어 발췌)", "found": "98%", "n": 102, "method": "MinHash 포함도", "src": "exp26"}
+    ],
+    "caveat": "합성 음원·영상 10개, 논문 34편 — 실제 음악·영상은 시험 안 함"
+  },
+  "monitor": {
+    "_desc": "가짜 재게시 순찰",
+    "images": {"found": "6/6", "unrelated_false": "0/3", "basis": {"원장 대조": 4, "watermark 단서만": 2}},
+    "media": {"found": "3/3", "unrelated_false": "0/1"},
+    "caveat": "표본이 작아 오탐률 추정 아님"
+  }
+}
