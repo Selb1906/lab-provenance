@@ -319,7 +319,9 @@ def build_monitor():
         else:
             res = _mark(not ours, "매칭 없음(정상)", "놓침")
             src = ""
-        rows.append(f'<tr><td><a href="mirror/{t["page"]}.html">{t["page"]}</a></td><td><a href="mirror/img/{t["img"]}"><img class="tiny" src="mirror/img/{t["img"]}" alt=""></a></td>'
+        thumb = (f'<img class="tiny" src="mirror/img/{t["img"]}" alt="">' if t["img"].lower().endswith((".png", ".jpg", ".jpeg"))
+                 else esc(t["img"]))  # 음원·영상·문서는 파일 이름만
+        rows.append(f'<tr><td><a href="mirror/{t["page"]}.html">{t["page"]}</a></td><td><a href="mirror/img/{t["img"]}">{thumb}</a></td>'
                     f'<td>{esc(t["how"])}</td><td>{res}</td><td>{src}</td></tr>')
     n_ours = sum(1 for t in truth if t["source"])
     n_hit = sum(1 for t in truth if t["source"] and t["img"] in found)

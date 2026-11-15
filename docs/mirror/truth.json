@@ -52,5 +52,29 @@
   "img": "news-3.jpg",
   "source": null,
   "how": "상관없는 이미지(퍼블릭 도메인)"
+ },
+ {
+  "page": "media",
+  "img": "media-1.mp3",
+  "source": "melody.wav",
+  "how": "음원을 MP3 32kbps로 다시 압축"
+ },
+ {
+  "page": "media",
+  "img": "media-2.mp4",
+  "source": "slides.mp4",
+  "how": "영상을 좌우 반전해 다시 인코딩"
+ },
+ {
+  "page": "media",
+  "img": "media-3.docx",
+  "source": "report-1117.docx",
+  "how": "docx를 앞부분 지우고 다른 프로그램으로 다시 저장"
+ },
+ {
+  "page": "media",
+  "img": "media-4.pdf",
+  "source": null,
+  "how": "상관없는 문서(원장에 없는 우리 다른 문서)"
  }
 ]

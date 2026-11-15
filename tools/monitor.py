@@ -37,15 +37,19 @@ WM_KEY_FILE = Path("E:/envs/c2pa-site-keys/wm_key.txt")  # 블록 DCT 키(비공
 
 
 class _Imgs(HTMLParser):
+    """그림(<img>)과 음원·영상(<audio>·<video>·<source>), 문서 링크(.pdf·.docx)를 모은다."""
     def __init__(self):
         super().__init__()
-        self.srcs = []
+        self.srcs, self.media, self.docs = [], [], []
 
     def handle_starttag(self, tag, attrs):
-        if tag == "img":
-            src = dict(attrs).get("src")
-            if src:
-                self.srcs.append(src)
+        a = dict(attrs)
+        if tag == "img" and a.get("src"):
+            self.srcs.append(a["src"])
+        elif tag in ("audio", "video", "source") and a.get("src"):
+            self.media.append(a["src"])
+        elif tag == "a" and a.get("href", "").lower().split("?")[0].endswith((".pdf", ".docx")):
+            self.docs.append(a["href"])
 
 
 # 증거 보존(조사 12): 발견 시점의 응답 헤더 중 날짜·서버·형식만 남긴다(쿠키 등 개인 정보가 섞일 수 있는 헤더는 버림)
@@ -241,6 +245,55 @@ def _basis(exact, near, tile, wm, aligned):
     return "워터마크 단서만(위조 가능 — 원장 대조 아님)"
 
 
+def check_media(data, name):
+    """음원·영상·문서 파일 → 원장 지문 조회(media_lookup·dfp). 찾으면 결과 dict, 아니면 None."""
+    import media_lookup
+    import dfp
+    suffix = Path(urllib.parse.urlparse(name).path).suffix.lower() or ".bin"
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix, dir="E:/envs/tmp") as t:
+        t.write(data)
+        path = t.name
+    try:
+        if suffix in (".pdf", ".docx"):
+            import fitz
+            text = dfp.docx_text(path) if suffix == ".docx" else chr(10).join(p.get_text() for p in fitz.open(path))
+            q = dfp.shingles(text)
+            best = None
+            for lp in LEDGERS:
+                for e in ledger.load(lp):
+                    if e["record"].get("dfp_bottom"):
+                        c = dfp.containment(q, [int(v) for v in e["record"]["dfp_bottom"]])
+                        if best is None or c > best[0]:
+                            best = (c, e["record"])
+            if best and best[0] > 0.352:
+                return {"source": best[1]["file"], "caption": best[1]["caption"], "how": [f"본문 지문 포함도 {best[0]:.2f}"],
+                        "basis": "원장 대조: 문서 지문(MinHash 포함도)", "c2pa": _c2pa_any(data, suffix)}
+            return None
+        is_video = suffix in (".mp4", ".mov", ".webm", ".mkv")
+        r = media_lookup.lookup_video(path) if is_video else media_lookup.lookup(path)
+        if not r.get("found"):
+            return None
+        how = [f"영상 지문 질의측 {r['query_side']:.2f}" + (" (좌우 반전)" if r.get("flipped") else "")] if is_video else               [f"음원 지문 BER {r['ber']:.3f}" + (f" (속도 {r['tempo_factor']}배로 되돌림)" if r.get("tempo_factor") else "")]
+        return {"source": r["file"], "caption": r["caption"], "how": how,
+                "basis": "원장 대조: " + ("영상 지문(vPDQ)" if is_video else "음원 지문(Philips)"), "c2pa": _c2pa_any(data, suffix)}
+    finally:
+        Path(path).unlink(missing_ok=True)
+
+
+def _c2pa_any(data, suffix):
+    from c2pa import Context, Reader
+    mime = {".mp3": "audio/mpeg", ".wav": "audio/wav", ".mp4": "video/mp4", ".pdf": "application/pdf",
+            ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}.get(suffix)
+    if not mime:
+        return "없음"
+    try:
+        with Context() as ctx, Reader(mime, io.BytesIO(data), context=ctx) as r:
+            codes = [v["code"] for v in json.loads(r.json()).get("validation_status", [])]
+        return "변조" if any("mismatch" in c for c in codes) else "남아 있음"
+    except Exception:
+        return "없음"
+
+
 def crawl(starts):
     refs = _load_refs()
     tm = _tm()
@@ -262,6 +315,16 @@ def crawl(starts):
             if hit:
                 found.append({"page": page, "image": url, **hit, "evidence": {"page": page_meta, "image": img_meta}})
             time.sleep(0.5)  # 상대 서버에 부담을 주지 않도록 요청 간격
+        for src in p.media + p.docs:
+            url = urllib.parse.urljoin(page, src)
+            if not _allowed(url):
+                continue
+            checked += 1
+            m = {}
+            hit = check_media(_get(url, m), url)
+            if hit:
+                found.append({"page": page, "image": url, **hit, "evidence": {"page": page_meta, "image": m}})
+            time.sleep(0.5)
     return {"time": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "pages": starts, "images_checked": checked, "found": found}
 
 
