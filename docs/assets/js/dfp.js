@@ -42,3 +42,15 @@ export async function pdfText(blob) {
   }
   return parts.join("\n");
 }
+
+// docx 본문(tools/dfp.py docx_text와 같은 규칙): word/document.xml의 <w:t> 글자를 문단(<w:p>)마다 줄바꿈으로
+export function docxTextFromXml(xml) {
+  const paras = xml.match(/<w:p[ >][\s\S]*?<\/w:p>/g) || [];
+  const un = (s) => s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&amp;/g, "&");
+  return paras.map((p) => un((p.match(/<w:t(?: [^>]*)?>[\s\S]*?<\/w:t>/g) || []).map((x) => x.replace(/^<w:t(?: [^>]*)?>|<\/w:t>$/g, "")).join(""))).join(String.fromCharCode(10));
+}
+export async function docxText(blob) {
+  const JSZip = (await import("https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm")).default;
+  const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+  return docxTextFromXml(await zip.file("word/document.xml").async("string"));
+}

@@ -56,3 +56,12 @@ def containment(q_sh, ref_bottom):
         return 0.0
     ref = set(ref_bottom)
     return sum(v in ref for v in q_in) / len(q_in)
+
+
+def docx_text(path):
+    """docx 본문: word/document.xml의 <w:t> 글자를 문단(<w:p>)마다 줄바꿈으로 잇는다(브라우저 dfp.js docxText와 같은 규칙)."""
+    import html
+    import zipfile
+    xml = zipfile.ZipFile(path).read("word/document.xml").decode("utf-8")
+    paras = re.findall(r"<w:p[ >].*?</w:p>", xml, flags=re.S)
+    return "\n".join(html.unescape("".join(re.findall(r"<w:t(?: [^>]*)?>(.*?)</w:t>", p, flags=re.S))) for p in paras)

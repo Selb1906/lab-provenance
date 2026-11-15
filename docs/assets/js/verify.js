@@ -202,13 +202,13 @@ async function videoSection(hash, blob) {
   }
 }
 
-async function docSection(hash, blob) {
+async function docSection(hash, blob, office = false) {
   // 문서 지문(본문 5단어 shingle의 포함도, dfp.js = tools/dfp.py와 같은 규격) — 다시 저장·일부 발췌된 PDF도 원래 기록을 찾는다
   try {
     const [entries, dfp] = await Promise.all([loadLedger(), import("./dfp.js")]);
     const exact = entries.find((e) => e.record.sha256 === hash);
     if (exact) return `<h2 class="sub">원장 조회</h2><p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
-    const q = await dfp.shingleHashes(await dfp.pdfText(blob));
+    const q = await dfp.shingleHashes(office ? await dfp.docxText(blob) : await dfp.pdfText(blob));
     let best = null;
     for (const e of entries.filter((x) => x.record.dfp_bottom)) {
       const c = dfp.containment(q, e.record.dfp_bottom);
@@ -225,8 +225,10 @@ async function docSection(hash, blob) {
 }
 
 async function ledgerOrNote(hash, blob) {
-  if (kind(blob) === "office")
-    return `<h2 class="sub">원장 조회</h2><p class="muted small">Office 문서는 서명만 확인합니다(본문 지문 조회는 PDF만). 다른 프로그램으로 다시 저장하면 증명서가 사라지는 것은 그림과 같습니다.</p>`;
+  if (kind(blob) === "office") {
+    if (/\.docx$/i.test(lastName) || /wordprocessingml/.test(blob.type)) return docSection(hash, blob, true);
+    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 Office 형식은 서명만 확인합니다(본문 지문 조회는 PDF·docx만).</p>`;
+  }
   if (kind(blob) === "document") return docSection(hash, blob);
   if (kind(blob) === "audio") return audioSection(hash, blob);
   if (kind(blob) === "video") return videoSection(hash, blob);
