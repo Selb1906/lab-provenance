@@ -105,7 +105,7 @@ def _load_refs():
 
 SSCD_ABOVE = int(__import__("os").environ.get("MONITOR_SSCD_ABOVE", "20"))  # 이보다 원장이 크면 SSCD 후보 단계 사용
 SSCD_K = 5
-PHASH_ALONE_MAX = 18  # 지각 해시 단독 판정이 query 오탐 1%를 지키는 원장 해시 수 상한(일지 11-14 16:45 계산)
+PHASH_ALONE_MAX = 18  # 지각 해시 단독 판정이 query 오탐 1%를 지키는 원장 해시 수 상한 — 점추정(1/1,891). 95% 상한으로는 약 3이라 보수적으로는 지금 원장(14)도 넘음(조사 15)
 _SSCD = {}
 
 
