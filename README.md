@@ -25,14 +25,14 @@
 | `fphash.py` | 브라우저와 같은 규격의 perceptual hash(lab-phash)와 조각 해시 |
 | `wm_blockdct.py` | block DCT watermark(연구 중인 비디오 워터마크 core_AX v3의 이미지판), `derive_key`로 그림별 key |
 | `align.py` | 원본 후보 고르기(ORB + 늘림 되돌려 보기) → SIFT registration → 유효 블록 watermark 검정 |
-| `monitor.py` | 순찰기: 그림·음원·영상·문서, robots.txt 준수, 발견 증거(해시·헤더·시각) 보존, 원장 크기에 따른 2단계(SSCD 후보) |
+| `monitor.py` | 순찰기: 그림·음원·영상·문서, robots.txt 준수, 발견 증거(해시·헤더·시각) 보존, 근거 등급(원장 대조 / 워터마크 단서), 원장 크기에 따른 2단계(SSCD 후보, 지각 해시 일치도 워터마크로 확인) |
 | `afp.py`, `vfp.py`, `dfp.py` | 음원 지문(Philips 방식), 영상 지문(vPDQ 방식), 문서 지문(MinHash 포함도) |
 | `media_lookup.py` | 음원·영상 파일을 원장과 대조(속도 되돌려 보기·좌우 반전 포함) |
 | `attacks.py`, `ai_attacks.py` | WAVES 규약 공격 8종, AI 공격(FFDNet denoiser, SD-VAE 재생성) |
 | `forensics.py`, `leak_trace.py` | ELA·EXIF·JPEG 품질 추정, 받는 사람별 TrustMark(유출 추적) |
 | `make_samples.py`, `make_mirror.py`, `journey.py` | 검증 페이지 샘플, 가짜 재게시 이미지, 여정 페이지 |
 
-브라우저 쪽 같은 규격 구현: `docs/assets/js/`(`verify.js`, `afp.js`, `pdq.js`, `dfp.js`) — **같은 입력**에서 Python 구현과 비트 단위로 일치(Node 대조). 브라우저 디코더·재샘플러 차이는 샘플 1개에서 BER 0.006 수준, Chromium에서 확인.
+브라우저 쪽 같은 규격 구현: `docs/assets/js/`(`verify.js`, `afp.js`(+속도 되돌리기: 선형 보간·WSOLA), `pdq.js`, `dfp.js`) — **같은 입력**에서 Python 구현과 비트 단위로 일치(Node 대조). 브라우저 디코더·재샘플러 차이는 샘플 1개에서 BER 0.006 수준, Chromium에서 확인.
 
 ## 실험 (`experiments/`, 결과 `experiments/results/`)
 
