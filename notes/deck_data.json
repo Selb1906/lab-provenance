@@ -50,7 +50,7 @@
     "_desc": "가짜 재게시 순찰",
     "images": {"found": "6/6", "unrelated_false": "0/3", "src": "docs/assets/monitor-report.json(11-14 01:12)"},
     "basis_test": {"원장 대조": 4, "watermark 단서만": 2, "src": "개발일지 근거 등급 시험 기록 — 결과 파일 없음, 페이지 보고서는 근거 등급 도입 전 판"},
-    "media": {"found": "3/3", "unrelated_false": "0/1", "src": "개발일지 시험 기록 — 결과 파일 없음"},
-    "caveat": "표본이 작아 false positive rate 추정 아님. 전체 순찰 재실행 전이라 보고서 파일과 basis·media 수치의 출처가 다름"
+    "media": {"found": "3/3", "unrelated_false": "0/1", "src": "experiments/results/monitor_media.json(11-15, check_media만, 모델 없음)"},
+    "caveat": "표본이 작아 false positive rate 추정 아님. 그림 basis 수치는 전체 순찰 재실행 전이라 결과 파일 없음"
   }
 }
