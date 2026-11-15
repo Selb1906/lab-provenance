@@ -254,6 +254,8 @@ def build_journey():
     res = json.loads((DOCS / "assets" / "journey" / "results.json").read_text(encoding="utf-8"))
     cards = []
     for i, (f, title, what, lesson) in enumerate(JOURNEY_STEPS):
+        if f not in res:  # 검사(journey.py check)를 아직 못 돌린 단계는 싣지 않는다(11-15 AI 단계 검사가 메모리 부족으로 중지됨)
+            continue
         r = res[f]
         c2 = r["c2pa"]
         c2_cls = "ok" if c2.startswith("유효") else ("bad" if c2 == "변조됨" else "warn")
