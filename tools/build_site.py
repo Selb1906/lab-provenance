@@ -314,6 +314,13 @@ def build_monitor():
     rep = json.loads((DOCS / "assets" / "monitor-report.json").read_text(encoding="utf-8"))
     truth = json.loads((DOCS / "mirror" / "truth.json").read_text(encoding="utf-8"))
     found = {f["image"].split("/")[-1]: f for f in rep["found"]}
+    # 자료실(음원·영상·문서)은 그림 순찰 뒤에 추가돼 매체 판정만 따로 실행한 결과를 쓴다(실행 시각을 따로 표시)
+    mp = DOCS / "assets" / "monitor-media.json"
+    med = json.loads(mp.read_text(encoding="utf-8")) if mp.exists() else None
+    is_media = lambda name: not name.lower().endswith((".png", ".jpg", ".jpeg"))
+    if med:
+        found = {k: v for k, v in found.items() if not is_media(k)}
+        found.update({f["image"].split("/")[-1]: f for f in med["found"]})
     rows = []
     for t in truth:
         f = found.get(t["img"])
@@ -328,14 +335,18 @@ def build_monitor():
                  else esc(t["img"]))  # 음원·영상·문서는 파일 이름만
         rows.append(f'<tr><td><a href="mirror/{t["page"]}.html">{t["page"]}</a></td><td><a href="mirror/img/{t["img"]}">{thumb}</a></td>'
                     f'<td>{esc(t["how"])}</td><td>{res}</td><td>{src}</td></tr>')
-    n_ours = sum(1 for t in truth if t["source"])
-    n_hit = sum(1 for t in truth if t["source"] and t["img"] in found)
-    n_fp = sum(1 for t in truth if not t["source"] and t["img"] in found)
+    def _cnt(sel):
+        ts = [t for t in truth if sel(t["img"])]
+        ours = [t for t in ts if t["source"]]
+        return len(ours), sum(t["img"] in found for t in ours), len(ts) - len(ours), sum(t["img"] in found for t in ts if not t["source"])
+    io, ih, iu, ifp = _cnt(lambda n: not is_media(n))
+    mo, mh, mu, mfp = _cnt(is_media)
+    med_line = (f' <br>자료실(음원·영상·문서) 판정 <span class="mono">{esc(med["time"])}</span>(그림 순찰 뒤에 추가된 페이지라 따로 실행) · <strong>우리 파일 {mo}건 중 {mh}건 발견</strong> · 상관없는 파일 {mu}개 중 잘못 걸린 것 {mfp}건') if med and mo else ""
     body = f"""
 <section class="head"><h1>자동 발견</h1>
 <p class="lead">출처증명은 증명서를 붙이는 것만으로는 쓸모가 적습니다. 저작권 침해는 피해자가 알아차려야 대응이 시작되기 때문입니다. 이 페이지는 순찰기가 웹 페이지를 돌며 연구실 그림이 어디서 어떻게 쓰이고 있는지 자동으로 찾아낸 결과입니다.</p></section>
 <section>
-  <p>점검 시각 <span class="mono">{esc(rep['time'])}</span> · 페이지 {len(rep['pages'])}곳 · 이미지 {rep['images_checked']}장 · <strong>우리 그림 {n_ours}건 중 {n_hit}건 발견</strong> · 상관없는 이미지 {len(truth) - n_ours}장 중 잘못 걸린 것 {n_fp}건(표본이 작아 오탐률 추정은 아님)</p>
+  <p>그림 순찰 <span class="mono">{esc(rep['time'])}</span> · 페이지 {len(rep['pages'])}곳 · 이미지 {rep['images_checked']}장 · <strong>우리 그림 {io}건 중 {ih}건 발견</strong> · 상관없는 이미지 {iu}장 중 잘못 걸린 것 {ifp}건{med_line}<br><span class="muted small">표본이 작아 false positive rate 추정은 아닙니다.</span></p>
   <table class="data">
     <thead><tr><th>페이지</th><th>이미지</th><th>실제로 한 일(정답)</th><th>순찰기 판정</th><th>찾아낸 원본</th></tr></thead>
     <tbody>{''.join(rows)}</tbody>

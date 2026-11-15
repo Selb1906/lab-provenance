@@ -1,0 +1,42 @@
+{
+ "time": "2026-11-15 23:08",
+ "note": "monitor.check_media만 실행(그림 순찰과 별개). experiments/monitor_media_check.py",
+ "found": [
+  {
+   "image": "mirror/img/media-1.mp3",
+   "source": "assets/media/melody.wav",
+   "caption": "합성 선율 10초",
+   "how": [
+    "음원 지문 BER 0.034"
+   ],
+   "basis": "원장 대조: 음원 지문(Philips)",
+   "c2pa": "없음"
+  },
+  {
+   "image": "mirror/img/media-2.mp4",
+   "source": "assets/media/slides.mp4",
+   "caption": "발행 그림 3장 슬라이드 6초",
+   "how": [
+    "영상 지문 질의측 1.00 (좌우 반전)"
+   ],
+   "basis": "원장 대조: 영상 지문(vPDQ)",
+   "c2pa": "없음"
+  },
+  {
+   "image": "mirror/img/media-3.docx",
+   "source": "assets/docs/report-1117.docx",
+   "caption": "2회차 과제 중간 보고 (DOCX)",
+   "how": [
+    "본문 지문 포함도 1.00"
+   ],
+   "basis": "원장 대조: 문서 지문(MinHash 포함도)",
+   "c2pa": "없음"
+  }
+ ],
+ "checked": [
+  "media-1.mp3",
+  "media-2.mp4",
+  "media-3.docx",
+  "media-4.pdf"
+ ]
+}
