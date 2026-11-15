@@ -33,8 +33,10 @@ RECIPIENTS = {"RCV-A001": "공동연구기관 A", "RCV-B002": "학회 발표 자
 
 
 def _tm():
-    from trustmark import TrustMark
-    return TrustMark(verbose=False, model_type="Q", loadRemover=False, loadBBoxDetector=True)
+    """monitor와 같은 지연 로딩(TrustMark는 처음 쓸 때, 위치 검출 모델은 일반 판독이 실패할 때만).
+    11-15 검사가 시작 때 두 모델을 함께 올리다 시스템 메모리 부족으로 자동 중지됨."""
+    from monitor import _LazyTM
+    return _LazyTM()
 
 
 def _png_pixels_replace(signed_path, new_rgb, dst):
@@ -62,7 +64,8 @@ def _png_pixels_replace(signed_path, new_rgb, dst):
 
 def prepare():
     OUT.mkdir(parents=True, exist_ok=True)
-    tm = _tm()
+    from trustmark import TrustMark
+    tm = TrustMark(verbose=False, model_type="Q", loadRemover=False)  # 심기(encode)용 — 판독용 지연 로딩과 별개
     base = Image.open(SRC).convert("RGB")
     # 1) 발행: 워터마크 → 서명 → 원장
     wm = tm.encode(base, WM_ID, MODE="text")
@@ -137,7 +140,7 @@ def check():
         sha_hit = hashlib.sha256(p.read_bytes()).hexdigest() == L["sha256"]
         d = fphash.distance(fphash.to_hex(fphash.lab_phash(im)), L["lab_phash"])
         s1, ok1, _ = tm.decode(im, MODE="text")
-        s2, ok2, _ = tm.decode(im, MODE="text", DETECTFIRST=True)
+        s2, ok2 = (None, False) if ok1 else tm.decode(im, MODE="text", DETECTFIRST=True)[:2]
         wid = s1 if ok1 else (s2 if ok2 else None)
         inl = orb_score(orb(im), O)
         res[f] = {"c2pa": c2, "codes": codes, "sha256_match": sha_hit, "phash_d": d, "phash_ok": d <= 2,  # 사이트 threshold(verify.js·monitor.py)와 같게 — 11-14 조사 14 반영
