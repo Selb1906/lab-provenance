@@ -79,6 +79,20 @@
   <h2>원장과 비트코인 고정</h2>
   <p>발행한 그림마다 <a href="assets/ledger.jsonl">공개 원장</a>에 한 줄을 남깁니다(파일 해시, 지각 해시, C2PA 증명서 식별자). 각 줄은 앞 줄의 해시를 품고 있어 중간을 고치면 뒤가 모두 어긋납니다.</p>
   <p>원장을 운영하는 연구실이 원장 전체를 몰래 다시 쓰는 것까지 막기 위해, 원장의 끝 해시를 담은 <a href="assets/anchors/ledger-0009-205acf99d674.txt">체크포인트</a>를 OpenTimestamps로 비트코인에 고정했습니다(<a href="assets/anchors/ledger-0009-205acf99d674.txt.ots">도장 파일</a>). 이 체크포인트는 비트코인 블록 <a class="mono" href="https://blockstream.info/block-height/975582">975582</a>·<a class="mono" href="https://blockstream.info/block-height/975583">975583</a>(2026-11-13 04:02·04:07 KST)에 들어갔고, 블록의 머클 루트와 도장이 일치하는 것을 확인했습니다. 따라서 이 시각의 원장 9줄은 이후 누구도 바꿀 수 없습니다.</p>
+  <p>원장이 늘어날 때마다 새 체크포인트를 고정합니다. 지금까지 확정된 것(블록 번호가 둘이면 달력 서버마다 다른 블록에 들어간 것):</p>
+  <table>
+    <thead><tr><th>원장 길이</th><th>새로 묶인 기록</th><th>비트코인 블록</th><th>파일</th></tr></thead>
+    <tbody>
+      <tr><td>9줄</td><td>첫 그림 9장</td><td><a class="mono" href="https://blockstream.info/block-height/975582">975582</a>·<a class="mono" href="https://blockstream.info/block-height/975583">975583</a></td><td><a href="assets/anchors/ledger-0009-205acf99d674.txt">체크포인트</a> · <a href="assets/anchors/ledger-0009-205acf99d674.txt.ots">도장</a></td></tr>
+      <tr><td>18줄</td><td>그림 추가</td><td><a class="mono" href="https://blockstream.info/block-height/975625">975625</a>·<a class="mono" href="https://blockstream.info/block-height/975626">975626</a></td><td><a href="assets/anchors/ledger-0018-514aa91b7482.txt">체크포인트</a> · <a href="assets/anchors/ledger-0018-514aa91b7482.txt.ots">도장</a></td></tr>
+      <tr><td>36줄</td><td>논문 그림 전체</td><td><a class="mono" href="https://blockstream.info/block-height/975631">975631</a>·<a class="mono" href="https://blockstream.info/block-height/975645">975645</a></td><td><a href="assets/anchors/ledger-0036-3cc94dc58d63.txt">체크포인트</a> · <a href="assets/anchors/ledger-0036-3cc94dc58d63.txt.ots">도장</a></td></tr>
+      <tr><td>55줄</td><td>재서명·순찰 증거</td><td><a class="mono" href="https://blockstream.info/block-height/975676">975676</a></td><td><a href="assets/anchors/ledger-0055-9280bd80dce5.txt">체크포인트</a> · <a href="assets/anchors/ledger-0055-9280bd80dce5.txt.ots">도장</a></td></tr>
+      <tr><td>56줄</td><td>순찰 증거</td><td><a class="mono" href="https://blockstream.info/block-height/975744">975744</a>·<a class="mono" href="https://blockstream.info/block-height/975745">975745</a></td><td><a href="assets/anchors/ledger-0056-0d5b55b297f0.txt">체크포인트</a> · <a href="assets/anchors/ledger-0056-0d5b55b297f0.txt.ots">도장</a></td></tr>
+      <tr><td>77줄</td><td>그림별 key 재발행·음원·영상 지문</td><td><a class="mono" href="https://blockstream.info/block-height/975823">975823</a>·<a class="mono" href="https://blockstream.info/block-height/975830">975830</a></td><td><a href="assets/anchors/ledger-0077-05fe331e8788.txt">체크포인트</a> · <a href="assets/anchors/ledger-0077-05fe331e8788.txt.ots">도장</a></td></tr>
+      <tr><td>78줄</td><td>문서(PDF) 지문</td><td><a class="mono" href="https://blockstream.info/block-height/975864">975864</a>·<a class="mono" href="https://blockstream.info/block-height/975867">975867</a></td><td><a href="assets/anchors/ledger-0078-ce0ecd10f209.txt">체크포인트</a> · <a href="assets/anchors/ledger-0078-ce0ecd10f209.txt.ots">도장</a></td></tr>
+      <tr><td>80줄</td><td>Word 문서 지문·retire 기록</td><td><a class="mono" href="https://blockstream.info/block-height/975909">975909</a>·<a class="mono" href="https://blockstream.info/block-height/975925">975925</a></td><td><a href="assets/anchors/ledger-0080-f039ba91b529.txt">체크포인트</a> · <a href="assets/anchors/ledger-0080-f039ba91b529.txt.ots">도장</a></td></tr>
+    </tbody>
+  </table>
   <p class="muted small">확인은 공개 블록 탐색기를 통해 했으므로 그 탐색기를 믿어야 한다는 한계가 있습니다. 비트코인 노드를 직접 돌리면 이 한계도 없앨 수 있습니다.</p>
 </section>
 
