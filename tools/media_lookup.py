@@ -21,6 +21,13 @@ import vfp
 ROOT = Path(__file__).resolve().parent.parent
 
 
+def _active_entries():
+    """'retire' 기록이 가리키는 원장 기록은 조회 대상에서 뺀다(원장은 이력으로 남김 — 조사 15 지적 11)."""
+    all_ = ledger.load(ROOT / "docs" / "assets" / "ledger.jsonl")
+    retired = {e["record"]["retire_index"] for e in all_ if e["record"].get("type") == "retire"}
+    return [e for e in all_ if e["index"] not in retired]
+
+
 def load_audio(path):
     """ffmpeg으로 모노 44.1kHz WAV로 풀어서 읽는다(MP3·AAC 등 어떤 형식이든)."""
     with tempfile.TemporaryDirectory(dir="E:/envs/tmp") as d:
@@ -60,7 +67,7 @@ def _lookup_fp(x, sr, fq=None):
     if fq is None:
         fq = afp.fingerprint(x, sr)
     best = None
-    for e in ledger.load(ROOT / "docs" / "assets" / "ledger.jsonl"):
+    for e in _active_entries():
         r = e["record"]
         if "afp_philips" not in r:
             continue
@@ -82,9 +89,14 @@ def lookup_video(path, q_min=0.8):
     return dict(rf, flipped=True) if rf["found"] else r
 
 
+MIN_FRAMES = 3  # 질의 영상의 쓸 수 있는 프레임(품질 50 이상)이 이보다 적으면 판정 보류(조사 15 지적 6 — 1프레임이면 질의측 비율이 0 또는 1뿐)
+
+
 def _lookup_video_h(hq, q_min):
+    if int((hq[1] >= vfp.F).sum()) < MIN_FRAMES:
+        return {"found": False, "query_side": None, "note": "프레임이 너무 적어 판정 보류"}
     best = None
-    for e in ledger.load(ROOT / "docs" / "assets" / "ledger.jsonl"):
+    for e in _active_entries():
         r = e["record"]
         if "vpdq" not in r:
             continue

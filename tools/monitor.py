@@ -216,11 +216,11 @@ def check_image(data, refs, tm):
     s1, ok1, _ = tm.decode(im, MODE="text")
     s2, ok2 = (None, False) if ok1 else tm.decode(im, MODE="text", DETECTFIRST=True)[:2]  # 위치 검출은 일반 판독 실패 때만
     wid = s1 if ok1 else (s2 if ok2 else None)
-    how, src = [], None
+    how, src, decided = [], None, None  # decided: 실제로 출처를 정한 단계(근거 등급에 그 단계만 표시 — 조사 15 지적 4)
     if exact:
         src, how = exact, ["원본 파일 그대로"]
     elif near[0] <= PHASH_T and len({m["lab_phash"] for m in mains}) <= PHASH_ALONE_MAX:
-        src, how = near[1], [f"다시 저장·압축됨(지각 해시 거리 {near[0]})"]
+        src, how, decided = near[1], [f"다시 저장·압축됨(지각 해시 거리 {near[0]})"], "near"
     elif near[0] <= PHASH_T:
         # 원장이 커서 지각 해시 단독 판정의 오탐을 보증할 수 없음 → 정합 후 워터마크로 확인될 때만 발견(아래 단계)
         how = []
@@ -228,7 +228,7 @@ def check_image(data, refs, tm):
         # 조각 해시는 실제 crop에서 0~45%만 찾고(실험 19) 오탐만 더한다. 정합 단계(특징점 82~100%)를 쓸 수 있는
         # 발행자 쪽 monitor에서는 조각 해시 일치를 확정 근거로 쓰지 않고 정합 후 워터마크로 확인한다(아래 단계).
         src = next((m for m in mains if m.get("sha256") == tile[1]["of_sha256"]), None)
-        how = [f"일부를 잘라 씀(조각 해시 거리 {tile[0]})"]
+        how, decided = [f"일부를 잘라 씀(조각 해시 거리 {tile[0]})"], "tile"
     if wid in wm:
         src = src or wm[wid]
         how.append(f"워터마크 {wid} 확인")
@@ -240,11 +240,11 @@ def check_image(data, refs, tm):
         a = _aligned_watermark(im, origs, tm)
         if a is None:
             return None
-        src, how, aligned_z = a[0], [a[1]], a[2]
+        src, how, aligned_z, decided = a[0], [a[1]], a[2], "aligned"
         wid = wid or a[3]
     return {"c2pa": _c2pa(data), "source": (src or {}).get("file"), "caption": (src or {}).get("caption"),
             "how": how, "phash_d": near[0], "tile_d": tile[0], "watermark": wid, "aligned_bdct_z": aligned_z,
-            "basis": _basis(exact, near[0] <= PHASH_T, tile[0] <= TILE_T, bool(wid), aligned_z is not None)}
+            "basis": _basis(exact, decided == "near", decided == "tile", bool(wid), decided == "aligned")}
 
 
 def _basis(exact, near, tile, wm, aligned):
@@ -282,7 +282,7 @@ def check_media(data, name):
                         c = dfp.containment(q, [int(v) for v in e["record"]["dfp_bottom"]])
                         if best is None or c > best[0]:
                             best = (c, e["record"])
-            if best and best[0] > 0.352:
+            if best and best[0] > dfp.CON_T:
                 return {"source": best[1]["file"], "caption": best[1]["caption"], "how": [f"본문 지문 포함도 {best[0]:.2f}"],
                         "basis": "원장 대조: 문서 지문(MinHash 포함도)", "c2pa": _c2pa_any(data, suffix)}
             return None

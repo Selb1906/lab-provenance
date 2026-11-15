@@ -1,6 +1,6 @@
 // 문서 텍스트 지문 — tools/dfp.py와 같은 규격의 '포함도'(질의 shingle 중 원본에도 있는 비율, bottom-k 표본 추정).
 // 단어 = [0-9a-z가-힣]+ (소문자), shingle = 연속 5단어, shingle 해시 = SHA-256 앞 8바이트 >> 3.
-export const K = 5, CON_T = 0.352; // CON_T: 실험 22의 query 단위 1% threshold
+export const K = 5, CON_T = 0.352, MIN_SAMPLE = 20; // CON_T: 실험 22의 query 단위 1% threshold. MIN_SAMPLE: 추정 표본이 이보다 적으면 판정 보류(조사 15)
 
 export function words(text) {
   return text.toLowerCase().match(/[0-9a-z가-힣]+/g) || [];
@@ -24,6 +24,7 @@ export function containment(qSet, refBottom) {
   const hi = BigInt(refBottom[refBottom.length - 1]);
   let n = 0, hit = 0;
   for (const v of qSet) if (v <= hi) { n++; if (ref.has(v)) hit++; }
+  containment.lastN = n;  // 추정에 쓰인 표본 수(판정 보류 여부 확인용)
   return n ? hit / n : 0;
 }
 

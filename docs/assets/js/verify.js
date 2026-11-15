@@ -64,8 +64,13 @@ const hamming = (a, b) => { let x = BigInt("0x" + a) ^ BigInt("0x" + b), n = 0; 
 
 let ledgerPromise = null;
 function loadLedger() {
+  // 'retire' 기록이 가리키는 원장 기록은 조회 대상에서 뺀다(원장은 지우지 않고 이력으로 남김 — 조사 15 지적 11)
   ledgerPromise ??= fetch(new URL("../ledger.jsonl", import.meta.url)).then((r) => r.text())
-    .then((t) => t.split("\n").filter(Boolean).map((l) => JSON.parse(l)));
+    .then((t) => {
+      const all = t.split("\n").filter(Boolean).map((l) => JSON.parse(l));
+      const retired = new Set(all.filter((e) => e.record.type === "retire").map((e) => e.record.retire_index));
+      return all.filter((e) => !retired.has(e.index));
+    });
   return ledgerPromise;
 }
 
@@ -152,7 +157,8 @@ async function videoFrames(blob, flip = false) {
   await new Promise((ok, bad) => { v.onloadeddata = ok; v.onerror = () => bad(new Error("영상을 열 수 없음")); });
   const cv = new OffscreenCanvas(v.videoWidth, v.videoHeight), cx = cv.getContext("2d", { willReadFrequently: true });
   const out = [];
-  for (let t = 0; t < v.duration; t += 1) {
+  const dur = Number.isFinite(v.duration) ? Math.min(v.duration, 600) : 0;  // Infinity/NaN 방어, 최대 10분(조사 15 지적 7)
+  for (let t = 0; t < dur; t += 1) {
     v.currentTime = t;
     await new Promise((ok) => { v.onseeked = ok; });
     if (flip) { cx.setTransform(-1, 0, 0, 1, v.videoWidth, 0); } // 좌우 반전해 그리기(반전해 올린 영상 대비)
@@ -187,7 +193,9 @@ async function videoSection(hash, blob) {
       }
       return bb;
     };
-    let best = scan((await videoFrames(blob)).filter((f) => f.quality >= 50), false);
+    const q0 = (await videoFrames(blob)).filter((f) => f.quality >= 50);
+    if (q0.length < 3) return `<h2 class="sub">원장 조회</h2><p class="muted small">쓸 수 있는 프레임이 ${q0.length}장뿐이라 판정을 보류합니다(3장 이상 필요).</p>`;
+    let best = scan(q0, false);
     if (!best || best.side < 0.8) {
       const fb = scan((await videoFrames(blob, true)).filter((f) => f.quality >= 50), true); // PDQ는 좌우 반전에 약함 → 다시 반전해 비교
       if (fb && (!best || fb.side > best.side)) best = fb;
@@ -214,6 +222,8 @@ async function docSection(hash, blob, office = false) {
       const c = dfp.containment(q, e.record.dfp_bottom);
       if (!best || c > best.c) best = { e, c };
     }
+    if (best && best.c > dfp.CON_T && (dfp.containment(q, best.e.record.dfp_bottom), dfp.containment.lastN) < dfp.MIN_SAMPLE)
+      return `<h2 class="sub">원장 조회</h2><p class="muted small">본문이 너무 짧아(비교 표본 ${dfp.containment.lastN}개) 판정을 보류합니다.</p>`;
     if (best && best.c > dfp.CON_T)
       return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 본문이 원장에 등록된 문서에서 나온 것으로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
         <p>닮아 보이는 원본: <a href="${esc(best.e.record.file)}">${esc(best.e.record.caption)}</a> (기록 #${best.e.index})</p>

@@ -98,14 +98,17 @@ export async function decodeTo5k(blob) {
   const tmp = new AudioContext();
   const audio = await tmp.decodeAudioData(ab);
   await tmp.close();
-  const len = Math.ceil((audio.duration * FS));
-  const off = new OfflineAudioContext(1, len, FS);
+  // 5,000Hz OfflineAudioContext는 Web Audio 규격의 필수 지원 범위(8,000~96,000Hz) 밖이라 브라우저에 따라 거절될 수 있다(조사 15 지적 8).
+  // 8,000Hz로 풀고(저역 통과 포함) JS 선형 보간으로 5kHz로 내린다 — 대역이 300~2,000Hz라 보간 영향은 BER 0.003 수준(11-15 Node 시험).
+  const R = 8000;
+  const len = Math.ceil(audio.duration * R);
+  const off = new OfflineAudioContext(1, len, R);
   const src = off.createBufferSource();
   src.buffer = audio;
   src.connect(off.destination);
   src.start();
   const r = await off.startRendering();
-  return r.getChannelData(0);
+  return stretch(r.getChannelData(0), R / FS);  // 8kHz → 5kHz (f = 1.6배 간격으로 표본 추출)
 }
 
 // 속도 되돌려 보기(실험 25의 브라우저판): 5kHz 신호를 선형 보간으로 f배 늘이거나 줄여(속도·음 높이 함께) 지문을 만든다.

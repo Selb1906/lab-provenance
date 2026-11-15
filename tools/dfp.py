@@ -12,6 +12,8 @@ import numpy as np
 K_SHINGLE = 5
 N_PERM = 128
 BOTTOM_K = 512
+CON_T = 0.352      # 포함도 threshold: 실험 22의 query 단위 1%(170개 음성에서 정한 표본 내 값)
+MIN_SAMPLE = 20    # 포함도 추정에 쓰인 질의 shingle 표본이 이보다 적으면 판정 보류(조사 15 지적 3 — 짧은 질의에서 추정이 흔들림)
 _P = (1 << 61) - 1
 _rng = np.random.default_rng(20261114)  # 해시 함수 계수 고정(원장과 조회가 같은 함수를 써야 함)
 _A = _rng.integers(1, _P, N_PERM, dtype=np.uint64)
@@ -44,6 +46,16 @@ def bottom_k(sh, k=BOTTOM_K):
 
 def jaccard(sa, sb):
     return float(np.mean(sa == sb))
+
+
+def containment_n(q_sh, ref_bottom):
+    """(포함도, 추정에 쓰인 표본 수)."""
+    if not ref_bottom or not q_sh:
+        return 0.0, 0
+    hi = ref_bottom[-1]
+    q_in = [v for v in q_sh if v <= hi]
+    ref = set(ref_bottom)
+    return (sum(v in ref for v in q_in) / len(q_in) if q_in else 0.0), len(q_in)
 
 
 def containment(q_sh, ref_bottom):

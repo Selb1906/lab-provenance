@@ -17,6 +17,10 @@ BF_H = cv2.BFMatcher(cv2.NORM_HAMMING)
 SIFT = cv2.SIFT_create()  # 조사 10: 기본값
 BF_L2 = cv2.BFMatcher(cv2.NORM_L2)
 Z_T = 2.326
+# 정합 성공으로 보는 최소 SIFT inlier 수. 처음 판은 짝 4개만 있으면 어떤 아핀이든 '정합 성공'으로 넘겨 무관한 그림도 검정까지 갔다(조사 15 지적 1).
+# 50 = 정상 정합(실험 12, 90건)의 최솟값 55 바로 아래 — 정상 정합은 하나도 잃지 않고, 무관한 그림 대부분(3~43, 실험 12b)을 검정 전에 거른다.
+# 같은 논문의 형제 그림(105·109)은 넘어오지만 워터마크 검정(1%)이 막는다.
+MIN_INLIERS = 50
 
 
 def _gray(im):
@@ -83,7 +87,7 @@ def register(q, o):
         n = int(inl.sum())
         if best is None or n > best[1]:
             best = (np.vstack([A, [0, 0, 1]]) @ S, n)
-    if best is None:
+    if best is None or best[1] < MIN_INLIERS:
         return None
     M, n = best
     H, Wd = go.shape
