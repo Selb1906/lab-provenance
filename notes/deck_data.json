@@ -41,7 +41,7 @@
       {"format": "음원(MP3 32kbps)", "found": "10/10", "lower95": 0.69, "method": "Philips fingerprint", "src": "exp20"},
       {"format": "음원(속도 ±5%)", "found": "10/10", "lower95": 0.69, "method": "+속도 되돌려 보기", "src": "exp25"},
       {"format": "영상(재인코딩·축소·잘라 올림)", "found": "10/10", "lower95": 0.69, "method": "vPDQ", "note": "잘라 올린 4초 영상은 query 쪽 일치 비율 기준일 때만 성립(원본 쪽 비율 P_c≥0.8 기준이면 0/10)", "src": "exp21 summary.sub4s"},
-      {"format": "문서(재저장·발췌·수정)", "found": "34/34", "lower95": 0.90, "method": "MinHash containment", "note": "Jaccard로는 20% 발췌 33/34. shingle 해시가 blake2b이던 판의 결과(SHA-256으로 바꾼 뒤 재실행 안 함)", "src": "exp22"},
+      {"format": "문서(재저장·발췌·수정)", "found": "34/34", "lower95": 0.90, "method": "MinHash containment", "note": "containment 기준. Jaccard로는 20% 발췌 33/34. 11-15 배포 코드(SHA-256)로 재실행해도 같음", "src": "exp22"},
       {"format": "문서(100단어 발췌)", "found": "98%", "n": 102, "fpr": "같은 조건 false positive 2.9%", "method": "MinHash containment", "src": "exp26"}
     ],
     "caveat": "합성 음원·영상 10개, 논문 34편 — 실제 음악·영상은 시험 안 함"
