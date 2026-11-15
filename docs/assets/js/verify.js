@@ -96,17 +96,17 @@ async function ledgerSection(hash, blob) {
     body = `<p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 발행된 그림과 닮아 보여, 그 원본의 증명서를 참고로 보여 드립니다</p>
       <p>닮아 보이는 원본: <a href="${esc(near.e.record.file)}">${esc(near.e.record.caption)}</a></p>
       <p class="muted small">닮음은 기계가 판단한 것이라 틀릴 수 있습니다. 규격은 이렇게 찾아 온 증명서를 낮은 신뢰로 따로 표시하라고 합니다(C2PA 2.5 규격 16.4.1.10).</p>`;
-    detail = `<dt>근거</dt><dd>지각 해시 거리 ${near.d} (문턱 ${PHASH_T} 이하면 닮음으로 봄)</dd><dt>원본의 증명서</dt><dd class="mono">${esc(near.e.record.c2pa_manifest)}</dd>`;
+    detail = `<dt>근거</dt><dd>지각 해시 거리 ${near.d} (threshold ${PHASH_T} 이하면 닮음으로 봄)</dd><dt>원본의 증명서</dt><dd class="mono">${esc(near.e.record.c2pa_manifest)}</dd>`;
   } else if (tile && tile.d <= TILE_T) {
     const main = entries.find((e) => e.record.sha256 === tile.e.record.of_sha256);
     body = `<p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 발행된 그림의 일부와 닮아 보여(잘라 쓴 것으로 보임), 그 원본의 증명서를 참고로 보여 드립니다</p>
       <p>닮아 보이는 원본: <a href="${esc(tile.e.record.file)}">${esc(main ? main.record.caption : tile.e.record.file)}</a></p>
       <p class="muted small">닮음은 기계가 판단한 것이라 틀릴 수 있습니다. 찾아 온 증명서는 낮은 신뢰입니다.</p>`;
-    detail = `<dt>근거</dt><dd>조각 해시 거리 ${tile.d} (문턱 ${TILE_T} 이하면 닮음으로 봄)</dd><dt>원본의 증명서</dt><dd class="mono">${esc(main ? main.record.c2pa_manifest : "-")}</dd>`;
+    detail = `<dt>근거</dt><dd>조각 해시 거리 ${tile.d} (threshold ${TILE_T} 이하면 닮음으로 봄)</dd><dt>원본의 증명서</dt><dd class="mono">${esc(main ? main.record.c2pa_manifest : "-")}</dd>`;
   } else {
     body = `<p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 그림입니다</p>
       <p class="muted small">다른 곳에서 만든 그림일 수 있으며, 가짜라는 뜻은 아닙니다.</p>`;
-    detail = `<dt>근거</dt><dd>가장 가까운 기록과의 지각 해시 거리 ${near ? near.d : "-"} (문턱 ${PHASH_T})</dd>`;
+    detail = `<dt>근거</dt><dd>가장 가까운 기록과의 지각 해시 거리 ${near ? near.d : "-"} (threshold ${PHASH_T})</dd>`;
   }
   return `<h2 class="sub">원장 조회</h2>${body}<details><summary>자세히</summary><dl>${detail}<dt>이 파일의 지각 해시</dt><dd class="mono">${ph}</dd></dl></details>`;
 }
