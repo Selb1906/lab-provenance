@@ -105,7 +105,7 @@ def _load_refs():
 
 SSCD_ABOVE = int(__import__("os").environ.get("MONITOR_SSCD_ABOVE", "20"))  # 이보다 원장이 크면 SSCD 후보 단계 사용
 SSCD_K = 5
-PHASH_ALONE_MAX = 18  # 지각 해시 단독 판정이 query 오탐 1%를 지키는 원장 해시 수 상한 — 점추정(1/1,891). 95% 상한으로는 약 3이라 보수적으로는 지금 원장(14)도 넘음(조사 15)
+PHASH_ALONE_MAX = 3  # 지각 해시 단독 판정이 query 오탐 1%를 지키는 원장 해시 수 상한 — 95% 상한 기준(1,891쌍 중 1쌍의 Clopper-Pearson 상한 0.29% → 약 3, 조사 15). 점추정이면 18. 지금 원장(14)은 넘으므로 지각 해시 일치도 정합 후 워터마크로 확인
 _SSCD = {}
 
 
@@ -217,13 +217,14 @@ def check_image(data, refs, tm):
     s2, ok2 = (None, False) if ok1 else tm.decode(im, MODE="text", DETECTFIRST=True)[:2]  # 위치 검출은 일반 판독 실패 때만
     wid = s1 if ok1 else (s2 if ok2 else None)
     how, src, decided = [], None, None  # decided: 실제로 출처를 정한 단계(근거 등급에 그 단계만 표시 — 조사 15 지적 4)
+    phash_cand = None  # 원장이 커서 지각 해시만으로 확정 못 할 때의 후보(워터마크로 확인되면 확정)
     if exact:
         src, how = exact, ["원본 파일 그대로"]
     elif near[0] <= PHASH_T and len({m["lab_phash"] for m in mains}) <= PHASH_ALONE_MAX:
         src, how, decided = near[1], [f"다시 저장·압축됨(지각 해시 거리 {near[0]})"], "near"
     elif near[0] <= PHASH_T:
-        # 원장이 커서 지각 해시 단독 판정의 오탐을 보증할 수 없음 → 정합 후 워터마크로 확인될 때만 발견(아래 단계)
-        how = []
+        # 원장이 커서 지각 해시 단독 판정의 오탐을 보증할 수 없음 → 후보로만 두고 워터마크로 확인될 때 확정(아래)
+        phash_cand = near[1]
     elif tile[0] <= TILE_T and not WM_KEY_FILE.exists():
         # 조각 해시는 실제 crop에서 0~45%만 찾고(실험 19) 오탐만 더한다. 정합 단계(특징점 82~100%)를 쓸 수 있는
         # 발행자 쪽 monitor에서는 조각 해시 일치를 확정 근거로 쓰지 않고 정합 후 워터마크로 확인한다(아래 단계).
@@ -236,6 +237,22 @@ def check_image(data, refs, tm):
         how.append(f"워터마크 {wid}: {RECIPIENTS[wid]}에게 보낸 사본")
         src = src or {"file": "(받는 사람별 사본)", "caption": "받는 사람별 식별자를 심어 보낸 사본"}
     aligned_z = None
+    if phash_cand is not None and decided is None:
+        msg = f"다시 저장·압축됨(지각 해시 거리 {near[0]})"
+        if wid and wid == phash_cand.get("watermark_id"):
+            src, decided = phash_cand, "near"
+            how.insert(0, msg + f" — 같은 원본의 워터마크 {wid}로 확인")
+        else:
+            a = _aligned_watermark(im, origs, tm)
+            if a is not None and a[0].get("file") == phash_cand.get("file"):
+                src, decided, aligned_z = a[0], "near", a[2]
+                how.insert(0, msg + " — 원본에 맞춘 뒤 워터마크로 확인")
+    if decided is None and src is not None and wid in wm and not exact:
+        # TrustMark 식별자만 맞은 경우(위조 가능한 단서) → 그 원본에 맞춰 내용도 맞는지 확인되면 근거를 '원장 대조'로 올림
+        a = _aligned_watermark(im, origs, tm)
+        if a is not None and a[0].get("file") == src.get("file"):
+            decided, aligned_z = "aligned", a[2]
+            how.insert(0, a[1])
     if not src and not how:
         a = _aligned_watermark(im, origs, tm)
         if a is None:
