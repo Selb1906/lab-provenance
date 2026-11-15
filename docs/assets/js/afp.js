@@ -119,3 +119,33 @@ export function stretch(y, f) {
   for (let i = 0; i < n; i++) { const x = i * f, j = Math.floor(x), a = x - j; out[i] = (y[j] ?? 0) * (1 - a) + (y[j + 1] ?? y[j] ?? 0) * a; }
   return out;
 }
+
+// WSOLA(Verhelst & Roelands, ICASSP 1993): 음 높이를 유지한 채 속도만 f배로 바꾼다(f>1이면 짧아짐).
+// 5kHz에서 창 100표본(20ms)·간격 50표본(겹침 50%)·탐색 ±50표본(±10ms). 다음 창은 앞 창의 자연스러운 이어짐과
+// 상관이 가장 큰 위치에서 가져와 파형이 끊기지 않게 한다.
+export function wsola(y, f, N = 100, tol = 50) {
+  const H = N / 2, win = new Float64Array(N);
+  for (let i = 0; i < N; i++) win[i] = 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / N);
+  const outLen = Math.floor(y.length / f), out = new Float64Array(outLen + N), norm = new Float64Array(outLen + N);
+  let prev = 0;  // 앞 창의 입력 시작 위치
+  for (let k = 0; k * H + N < outLen; k++) {
+    const target = Math.round(k * H * f);  // 이 출력 창이 와야 할 입력 위치(속도 f)
+    let best = target;
+    if (k > 0) {
+      const nat = prev + H;  // 앞 창이 자연스럽게 이어지는 입력 위치
+      let bc = -Infinity;
+      for (let d = -tol; d <= tol; d++) {
+        const s = target + d;
+        if (s < 0 || s + N > y.length) continue;
+        let c = 0;
+        for (let i = 0; i < N; i += 2) c += y[nat + i] * y[s + i];
+        if (c > bc) { bc = c; best = s; }
+      }
+    }
+    if (best < 0 || best + N > y.length) break;
+    for (let i = 0; i < N; i++) { out[k * H + i] += y[best + i] * win[i]; norm[k * H + i] += win[i]; }
+    prev = best;
+  }
+  for (let i = 0; i < outLen; i++) if (norm[i] > 1e-6) out[i] /= norm[i];
+  return out.subarray(0, outLen);
+}

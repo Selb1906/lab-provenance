@@ -136,8 +136,9 @@ async function audioSection(hash, blob) {
     const scan = (fq, f) => { let bb = null; for (const r of refs) { const b = afp.ber(fq, r.fp); if (!bb || b < bb.b) bb = { e: r.e, b, f }; } return bb; };
     let best = scan(afp.fingerprint(y), 1);
     if (!best || best.b >= afp.BER_T) {
-      // 속도가 바뀐 사본 대비: 1% 간격으로 되돌려 본다(실험 25 브라우저판 — 속도·음 높이 함께, Node 시험에서 4경우 중 3경우 회복)
-      for (const f of afp.TEMPO_FACTORS) { const r = scan(afp.fingerprint(afp.stretch(y, f)), f); if (r && (!best || r.b < best.b)) best = r; }
+      // 속도가 바뀐 사본 대비: 1% 간격으로 되돌려 본다(실험 25 브라우저판)
+      // 선형 보간(속도·음 높이 함께)과 WSOLA(음 높이 유지, 속도만) 둘 다 — Node 시험에서 속도만/둘 다 ±5% 4경우 모두 회복, 다른 음원 최소 BER 0.453
+      for (const f of afp.TEMPO_FACTORS) for (const g of [afp.stretch, afp.wsola]) { const r = scan(afp.fingerprint(g(y, f)), f); if (r && (!best || r.b < best.b)) best = r; }
     }
     if (best && best.b < afp.BER_T)
       return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 원장에 등록된 음원과 같은 소리로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
