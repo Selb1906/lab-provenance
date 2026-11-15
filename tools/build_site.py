@@ -123,6 +123,8 @@ JOURNEY_STEPS = [
      "C2PA만 조작을 잡는다(서명 뒤 바뀜). 워터마크·지각 해시·특징점은 '같은 그림'이라고 답한다 — 이들은 '원래 기록이 어디 있나'를 찾는 도구이지, 변조를 잡는 도구가 아니다."),
     ("5-leaked.jpg", "유출", "같은 그림을 세 곳에 보낼 때 받는 사람마다 다른 식별자를 숨겨 보냈다. 그중 하나가 메신저를 거쳐 퍼진다.",
      "퍼진 사본에서 읽은 식별자 RCV-B002로 누구의 사본이 퍼졌는지 안다. C2PA로는 알 수 없는 정보다."),
+    ("6-ai-denoised.png", "AI로 잡음 제거", "누군가 AI 잡음 제거 도구(FFDNet)로 그림을 '깨끗하게' 만든다. 눈으로는 거의 같아 보인다.",
+     "워터마크(눈에 안 보이는 미세한 신호)는 잡음과 함께 지워진다. 그러나 그림의 모양은 그대로라 지각 해시·특징점이 원본을 찾고, 원장이 원본 증명서로 이어 준다(실험 13: AI 공격 뒤 fingerprint 95~100%)."),
 ]
 RECIPIENT_NAMES = {"RCV-A001": "공동연구기관 A", "RCV-B002": "자료 요청자 B", "RCV-C003": "기업 C", "GEL-0002": "연구실 발행본"}
 
@@ -260,7 +262,7 @@ def build_journey():
         rows = [
             ("C2PA", f'<span class="state {c2_cls} inline"><span class="dot"></span>{esc(c2)}</span>'),
             ("워터마크", _mark(bool(wid), f"식별자 {esc(wid)} ({esc(RECIPIENT_NAMES.get(wid, ''))})", "못 읽음")),
-            ("지각 해시", _mark(r["phash_ok"], f"같은 그림 (거리 {r['phash_d']})", f"놓침 (거리 {r['phash_d']} &gt; 15)")),
+            ("지각 해시", _mark(r["phash_ok"], f"같은 그림 (거리 {r['phash_d']})", f"놓침 (거리 {r['phash_d']} &gt; 2)")),
             ("특징점(ORB)", _mark(r["orb_ok"], f"같은 그림 (일치 {r['orb_inliers']}개)", f"놓침 (일치 {r['orb_inliers']}개)")),
             ("원장 조회", _mark(ledger_hit, "원본 기록과 증명서를 찾음(낮은 신뢰)", "찾지 못함")),
         ]
@@ -294,6 +296,7 @@ def build_journey():
       <tr><td>잘라서 사용</td><td class="muted">사라짐</td><td>찾음</td><td class="muted">놓침</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
       <tr><td>화면 캡처</td><td class="muted">사라짐</td><td>찾음(위치 검출)</td><td class="muted">놓침</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
       <tr><td>내용 조작</td><td><strong>조작 탐지</strong></td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td>원래 기록과 비교 가능</td></tr>
+      <tr><td>AI 잡음 제거</td><td class="muted">사라짐</td><td class="muted">대부분 지워짐</td><td>찾음</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
       <tr><td>유출</td><td class="muted">알 수 없음</td><td><strong>유출자 식별</strong></td><td class="muted">알 수 없음</td><td class="muted">알 수 없음</td><td>받는 사람 대응표 보관</td></tr>
       <tr><td>원장 조작</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td><strong>해시체인 + 비트코인 고정</strong></td></tr>
     </tbody>

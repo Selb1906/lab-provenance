@@ -100,6 +100,14 @@ def prepare():
     print("prepared", sorted(x.name for x in OUT.iterdir()))
 
 
+def add_ai():
+    """7번째 단계: AI 잡음 제거(FFDNet σ25, 실험 2·13과 같은 공격)를 발행본에 적용 — 기존 단계는 다시 만들지 않는다."""
+    import ai_attacks
+    p = Image.open(OUT / "0-published.png").convert("RGB")
+    ai_attacks.ffdnet(p, 25.0).save(OUT / "6-ai-denoised.png")
+    print("added 6-ai-denoised.png")
+
+
 def _c2pa(path):
     from c2pa import Context, Reader
     try:
@@ -120,7 +128,7 @@ def check():
     pub = Image.open(OUT / "0-published.png").convert("RGB")
     O = orb(pub)
     res = {}
-    for f in ["0-published.png", "1-messenger.jpg", "2-cropped.png", "3-screenshot.png", "4-tampered.png", "5-leaked.jpg"]:
+    for f in ["0-published.png", "1-messenger.jpg", "2-cropped.png", "3-screenshot.png", "4-tampered.png", "5-leaked.jpg", "6-ai-denoised.png"]:
         p = OUT / f
         if not p.exists():
             continue
@@ -149,4 +157,4 @@ def check():
 
 if __name__ == "__main__":
     sys.path.insert(0, str(ROOT / "experiments"))
-    {"prepare": prepare, "check": check}[sys.argv[1]]()
+    {"prepare": prepare, "check": check, "add_ai": add_ai}[sys.argv[1]]()
