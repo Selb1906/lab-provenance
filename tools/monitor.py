@@ -183,9 +183,26 @@ def _c2pa(data):
         Path(name).unlink(missing_ok=True)
 
 
+class _LazyTM:
+    """TrustMark를 처음 필요할 때만 올린다. 위치 검출 모델(BBoxDetector)은 일반 판독이 실패했을 때만 따로 올린다.
+    처음 판은 순찰 시작 때 둘을 함께 올려(수백 MB) 음원·영상·문서만 있는 페이지에서도 메모리를 썼고,
+    11-14~15에 시스템 메모리 부족 자동 중지가 세 번 났다."""
+    def __init__(self):
+        self._plain = self._bbox = None
+
+    def decode(self, im, MODE="text", DETECTFIRST=False):
+        from trustmark import TrustMark
+        if DETECTFIRST:
+            if self._bbox is None:
+                self._bbox = TrustMark(verbose=False, model_type="Q", loadRemover=False, loadBBoxDetector=True)
+            return self._bbox.decode(im, MODE=MODE, DETECTFIRST=True)
+        if self._plain is None:
+            self._plain = TrustMark(verbose=False, model_type="Q", loadRemover=False)
+        return self._plain.decode(im, MODE=MODE)
+
+
 def _tm():
-    from trustmark import TrustMark
-    return TrustMark(verbose=False, model_type="Q", loadRemover=False, loadBBoxDetector=True)
+    return _LazyTM()
 
 
 def check_image(data, refs, tm):
@@ -197,7 +214,7 @@ def check_image(data, refs, tm):
     near = min(((fphash.distance(ph, m["lab_phash"]), m) for m in mains), key=lambda x: x[0])
     tile = min(((fphash.distance(ph, t), r) for r in tiles for t in r["tiles"]), key=lambda x: x[0]) if tiles else (99, None)
     s1, ok1, _ = tm.decode(im, MODE="text")
-    s2, ok2, _ = tm.decode(im, MODE="text", DETECTFIRST=True)
+    s2, ok2 = (None, False) if ok1 else tm.decode(im, MODE="text", DETECTFIRST=True)[:2]  # 위치 검출은 일반 판독 실패 때만
     wid = s1 if ok1 else (s2 if ok2 else None)
     how, src = [], None
     if exact:
