@@ -1,7 +1,7 @@
 """자동 발견(모니터링) 시제품: 웹 페이지를 돌며 우리 콘텐츠가 어디서 쓰이는지 찾는다.
 
 시작 주소 목록 → robots.txt 확인 → 페이지의 <img> 수집 → 이미지마다 대조:
-  C2PA(증명서 남아 있나) / SHA-256(같은 파일인가) / 지각 해시(같은 그림인가) /
+  C2PA(증명서 남아 있나) / SHA-256(같은 파일인가) / perceptual hash(같은 그림인가) /
   조각 해시(일부를 잘라 썼나) / TrustMark 식별자(누구에게 간 사본인가)
 결과: 어디서 · 어떤 원본이 · 어떻게 바뀌어 쓰였는지.
 
@@ -27,13 +27,13 @@ import wm_blockdct as W
 
 ROOT = Path(__file__).resolve().parent.parent
 LEDGERS = [ROOT / "docs" / "assets" / "ledger.jsonl", ROOT / "docs" / "assets" / "journey" / "journey-ledger.jsonl"]
-# 받는 사람별 식별자 대응표(능동 포렌식). 실제 운영에서는 비공개 원장에 둔다
+# 받는 사람별 식별자 대응표(능동 forensics). 실제 운영에서는 비공개 ledger에 둔다
 RECIPIENTS = {"RCV-A001": "공동연구기관 A", "RCV-B002": "자료 요청자 B", "RCV-C003": "기업 C"}
 UA = "lab-provenance-monitor/0.1 (research prototype)"
-PHASH_T = 2  # 원장 해시 14개 × 그림-그림 쌍 FPR 1/1,891 ≤ query FPR 1% (실험 9, 조사 14). 거리는 짝수라 2=3
+PHASH_T = 2  # ledger 해시 14개 × 그림-그림 쌍 FPR 1/1,891 ≤ query FPR 1% (실험 9, 조사 14). 거리는 짝수라 2=3
 TILE_T = 5
 SIGNED = ROOT / "docs" / "assets" / "signed"
-WM_KEY_FILE = Path("E:/envs/c2pa-site-keys/wm_key.txt")  # 블록 DCT 키(비공개). 없으면 정합 단계는 TrustMark만 본다  # 조각 비교는 질의당 오탐 1% 기준(실험 8). 조각이 많아 우연히 가까운 것이 생기므로 훨씬 엄격
+WM_KEY_FILE = Path("E:/envs/c2pa-site-keys/wm_key.txt")  # 블록 DCT 키(비공개). 없으면 정합 단계는 TrustMark만 본다  # 조각 비교는 질의당 false positive 1% 기준(실험 8). 조각이 많아 우연히 가까운 것이 생기므로 훨씬 엄격
 
 
 class _Imgs(HTMLParser):
@@ -103,14 +103,14 @@ def _load_refs():
     return mains, tiles, wm, origs
 
 
-SSCD_ABOVE = int(__import__("os").environ.get("MONITOR_SSCD_ABOVE", "20"))  # 이보다 원장이 크면 SSCD 후보 단계 사용
+SSCD_ABOVE = int(__import__("os").environ.get("MONITOR_SSCD_ABOVE", "20"))  # 이보다 ledger가 크면 SSCD 후보 단계 사용
 SSCD_K = 5
-PHASH_ALONE_MAX = 3  # 지각 해시 단독 판정이 query 오탐 1%를 지키는 원장 해시 수 상한 — 95% 상한 기준(1,891쌍 중 1쌍의 Clopper-Pearson 상한 0.29% → 약 3, 조사 15). 점추정이면 18. 지금 원장(14)은 넘으므로 지각 해시 일치도 정합 후 워터마크로 확인
+PHASH_ALONE_MAX = 3  # perceptual hash 단독 판정이 query false positive 1%를 지키는 ledger 해시 수 상한 — 95% 상한 기준(1,891쌍 중 1쌍의 Clopper-Pearson 상한 0.29% → 약 3, 조사 15). 점추정이면 18. 지금 ledger(14)은 넘으므로 perceptual hash 일치도 정합 후 watermark로 확인
 _SSCD = {}
 
 
 def _sscd_top(im, origs, k):
-    """SSCD(sscd_disc_mixup) 조각 embedding 코사인 상위 k개 원본 이름. 모델·원장 embedding은 처음 한 번만 계산."""
+    """SSCD(sscd_disc_mixup) 조각 embedding 코사인 상위 k개 원본 이름. 모델·ledger embedding은 처음 한 번만 계산."""
     import numpy as np
     import torch
     from torchvision import transforms
@@ -136,12 +136,12 @@ def _sscd_top(im, origs, k):
 
 
 def _aligned_watermark(im, origs, tm):
-    """앞 단계에서 못 찾았을 때: 후보 원본을 고르고(ORB, 눌러 보기 포함) 정합해 되돌린 뒤 워터마크를 읽는다(실험 11b·12).
-    판정은 워터마크(블록 DCT z > 2.326 또는 TrustMark 식별자가 후보의 식별자와 일치)로만 한다."""
+    """앞 단계에서 못 찾았을 때: 후보 원본을 고르고(ORB, 눌러 보기 포함) 정합해 되돌린 뒤 watermark를 읽는다(실험 11b·12).
+    판정은 watermark(블록 DCT z > 2.326 또는 TrustMark 식별자가 후보의 식별자와 일치)로만 한다."""
     import align
     pool = list(origs.items())
     if len(pool) > SSCD_ABOVE:
-        # 원장이 크면 ORB를 전부와 맞추지 않고 SSCD 상위 K개 후보만 확인(실험 14: 상위 5개 적중 760/760)
+        # ledger가 크면 ORB를 전부와 맞추지 않고 SSCD 상위 K개 후보만 확인(실험 14: 상위 5개 적중 760/760)
         keep = set(_sscd_top(im, origs, SSCD_K))
         pool = [(k, v) for k, v in pool if k in keep]
     name, n_orb = align.candidate(im, [(k, v["orb"]) for k, v in pool])
@@ -158,7 +158,7 @@ def _aligned_watermark(im, origs, tm):
     tm_ok = bool(ok and s == o["fig"]["watermark_id"])
     if not ((z is not None and z > align.Z_T) or tm_ok):
         return None
-    parts = [f"잘라 쓰거나 돌려 씀 — 원본에 맞춰 되돌린 뒤 워터마크 확인(특징점 {n_orb}/{n_sift}개 일치"]
+    parts = [f"잘라 쓰거나 돌려 씀 — 원본에 맞춰 되돌린 뒤 watermark 확인(특징점 {n_orb}/{n_sift}개 일치"]
     if z is not None:
         parts.append(f"블록 DCT z {z:.1f}")
     if tm_ok:
@@ -217,38 +217,38 @@ def check_image(data, refs, tm):
     s2, ok2 = (None, False) if ok1 else tm.decode(im, MODE="text", DETECTFIRST=True)[:2]  # 위치 검출은 일반 판독 실패 때만
     wid = s1 if ok1 else (s2 if ok2 else None)
     how, src, decided = [], None, None  # decided: 실제로 출처를 정한 단계(근거 등급에 그 단계만 표시 — 조사 15 지적 4)
-    phash_cand = None  # 원장이 커서 지각 해시만으로 확정 못 할 때의 후보(워터마크로 확인되면 확정)
+    phash_cand = None  # ledger가 커서 perceptual hash만으로 확정 못 할 때의 후보(watermark로 확인되면 확정)
     if exact:
         src, how = exact, ["원본 파일 그대로"]
     elif near[0] <= PHASH_T and len({m["lab_phash"] for m in mains}) <= PHASH_ALONE_MAX:
-        src, how, decided = near[1], [f"다시 저장·압축됨(지각 해시 거리 {near[0]})"], "near"
+        src, how, decided = near[1], [f"다시 저장·압축됨(perceptual hash 거리 {near[0]})"], "near"
     elif near[0] <= PHASH_T:
-        # 원장이 커서 지각 해시 단독 판정의 오탐을 보증할 수 없음 → 후보로만 두고 워터마크로 확인될 때 확정(아래)
+        # ledger가 커서 perceptual hash 단독 판정의 false positive를 보증할 수 없음 → 후보로만 두고 watermark로 확인될 때 확정(아래)
         phash_cand = near[1]
     elif tile[0] <= TILE_T and not WM_KEY_FILE.exists():
-        # 조각 해시는 실제 crop에서 0~45%만 찾고(실험 19) 오탐만 더한다. 정합 단계(특징점 82~100%)를 쓸 수 있는
-        # 발행자 쪽 monitor에서는 조각 해시 일치를 확정 근거로 쓰지 않고 정합 후 워터마크로 확인한다(아래 단계).
+        # 조각 해시는 실제 crop에서 0~45%만 찾고(실험 19) false positive만 더한다. 정합 단계(특징점 82~100%)를 쓸 수 있는
+        # 발행자 쪽 monitor에서는 조각 해시 일치를 확정 근거로 쓰지 않고 정합 후 watermark로 확인한다(아래 단계).
         src = next((m for m in mains if m.get("sha256") == tile[1]["of_sha256"]), None)
         how, decided = [f"일부를 잘라 씀(조각 해시 거리 {tile[0]})"], "tile"
     if wid in wm:
         src = src or wm[wid]
-        how.append(f"워터마크 {wid} 확인")
+        how.append(f"watermark {wid} 확인")
     elif wid in RECIPIENTS:
-        how.append(f"워터마크 {wid}: {RECIPIENTS[wid]}에게 보낸 사본")
+        how.append(f"watermark {wid}: {RECIPIENTS[wid]}에게 보낸 사본")
         src = src or {"file": "(받는 사람별 사본)", "caption": "받는 사람별 식별자를 심어 보낸 사본"}
     aligned_z = None
     if phash_cand is not None and decided is None:
-        msg = f"다시 저장·압축됨(지각 해시 거리 {near[0]})"
+        msg = f"다시 저장·압축됨(perceptual hash 거리 {near[0]})"
         if wid and wid == phash_cand.get("watermark_id"):
             src, decided = phash_cand, "near"
-            how.insert(0, msg + f" — 같은 원본의 워터마크 {wid}로 확인")
+            how.insert(0, msg + f" — 같은 원본의 watermark {wid}로 확인")
         else:
             a = _aligned_watermark(im, origs, tm)
             if a is not None and a[0].get("file") == phash_cand.get("file"):
                 src, decided, aligned_z = a[0], "near", a[2]
-                how.insert(0, msg + " — 원본에 맞춘 뒤 워터마크로 확인")
+                how.insert(0, msg + " — 원본에 맞춘 뒤 watermark로 확인")
     if decided is None and src is not None and wid in wm and not exact:
-        # TrustMark 식별자만 맞은 경우(위조 가능한 단서) → 그 원본에 맞춰 내용도 맞는지 확인되면 근거를 '원장 대조'로 올림
+        # TrustMark 식별자만 맞은 경우(위조 가능한 단서) → 그 원본에 맞춰 내용도 맞는지 확인되면 근거를 'ledger 대조'로 올림
         a = _aligned_watermark(im, origs, tm)
         if a is not None and a[0].get("file") == src.get("file"):
             decided, aligned_z = "aligned", a[2]
@@ -265,22 +265,22 @@ def check_image(data, refs, tm):
 
 
 def _basis(exact, near, tile, wm, aligned):
-    """발견의 근거 등급(조사 14 권고 6): 원장 대조는 우리 원장 기록과 내용이 맞는다는 것,
-    워터마크는 공개 사본만으로 위조될 수 있어(실험 10) 단서일 뿐이라는 것을 구분해 보고한다."""
+    """발견의 근거 등급(조사 14 권고 6): ledger 대조는 우리 ledger 기록과 내용이 맞는다는 것,
+    watermark는 공개 사본만으로 위조될 수 있어(실험 10) 단서일 뿐이라는 것을 구분해 보고한다."""
     if exact:
-        return "원장 대조: 같은 파일(SHA-256)"
+        return "ledger 대조: 같은 파일(SHA-256)"
     if near:
-        return "원장 대조: 닮은 그림(지각 해시)" + (" + 워터마크 단서" if wm else "")
+        return "ledger 대조: 닮은 그림(perceptual hash)" + (" + watermark 단서" if wm else "")
     if tile:
-        return "원장 대조: 그림 일부(조각 해시)" + (" + 워터마크 단서" if wm else "")
+        return "ledger 대조: 그림 일부(조각 해시)" + (" + watermark 단서" if wm else "")
     if aligned:
         # 정합 단계는 특징점으로 원본과 내용이 맞아야(정합 성공) 그 원본의 그림별 key로 검정한다(실험 18: 무관한 내용에 옮긴 위조 0/80)
-        return "원장 대조: 특징점으로 원본에 정합 + 그 원본의 그림별 key 워터마크"
-    return "워터마크 단서만(위조 가능 — 원장 대조 아님)"
+        return "ledger 대조: 특징점으로 원본에 정합 + 그 원본의 그림별 key watermark"
+    return "watermark 단서만(위조 가능 — ledger 대조 아님)"
 
 
 def check_media(data, name):
-    """음원·영상·문서 파일 → 원장 지문 조회(media_lookup·dfp). 찾으면 결과 dict, 아니면 None."""
+    """음원·영상·문서 파일 → ledger 지문 조회(media_lookup·dfp). 찾으면 결과 dict, 아니면 None."""
     import media_lookup
     import dfp
     suffix = Path(urllib.parse.urlparse(name).path).suffix.lower() or ".bin"
@@ -301,7 +301,7 @@ def check_media(data, name):
                             best = (c, e["record"])
             if best and best[0] > dfp.CON_T:
                 return {"source": best[1]["file"], "caption": best[1]["caption"], "how": [f"본문 지문 포함도 {best[0]:.2f}"],
-                        "basis": "원장 대조: 문서 지문(MinHash 포함도)", "c2pa": _c2pa_any(data, suffix)}
+                        "basis": "ledger 대조: 문서 지문(MinHash 포함도)", "c2pa": _c2pa_any(data, suffix)}
             return None
         is_video = suffix in (".mp4", ".mov", ".webm", ".mkv")
         r = media_lookup.lookup_video(path) if is_video else media_lookup.lookup(path)
@@ -309,7 +309,7 @@ def check_media(data, name):
             return None
         how = [f"영상 지문 질의측 {r['query_side']:.2f}" + (" (좌우 반전)" if r.get("flipped") else "")] if is_video else               [f"음원 지문 BER {r['ber']:.3f}" + (f" (속도 {r['tempo_factor']}배로 되돌림)" if r.get("tempo_factor") else "")]
         return {"source": r["file"], "caption": r["caption"], "how": how,
-                "basis": "원장 대조: " + ("영상 지문(vPDQ)" if is_video else "음원 지문(Philips)"), "c2pa": _c2pa_any(data, suffix)}
+                "basis": "ledger 대조: " + ("영상 지문(vPDQ)" if is_video else "음원 지문(Philips)"), "c2pa": _c2pa_any(data, suffix)}
     finally:
         Path(path).unlink(missing_ok=True)
 
@@ -367,7 +367,7 @@ if __name__ == "__main__":
     out = ROOT / "docs" / "assets" / "monitor-report.json"
     text = json.dumps(rep, ensure_ascii=False, indent=1)
     out.write_text(text, encoding="utf-8", newline=chr(10))
-    # 보고서 자체의 해시를 원장에 남긴다 → 다음 비트코인 고정(anchor.py stamp)에 함께 묶여 '이 시각에 이렇게 발견했다'가 고정된다
+    # 보고서 자체의 해시를 ledger에 남긴다 → 다음 비트코인 고정(anchor.py stamp)에 함께 묶여 '이 시각에 이렇게 발견했다'가 고정된다
     if rep["found"]:
         e = ledger.append(LEDGERS[0], {"type": "monitor-evidence", "report_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
                                        "time": rep["time"], "n_found": len(rep["found"])})

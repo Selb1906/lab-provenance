@@ -8,35 +8,35 @@
   <table class="data">
     <thead><tr><th>C2PA의 빈틈</th><th>무슨 일이 생기나</th><th>메우는 기술</th></tr></thead>
     <tbody>
-      <tr><td>증명서가 파일의 메타데이터에 붙어 있다</td><td>SNS 업로드, 다시 저장, 스크린샷을 거치면 증명서가 통째로 사라진다. 기록이 없으면 출처를 "모른다"가 된다</td><td><strong>워터마크</strong> — 픽셀 안에 식별자를 숨겨, 증명서가 지워져도 원래 기록을 다시 찾는다</td></tr>
-      <tr><td>증명서가 파일 해시에 묶여 있다</td><td>한 픽셀만 바뀌어도 "변조됨"이 된다. 줄인 같은 그림도 다른 파일이 된다</td><td><strong>핑거프린트</strong> — 내용이 비슷하면 같은 것으로 찾아 준다</td></tr>
-      <tr><td>증명서가 사라지면 원본 기록을 둘 곳이 없다</td><td>워터마크나 핑거프린트로 식별자를 찾아도 조회할 곳이 없다</td><td><strong>블록체인·원장</strong> — 기록을 파일 밖에 두고, 언제 등록했는지 고칠 수 없게 남긴다</td></tr>
-      <tr><td>서명한 뒤만 보증한다</td><td>서명 전에 이미 조작됐거나, 처음부터 증명서가 없는 파일은 아무 말도 해 주지 못한다</td><td><strong>포렌식</strong> — 파일 내용 자체를 분석해 편집 흔적을 찾는다</td></tr>
+      <tr><td>증명서가 파일 메타데이터에 붙음</td><td>SNS 업로드·재저장·스크린샷 → 증명서 통째로 소실 → 출처 "모름"</td><td><strong>watermark</strong> — 픽셀 안 식별자로 증명서 소실 뒤에도 원래 기록 재탐색</td></tr>
+      <tr><td>증명서가 파일 해시에 묶임</td><td>픽셀 하나만 바뀌어도 "변조됨" · 축소한 같은 그림도 다른 파일</td><td><strong>fingerprint</strong> — 내용이 비슷하면 같은 것으로 탐색</td></tr>
+      <tr><td>증명서 소실 시 원본 기록을 둘 곳 없음</td><td>watermark·fingerprint로 식별자를 찾아도 조회처 없음</td><td><strong>blockchain·ledger</strong> — 기록을 파일 밖에 두고 등록 시각을 수정 불가능하게 보존</td></tr>
+      <tr><td>서명 이후만 보증</td><td>서명 전 조작, 처음부터 증명서 없는 파일은 판단 불가</td><td><strong>forensics</strong> — 파일 내용 분석으로 편집 흔적 탐색</td></tr>
     </tbody>
   </table>
-  <p class="muted small">C2PA 표준에도 첫째·둘째 빈틈을 위해 워터마크·핑거프린트로 증명서를 다시 찾는 "soft binding" 항목이 있다.</p>
+  <p class="muted small">C2PA 표준에도 첫째·둘째 빈틈 대응 항목 존재: watermark·fingerprint로 증명서를 다시 찾는 "soft binding"</p>
 </section>
 
 <section>
   <h2>공격마다 무엇이 살아남나</h2>
-  <p>같은 그림이 어떤 일을 겪느냐에 따라 출처를 되찾게 해 주는 기술이 다릅니다. 어느 기술도 모든 경우를 막지 못하고, 무엇이 찾아내든 마지막에는 원장이 원래 발행본과 원래 증명서로 이어 줍니다.</p>
+  <p>같은 그림이 어떤 일을 겪느냐에 따라 출처를 되찾게 해 주는 기술이 다릅니다. 어느 기술도 모든 경우를 막지 못하고, 무엇이 찾아내든 마지막에는 ledger가 원래 발행본과 원래 증명서로 이어 줍니다.</p>
   <table class="data">
-    <thead><tr><th>겪는 일</th><th>C2PA 증명서</th><th>지각 해시·특징점</th><th>워터마크</th><th>누가 답하나</th></tr></thead>
+    <thead><tr><th>겪는 일</th><th>C2PA 증명서</th><th>perceptual hash·특징점</th><th>watermark</th><th>누가 답하나</th></tr></thead>
     <tbody>
       <tr><td>그대로 내려받기</td><td>남음, "바뀌지 않음"</td><td>같음</td><td>남음</td><td>C2PA</td></tr>
-      <tr><td>다시 저장·SNS 업로드(JPEG)</td><td><strong>사라짐</strong></td><td>그림 94~98%·사진 100% 찾음(threshold 2)</td><td>대부분 남음</td><td>지각 해시 → 원장</td></tr>
+      <tr><td>다시 저장·SNS 업로드(JPEG)</td><td><strong>사라짐</strong></td><td>그림 94~98%·사진 100% 찾음(threshold 2)</td><td>대부분 남음</td><td>perceptual hash → ledger</td></tr>
       <tr><td>픽셀 하나 변조</td><td><strong>"서명 뒤 바뀜"</strong></td><td>같은 그림으로 봄</td><td>남음</td><td>C2PA만</td></tr>
-      <tr><td>잘라 쓰기(crop)</td><td>사라짐</td><td>지각 해시는 못 찾음, 특징점 82~100%(늘리지 않고 자른 경우; 정사각형으로 잘라 늘리면 66~89%)</td><td>그대로 읽으면 약함, 원본에 맞춰 되돌리면 다시 읽힘</td><td>특징점 → 원본에 맞춰 워터마크</td></tr>
-      <tr><td>돌리기(9~45°)</td><td>사라짐</td><td>지각 해시 0%, 특징점 74~97%</td><td>그대로 읽으면 0%, 원본에 맞춰 되돌리면 전부 읽힘</td><td>특징점 → 원본에 맞춰 워터마크</td></tr>
-      <tr><td>AI 잡음 제거(FFDNet)</td><td>사라짐</td><td>95~100% 찾음</td><td><strong>대부분 지워짐</strong>(둘 중 하나 남음 그림 26~48%)</td><td>지각 해시·특징점 → 원장</td></tr>
-      <tr><td>생성 모델 재생성(SD-VAE)</td><td>사라짐</td><td>95~100% 찾음</td><td>TrustMark 70~78% 남음</td><td>지각 해시·특징점, TrustMark</td></tr>
-      <tr><td>받는 사람별 사본의 유출</td><td>—</td><td>원본은 찾지만 누구 사본인지 모름</td><td>받는 사람별 식별자로 누구 사본인지</td><td>워터마크(능동 포렌식)</td></tr>
-      <tr><td>음원을 MP3로 다시 압축(32kbps까지)</td><td>사라짐</td><td>음원 지문(Philips 방식) 10/10 찾음</td><td>—(시험 안 함)</td><td>음원 지문 → 원장</td></tr>
-      <tr><td>영상을 다시 인코딩·축소·일부만 잘라 올림</td><td>사라짐</td><td>영상 지문(vPDQ 방식) 10/10 찾음</td><td>—(시험 안 함)</td><td>영상 지문 → 원장</td></tr>
-      <tr><td>문서(PDF)를 다시 저장·일부 발췌·단어 수정</td><td>PDF는 파일 밖 증명서(sidecar)로만, docx는 압축하지 않은 파일이면 안에 넣을 수 있음 — 다시 저장하면 사라짐</td><td>본문 MinHash 34/34 찾음(발췌는 '포함도'로)</td><td>—</td><td>문서 지문 → 원장</td></tr>
+      <tr><td>잘라 쓰기(crop)</td><td>사라짐</td><td>perceptual hash는 못 찾음, 특징점 82~100%(늘리지 않고 자른 경우; 정사각형으로 잘라 늘리면 66~89%)</td><td>그대로 읽으면 약함, 원본에 맞춰 되돌리면 다시 읽힘</td><td>특징점 → 원본에 맞춰 watermark</td></tr>
+      <tr><td>돌리기(9~45°)</td><td>사라짐</td><td>perceptual hash 0%, 특징점 74~97%</td><td>그대로 읽으면 0%, 원본에 맞춰 되돌리면 전부 읽힘</td><td>특징점 → 원본에 맞춰 watermark</td></tr>
+      <tr><td>AI 잡음 제거(FFDNet)</td><td>사라짐</td><td>95~100% 찾음</td><td><strong>대부분 지워짐</strong>(둘 중 하나 남음 그림 26~48%)</td><td>perceptual hash·특징점 → ledger</td></tr>
+      <tr><td>생성 모델 재생성(SD-VAE)</td><td>사라짐</td><td>95~100% 찾음</td><td>TrustMark 70~78% 남음</td><td>perceptual hash·특징점, TrustMark</td></tr>
+      <tr><td>받는 사람별 사본의 유출</td><td>—</td><td>원본은 찾지만 누구 사본인지 모름</td><td>받는 사람별 식별자로 누구 사본인지</td><td>watermark(능동 forensics)</td></tr>
+      <tr><td>음원을 MP3로 다시 압축(32kbps까지)</td><td>사라짐</td><td>음원 지문(Philips 방식) 10/10 찾음</td><td>—(시험 안 함)</td><td>음원 지문 → ledger</td></tr>
+      <tr><td>영상을 다시 인코딩·축소·일부만 잘라 올림</td><td>사라짐</td><td>영상 지문(vPDQ 방식) 10/10 찾음</td><td>—(시험 안 함)</td><td>영상 지문 → ledger</td></tr>
+      <tr><td>문서(PDF)를 다시 저장·일부 발췌·단어 수정</td><td>PDF는 파일 밖 증명서(sidecar)로만, docx는 압축하지 않은 파일이면 안에 넣을 수 있음 — 다시 저장하면 사라짐</td><td>본문 MinHash 34/34 찾음(발췌는 '포함도'로)</td><td>—</td><td>문서 지문 → ledger</td></tr>
     </tbody>
   </table>
-  <p class="muted small">논문 그림 위주의 실험 결과(그림 9~62장, 사진 9장, 공개 벤치마크 WAVES의 공격 규약)이며 표본이 작습니다. '원본에 맞춰 되돌리기'는 원본을 가진 발행자만 할 수 있습니다. 원본이 없는 제3자를 위한 동기화 워터마크(SyncSeal)는 사진에서는 회전 뒤 TrustMark를 78~100% 되살렸지만 흰 바탕 그림에서는 20~80%에 그쳤습니다. 모든 그림에 같은 키를 쓰면 공개된 사본만으로 워터마크를 위조할 수 있었습니다. 그래서 그림마다 다른 키를 쓰고(이것만으로는 위조 통과가 100%에서 키 하나 기준 10%로 줄어들 뿐), 원장에서 내용이 닮은 원본을 먼저 찾아 그 원본에 맞춘 뒤 그 원본의 키로만 검정합니다(이 순서에서 위조 80건 중 0건 — 주로 원본 맞추기 단계가 걸러냄). 워터마크만 맞는 것은 단서일 뿐 진짜임의 증명이 아닙니다.</p>
+  <p class="muted small">논문 그림 위주의 실험 결과(그림 9~62장, 사진 9장, 공개 벤치마크 WAVES의 공격 규약)이며 표본이 작습니다. '원본에 맞춰 되돌리기'는 원본을 가진 발행자만 할 수 있습니다. 원본이 없는 제3자를 위한 동기화 watermark(SyncSeal)는 사진에서는 회전 뒤 TrustMark를 78~100% 되살렸지만 흰 바탕 그림에서는 20~80%에 그쳤습니다. 모든 그림에 같은 키를 쓰면 공개된 사본만으로 watermark를 위조할 수 있었습니다. 그래서 그림마다 다른 키를 쓰고(이것만으로는 위조 통과가 100%에서 키 하나 기준 10%로 줄어들 뿐), ledger에서 내용이 닮은 원본을 먼저 찾아 그 원본에 맞춘 뒤 그 원본의 키로만 검정합니다(이 순서에서 위조 80건 중 0건 — 주로 원본 맞추기 단계가 걸러냄). watermark만 맞는 것은 단서일 뿐 진짜임의 증명이 아닙니다.</p>
 </section>
 
 <section>
@@ -50,22 +50,22 @@
   <table class="data">
     <thead><tr><th>층</th><th>무엇을 해 봤나</th><th>알게 된 것</th></tr></thead>
     <tbody>
-      <tr><td>C2PA</td><td>그림 9장·음원·영상·Word 문서 서명, PDF는 파일 밖 증명서, 브라우저 검증, 다시 저장·픽셀 하나 변경</td><td>다시 저장하면 증명서가 통째로 사라진다. 픽셀 하나만 바뀌어도 "변조됨". 신뢰 여부는 파일이 아니라 검증하는 쪽이 어떤 루트를 믿느냐로 정해진다</td></tr>
-      <tr><td>핑거프린트</td><td>지각 해시 4종, 이미지 76장, 공개 벤치마크(WAVES) 공격 8종×5단계</td><td>JPEG 품질 10·잡음에도 그림 94~98%를 찾고, 흐림·대비에는 그림 73~100%·74~97%로 조금 약해진다(threshold 2, 그림 62장). 밝기 변화에는 약하다(8~61%). 그러나 9° 회전부터, 그리고 잘라 쓴 그림은 거의 못 찾는다(잘라 쓴 그림은 특징점 비교가 82~100% 찾는다). 흰 배경 그림은 회전·지우기로 생기는 검은 영역에 사진보다 더 약하다. 발행할 때 그림의 조각 125개를 함께 등록하면 잘라 쓴 그림을 더 찾지만, 오탐을 엄격하게 따지면 논문 그림 크롭은 13~24%, 늘리지 않고 자른 실제 크롭은 0~45%에 그쳐 특징점 비교가 더 낫다. 원장이 커질수록 '닮음' threshold를 낮춰야 한다: 원장 75장이면 쌍 기준 threshold(15)에서 조회의 18%가 엉뚱한 그림에 걸려, 이 사이트(그림 10장, 해시 14개)는 거리 2 이하만 같은 그림으로 본다. AI 잡음 제거(FFDNet)나 생성 모델 재생성(SD-VAE)을 거쳐 워터마크가 지워진 그림도 지각 해시와 특징점으로 95~100% 원본을 찾는다</td></tr>
-      <tr><td>원장·블록체인</td><td>해시체인 원장 공개, 원장 끝을 OpenTimestamps로 비트코인에 고정</td><td>증명서가 지워진 그림도 지각 해시로 원장에서 원래 발행본과 원래 증명서를 찾는다(<a href="verify.html">검증하기</a>에서 "다시 저장한 그림"으로 확인). 워터마크에는 짧은 식별자만 들어가므로 이런 조회처가 반드시 필요하다</td></tr>
-      <tr><td>워터마크</td><td>TrustMark, DWT-DCT, DWT-DCT-SVD, 블록 DCT(연구 중인 비디오 워터마크의 이미지 이식), 34장 × 같은 공격</td><td>블록 DCT는 압축·잡음·밝기에 거의 완벽하고, TrustMark는 크롭에 강해 서로 보완적이다. 원본 없이 읽으면 어떤 방식도 9° 회전을 못 버틴다(원본에 맞춰 되돌리면 다시 읽힌다 — 아래). DWT-DCT는 흰 배경 그림에 아예 들어가지 않고, TrustMark도 흰 배경 그림은 밝기만 올려도 신호가 잘린다. 넣을 수 있는 정보는 61비트(영문 8글자)뿐이다. AI 공격(37장)에서는 생성 모델 재생성(SD-VAE) 뒤 둘 중 하나가 70~78% 남지만, AI 잡음 제거(FFDNet) 한 번이면 둘 다 대부분 지워진다(그림 26~48%, 사진 11~22%) — 그때는 핑거프린트가 원본을 찾는다. <strong>원본을 가진 발행자는</strong> 의심 이미지를 특징점으로 원본에 맞춰 되돌린 뒤 읽을 수 있고, 그러면 블록 DCT는 서로 다른 크롭 25종·45°까지 회전 45건, 모두 70건 전부, TrustMark는 회전 45건 모두 다시 읽힌다. 반대로 같은 키로 심은 공개 그림 9장만 있으면 다른 그림에 워터마크를 위조할 수 있었다(20장 모두 — 그중 1장은 심기 전부터 threshold 위) — 워터마크는 원장을 찾아가는 단서이지 진짜임의 증명이 아니다</td></tr>
-      <tr><td>포렌식</td><td>ELA·EXIF·JPEG 품질 추정 / 받는 사람별 워터마크로 유출자 추적</td><td>ELA는 질감과 조작을 구분하지 못해 흰 배경 그림에서 착시를 만든다. 받는 사람마다 다른 식별자를 심으면 축소·압축·크롭을 거친 유출본에서도 누구 사본인지 찾는다(작은 각도 회전은 실패)</td></tr>
+      <tr><td>C2PA</td><td>그림 9장·음원·영상·Word 문서 서명, PDF는 파일 밖 증명서, 브라우저 검증, 다시 저장·픽셀 하나 변경</td><td><ul class="pts"><li>재저장 → 증명서 통째로 소실</li><li>픽셀 하나 변경에도 "변조됨"</li><li>신뢰 여부: 파일이 아니라 검증자가 믿는 루트로 결정</li></ul></td></tr>
+      <tr><td>fingerprint</td><td>perceptual hash 4종, 이미지 76장, 공개 벤치마크(WAVES) 공격 8종×5단계</td><td><ul class="pts"><li>JPEG 품질 10·잡음: 그림 94~98% 탐색</li><li>흐림·대비: 그림 73~100%·74~97%(threshold 2, 그림 62장)</li><li>밝기 변화에 취약(8~61%)</li><li>9° 이상 회전·crop: 거의 못 찾음 → crop은 특징점 비교로 82~100%</li><li>흰 배경 그림: 회전·지우기로 생긴 검은 영역에 사진보다 취약</li><li>발행 시 그림 조각 125개 함께 등록: crop 탐색 향상, 단 false positive를 엄격히 따지면 논문 그림 crop 13~24%, 늘리지 않은 실제 crop 0~45% → 특징점 비교가 우세</li><li>ledger가 커질수록 threshold 하향 필요: ledger 75장·쌍 기준 threshold 15에서 조회의 18%가 엉뚱한 그림 → 이 사이트(그림 10장, 해시 14개)는 거리 2 이하만 같은 그림</li><li>AI 잡음 제거(FFDNet)·생성 모델 재생성(SD-VAE)으로 watermark가 지워진 그림도 perceptual hash·특징점으로 95~100% 탐색</li></ul></td></tr>
+      <tr><td>ledger·blockchain</td><td>해시체인 ledger 공개, ledger 끝을 OpenTimestamps로 비트코인에 고정</td><td><ul class="pts"><li>증명서가 지워진 그림도 perceptual hash로 ledger에서 원래 발행본·증명서 조회(<a href="verify.html">검증하기</a>의 "다시 저장한 그림"으로 확인)</li><li>watermark에는 짧은 식별자만 들어감 → 조회처 필수</li></ul></td></tr>
+      <tr><td>watermark</td><td>TrustMark, DWT-DCT, DWT-DCT-SVD, 블록 DCT(연구 중인 비디오 watermark의 이미지 이식), 34장 × 같은 공격</td><td><ul class="pts"><li>블록 DCT: 압축·잡음·밝기에 거의 완벽 / TrustMark: crop에 강함 → 상호 보완</li><li>원본 없이 판독 시 모든 방식이 9° 회전에 실패(원본에 맞춰 되돌리면 재판독 — 아래)</li><li>DWT-DCT: 흰 배경 그림에 삽입 불가 / TrustMark: 흰 배경 그림은 밝기만 올려도 신호 소실</li><li>용량 61비트(영문 8글자)</li><li>AI 공격(37장): SD-VAE 뒤 둘 중 하나 70~78% 유지, FFDNet 한 번이면 대부분 소실(그림 26~48%, 사진 11~22%) → fingerprint가 원본 탐색</li><li><strong>원본을 가진 발행자</strong>: 특징점으로 원본에 맞춰 되돌린 뒤 판독 → 블록 DCT는 서로 다른 crop 25종·45°까지 회전 45건, 총 70건 전부, TrustMark는 회전 45건 전부 재판독</li><li>같은 key로 심은 공개 그림 9장만으로 다른 그림에 watermark 위조 성공(20장 모두, 그중 1장은 심기 전부터 threshold 위) → watermark는 ledger를 찾는 단서이지 진품 증명 아님</li></ul></td></tr>
+      <tr><td>forensics</td><td>ELA·EXIF·JPEG 품질 추정 / 받는 사람별 watermark로 유출자 추적</td><td><ul class="pts"><li>ELA: 질감과 조작 구분 불가 → 흰 배경 그림에서 착시</li><li>수신자별 식별자: 축소·압축·crop을 거친 유출본에서도 유출 사본 특정(작은 각도 회전은 실패)</li></ul></td></tr>
     </tbody>
   </table>
 </section>
 
 <section>
-  <h2>원장과 비트코인 고정</h2>
-  <p>발행한 그림마다 <a href="assets/ledger.jsonl">공개 원장</a>에 한 줄을 남깁니다(파일 해시, 지각 해시, C2PA 증명서 식별자). 각 줄은 앞 줄의 해시를 품고 있어 중간을 고치면 뒤가 모두 어긋납니다.</p>
-  <p>원장을 운영하는 연구실이 원장 전체를 몰래 다시 쓰는 것까지 막기 위해, 원장의 끝 해시를 담은 <a href="assets/anchors/ledger-0009-205acf99d674.txt">체크포인트</a>를 OpenTimestamps로 비트코인에 고정했습니다(<a href="assets/anchors/ledger-0009-205acf99d674.txt.ots">도장 파일</a>). 이 체크포인트는 비트코인 블록 <a class="mono" href="https://blockstream.info/block-height/975582">975582</a>·<a class="mono" href="https://blockstream.info/block-height/975583">975583</a>(2026-11-13 04:02·04:07 KST)에 들어갔고, 블록의 머클 루트와 도장이 일치하는 것을 확인했습니다. 따라서 이 시각의 원장 9줄은 이후 누구도 바꿀 수 없습니다.</p>
-  <p>원장이 늘어날 때마다 새 체크포인트를 고정합니다. 지금까지 확정된 것(블록 번호가 둘이면 달력 서버마다 다른 블록에 들어간 것):</p>
+  <h2>ledger와 비트코인 고정</h2>
+  <p>발행한 그림마다 <a href="assets/ledger.jsonl">공개 ledger</a>에 한 줄을 남깁니다(파일 해시, perceptual hash, C2PA 증명서 식별자). 각 줄은 앞 줄의 해시를 품고 있어 중간을 고치면 뒤가 모두 어긋납니다.</p>
+  <p>ledger를 운영하는 연구실이 ledger 전체를 몰래 다시 쓰는 것까지 막기 위해, ledger의 끝 해시를 담은 <a href="assets/anchors/ledger-0009-205acf99d674.txt">체크포인트</a>를 OpenTimestamps로 비트코인에 고정했습니다(<a href="assets/anchors/ledger-0009-205acf99d674.txt.ots">도장 파일</a>). 이 체크포인트는 비트코인 블록 <a class="mono" href="https://blockstream.info/block-height/975582">975582</a>·<a class="mono" href="https://blockstream.info/block-height/975583">975583</a>(2026-11-13 04:02·04:07 KST)에 들어갔고, 블록의 머클 루트와 도장이 일치하는 것을 확인했습니다. 따라서 이 시각의 ledger 9줄은 이후 누구도 바꿀 수 없습니다.</p>
+  <p>ledger가 늘어날 때마다 새 체크포인트를 고정합니다. 지금까지 확정된 것(블록 번호가 둘이면 달력 서버마다 다른 블록에 들어간 것):</p>
   <table>
-    <thead><tr><th>원장 길이</th><th>새로 묶인 기록</th><th>비트코인 블록</th><th>파일</th></tr></thead>
+    <thead><tr><th>ledger 길이</th><th>새로 묶인 기록</th><th>비트코인 블록</th><th>파일</th></tr></thead>
     <tbody>
       <tr><td>9줄</td><td>첫 그림 9장</td><td><a class="mono" href="https://blockstream.info/block-height/975582">975582</a>·<a class="mono" href="https://blockstream.info/block-height/975583">975583</a></td><td><a href="assets/anchors/ledger-0009-205acf99d674.txt">체크포인트</a> · <a href="assets/anchors/ledger-0009-205acf99d674.txt.ots">도장</a></td></tr>
       <tr><td>18줄</td><td>그림 추가</td><td><a class="mono" href="https://blockstream.info/block-height/975625">975625</a>·<a class="mono" href="https://blockstream.info/block-height/975626">975626</a></td><td><a href="assets/anchors/ledger-0018-514aa91b7482.txt">체크포인트</a> · <a href="assets/anchors/ledger-0018-514aa91b7482.txt.ots">도장</a></td></tr>
@@ -82,6 +82,6 @@
 
 <section>
   <h2>진행 상황</h2>
-  <p>층마다 알려진 방식 여러 개를 같은 공격에 노출해 비교합니다. 공격은 일반 처리(압축·크롭·축소)를 먼저 하고, 거기서 버틴 방식만 AI 디노이징·재생성으로 넘어갑니다. 시행착오를 포함한 전체 기록은 <a href="https://github.com/Selb1906/lab-provenance/blob/main/notes/%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%80.md">개발일지</a>에 있습니다.</p>
+  <p>층마다 알려진 방식 여러 개를 같은 공격에 노출해 비교합니다. 공격은 일반 처리(압축·crop·축소)를 먼저 하고, 거기서 버틴 방식만 AI denoising·재생성으로 넘어갑니다. 시행착오를 포함한 전체 기록은 <a href="https://github.com/Selb1906/lab-provenance/blob/main/notes/%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%80.md">개발일지</a>에 있습니다.</p>
   <div id="progress"></div>
 </section>

@@ -14,8 +14,8 @@
    "source": "assets/signed/kiaebs2026-05.png",
    "caption": "외피 변수별 민감도 지수",
    "how": [
-    "다시 저장·압축됨(지각 해시 거리 0)",
-    "워터마크 GEL-0005 확인"
+    "다시 저장·압축됨(perceptual hash 거리 0)",
+    "watermark GEL-0005 확인"
    ],
    "phash_d": 0,
    "tile_d": 14,
@@ -57,7 +57,7 @@
    "source": "assets/signed/buildings2026-01.png",
    "caption": "CVRMSE 분해: 변동계수 요인과 비정형 요인",
    "how": [
-    "워터마크 GEL-0001 확인"
+    "watermark GEL-0001 확인"
    ],
    "phash_d": 22,
    "tile_d": 10,
@@ -99,7 +99,7 @@
    "source": "assets/journey/0-published.png",
    "caption": null,
    "how": [
-    "워터마크 GEL-0002 확인"
+    "watermark GEL-0002 확인"
    ],
    "phash_d": 22,
    "tile_d": 18,
@@ -141,8 +141,8 @@
    "source": "assets/signed/energy2024-06.png",
    "caption": "수요 예측 과정",
    "how": [
-    "다시 저장·압축됨(지각 해시 거리 0)",
-    "워터마크 GEL-0006 확인"
+    "다시 저장·압축됨(perceptual hash 거리 0)",
+    "watermark GEL-0006 확인"
    ],
    "phash_d": 0,
    "tile_d": 16,
@@ -184,7 +184,7 @@
    "source": "assets/signed/enbuild2024-08.png",
    "caption": "BES 모델 구성과 보정 절차",
    "how": [
-    "잘라 쓰거나 돌려 씀 — 원본에 맞춰 되돌린 뒤 워터마크 확인(특징점 173/1029개 일치, 블록 DCT z 6.7, TrustMark GEL-0008)"
+    "잘라 쓰거나 돌려 씀 — 원본에 맞춰 되돌린 뒤 watermark 확인(특징점 173/1029개 일치, 블록 DCT z 6.7, TrustMark GEL-0008)"
    ],
    "phash_d": 24,
    "tile_d": 18,
@@ -226,8 +226,8 @@
    "source": "assets/signed/buildings2026-02.png",
    "caption": "건물 유형별 시간대 오차 패턴",
    "how": [
-    "다시 저장·압축됨(지각 해시 거리 0)",
-    "워터마크 RCV-B002: 자료 요청자 B에게 보낸 사본"
+    "다시 저장·압축됨(perceptual hash 거리 0)",
+    "watermark RCV-B002: 자료 요청자 B에게 보낸 사본"
    ],
    "phash_d": 0,
    "tile_d": 10,

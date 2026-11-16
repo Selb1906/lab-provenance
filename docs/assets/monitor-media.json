@@ -9,7 +9,7 @@
    "how": [
     "음원 지문 BER 0.034"
    ],
-   "basis": "원장 대조: 음원 지문(Philips)",
+   "basis": "ledger 대조: 음원 지문(Philips)",
    "c2pa": "없음"
   },
   {
@@ -19,7 +19,7 @@
    "how": [
     "영상 지문 질의측 1.00 (좌우 반전)"
    ],
-   "basis": "원장 대조: 영상 지문(vPDQ)",
+   "basis": "ledger 대조: 영상 지문(vPDQ)",
    "c2pa": "없음"
   },
   {
@@ -29,7 +29,7 @@
    "how": [
     "본문 지문 포함도 1.00"
    ],
-   "basis": "원장 대조: 문서 지문(MinHash 포함도)",
+   "basis": "ledger 대조: 문서 지문(MinHash 포함도)",
    "c2pa": "없음"
   }
  ],

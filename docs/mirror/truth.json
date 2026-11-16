@@ -9,7 +9,7 @@
   "page": "blog",
   "img": "blog-2.png",
   "source": "buildings2026-01",
-  "how": "크롭 면적 0.8 (WAVES 0.4)"
+  "how": "crop 면적 0.8 (WAVES 0.4)"
  },
  {
   "page": "blog",
@@ -39,7 +39,7 @@
   "page": "news",
   "img": "news-1.jpg",
   "source": "enbuild2024-08",
-  "how": "크롭 면적 0.6 (WAVES 0.8) + JPEG 품질 74"
+  "how": "crop 면적 0.6 (WAVES 0.8) + JPEG 품질 74"
  },
  {
   "page": "news",
@@ -75,6 +75,6 @@
   "page": "media",
   "img": "media-4.pdf",
   "source": null,
-  "how": "상관없는 문서(원장에 없는 우리 다른 문서)"
+  "how": "상관없는 문서(ledger에 없는 우리 다른 문서)"
  }
 ]

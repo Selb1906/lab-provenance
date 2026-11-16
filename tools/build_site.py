@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 SIGNED = DOCS / "assets" / "signed"
 KEYS = Path("E:/envs/c2pa-site-keys")
-# 블록 DCT 워터마크 키는 서명 키처럼 저장소 밖에 둔다. 키를 알면 누구나 위조·제거할 수 있다(개발일지 11-13 22:05)
+# 블록 DCT watermark 키는 서명 키처럼 저장소 밖에 둔다. 키를 알면 누구나 위조·제거할 수 있다(개발일지 11-13 22:05)
 WM_KEY = int((KEYS / "wm_key.txt").read_text().strip())
 FIG_SRC = Path("E:/envs/c2pa-work/figs")
 MAX_W = 1600
@@ -81,7 +81,7 @@ def prepare_figures(papers, resign):
 
 
 def record_in_ledger(figs):
-    """발행한 그림마다 원장에 한 줄. 이미 있는 파일(같은 SHA-256)은 건너뛴다."""
+    """발행한 그림마다 ledger에 한 줄. 이미 있는 파일(같은 SHA-256)은 건너뛴다."""
     from c2pa import Context, Reader
     path = DOCS / "assets" / "ledger.jsonl"
     for f in figs:
@@ -96,7 +96,7 @@ def record_in_ledger(figs):
             "c2pa_manifest": manifest_id, "caption": f["caption"], "paper": f["paper"],
             "watermark_id": f["watermark_id"], "watermarks": ["trustmark", "blockdct"],
         })
-    # 크롭본을 찾기 위한 조각 해시(실험 5). 본 기록과 별도의 줄로 덧붙인다(이미 고정된 앞 줄은 건드리지 않음)
+    # crop본을 찾기 위한 조각 해시(실험 5). 본 기록과 별도의 줄로 덧붙인다(이미 고정된 앞 줄은 건드리지 않음)
     for f in figs:
         if ledger.lookup(path, type="tiles", of_sha256=f["sha256"]):
             continue
@@ -110,21 +110,31 @@ def record_in_ledger(figs):
 NAV = [("index.html", "소개"), ("papers.html", "논문"), ("patents.html", "특허"),
        ("journey.html", "한 장의 여정"), ("monitor.html", "자동 발견"), ("provenance.html", "출처증명"), ("verify.html", "검증하기")]
 
-JOURNEY_STEPS = [
-    ("0-published.png", "발행", "연구실이 그림을 발행한다. 픽셀 안에 식별자 GEL-0002를 워터마크로 숨기고, C2PA로 서명하고, 원장에 한 줄을 남긴다.",
-     "모든 층이 같은 그림을 가리킨다. 이 상태가 기준이다."),
-    ("1-messenger.jpg", "메신저로 전달", "누군가 그림을 메신저로 보낸다. 메신저는 사진을 JPEG로 다시 압축한다(품질 74, 공개 벤치마크 WAVES의 가장 약한 압축 단계).",
-     "C2PA 증명서가 통째로 사라진다. 그래도 워터마크 식별자와 지각 해시로 원장을 찾아 원본의 증명서를 찾아낼 수 있다. 다만 이 파일 자체가 인증된 것은 아니고 '같은 그림으로 보이는 원본의 기록'이라는 낮은 신뢰다."),
-    ("2-cropped.png", "잘라서 사용", "누군가 그림의 일부(면적 80%)만 잘라 원래 크기로 늘려 쓴다(WAVES 크롭 단계 0.4).",
-     "지각 해시는 그림 전체 구도를 보기 때문에 놓친다. 워터마크와 특징점이 대신 찾는다."),
-    ("3-screenshot.png", "화면 캡처", "누군가 그림을 브라우저에서 열고 화면 전체(1920×1080)를 캡처한다. 그림 주변에 어두운 배경이 함께 찍힌다.",
-     "그림 주변이 섞이면 지각 해시는 놓친다. 워터마크는 위치 검출을 켜면 그림 영역을 찾아 읽는다."),
-    ("4-tampered.png", "내용 조작", "누군가 히트맵의 한 칸을 다른 색으로 칠한다. 증명서는 그대로 남겨 둔다.",
-     "C2PA만 조작을 잡는다(서명 뒤 바뀜). 워터마크·지각 해시·특징점은 '같은 그림'이라고 답한다 — 이들은 '원래 기록이 어디 있나'를 찾는 도구이지, 변조를 잡는 도구가 아니다."),
-    ("5-leaked.jpg", "유출", "같은 그림을 세 곳에 보낼 때 받는 사람마다 다른 식별자를 숨겨 보냈다. 그중 하나가 메신저를 거쳐 퍼진다.",
-     "퍼진 사본에서 읽은 식별자 RCV-B002로 누구의 사본이 퍼졌는지 안다. C2PA로는 알 수 없는 정보다."),
-    ("6-ai-denoised.png", "AI로 잡음 제거", "누군가 AI 잡음 제거 도구(FFDNet)로 그림을 '깨끗하게' 만든다. 눈으로는 거의 같아 보인다.",
-     "워터마크(눈에 안 보이는 미세한 신호)는 잡음과 함께 지워진다. 그러나 그림의 모양은 그대로라 지각 해시·특징점이 원본을 찾고, 원장이 원본 증명서로 이어 준다(실험 13: AI 공격 뒤 fingerprint 95~100%)."),
+JOURNEY_STEPS = [  # (파일, 제목, 한 일 항목, 결과 항목) — 개조식(11-17 사용자 요청)
+    ("0-published.png", "발행",
+     ["연구실 그림 발행", "식별자 GEL-0002 watermark 삽입", "C2PA 서명", "ledger 한 줄 기록"],
+     ["모든 층이 같은 그림 지목 → 이후 단계의 비교 기준"]),
+    ("1-messenger.jpg", "메신저로 전달",
+     ["메신저 전달", "JPEG 재압축(품질 74, WAVES의 가장 약한 압축 단계)"],
+     ["C2PA 증명서 통째로 소실", "watermark 식별자·perceptual hash → ledger에서 원본 증명서 조회",
+      "단, 이 파일 자체의 인증 아님 → '같은 그림으로 보이는 원본의 기록' 수준의 낮은 신뢰"]),
+    ("2-cropped.png", "잘라서 사용",
+     ["그림 일부(면적 80%) crop 후 원래 크기로 늘림(WAVES crop 단계 0.4)"],
+     ["perceptual hash: 전체 구도 비교라 놓침", "watermark·특징점: 원본 탐색"]),
+    ("3-screenshot.png", "화면 캡처",
+     ["브라우저에서 연 그림의 화면 전체(1920×1080) 캡처", "그림 주변 어두운 배경 포함"],
+     ["perceptual hash: 주변 배경이 섞여 놓침", "watermark: 위치 검출로 그림 영역을 찾아 판독"]),
+    ("4-tampered.png", "내용 조작",
+     ["히트맵 한 칸 색 변경", "증명서는 그대로 유지"],
+     ["C2PA만 조작 탐지(서명 뒤 변경)", "watermark·perceptual hash·특징점: '같은 그림' 판정",
+      "→ 원래 기록 위치를 찾는 도구, 변조 탐지 도구 아님"]),
+    ("5-leaked.jpg", "유출",
+     ["수신자 3곳에 수신자별 식별자를 넣어 발송", "그중 하나가 메신저로 확산"],
+     ["확산 사본의 식별자 RCV-B002 → 유출된 사본 특정", "C2PA로는 알 수 없는 정보"]),
+    ("6-ai-denoised.png", "AI로 잡음 제거",
+     ["AI 잡음 제거 도구(FFDNet) 적용", "눈으로는 거의 동일"],
+     ["watermark(비가시 미세 신호): 잡음과 함께 소실",
+      "perceptual hash·특징점: 모양 유지로 원본 탐색 → ledger가 원본 증명서로 연결(AI 공격 뒤 fingerprint 95~100%)"]),
 ]
 RECIPIENT_NAMES = {"RCV-A001": "공동연구기관 A", "RCV-B002": "자료 요청자 B", "RCV-C003": "기업 C", "GEL-0002": "연구실 발행본"}
 
@@ -263,10 +273,10 @@ def build_journey():
         ledger_hit = r["sha256_match"] or r["phash_ok"] or (wid == "GEL-0002")
         rows = [
             ("C2PA", f'<span class="state {c2_cls} inline"><span class="dot"></span>{esc(c2)}</span>'),
-            ("워터마크", _mark(bool(wid), f"식별자 {esc(wid)} ({esc(RECIPIENT_NAMES.get(wid, ''))})", "못 읽음")),
-            ("지각 해시", _mark(r["phash_ok"], f"같은 그림 (거리 {r['phash_d']})", f"놓침 (거리 {r['phash_d']} &gt; 2)")),
+            ("watermark", _mark(bool(wid), f"식별자 {esc(wid)} ({esc(RECIPIENT_NAMES.get(wid, ''))})", "못 읽음")),
+            ("perceptual hash", _mark(r["phash_ok"], f"같은 그림 (거리 {r['phash_d']})", f"놓침 (거리 {r['phash_d']} &gt; 2)")),
             ("특징점(ORB)", _mark(r["orb_ok"], f"같은 그림 (일치 {r['orb_inliers']}개)", f"놓침 (일치 {r['orb_inliers']}개)")),
-            ("원장 조회", _mark(ledger_hit, "원본 기록과 증명서를 찾음(낮은 신뢰)", "찾지 못함")),
+            ("ledger 조회", _mark(ledger_hit, "원본 기록과 증명서를 찾음(낮은 신뢰)", "찾지 못함")),
         ]
         table = "".join(f"<tr><th>{k}</th><td>{v}</td></tr>" for k, v in rows)
         cards.append(f"""
@@ -274,9 +284,9 @@ def build_journey():
   <div class="step-fig"><a href="assets/journey/{f}"><img src="assets/journey/{f}" alt="{esc(title)}" loading="lazy"></a></div>
   <div class="step-body">
     <p class="meta"><span class="year">{i}</span>{esc(title)}</p>
-    <p>{esc(what)}</p>
+    <ul class="pts">{"".join(f"<li>{esc(x)}</li>" for x in what)}</ul>
     <table class="data compact">{table}</table>
-    <p class="lesson">{esc(lesson)}</p>
+    <ul class="pts lesson">{"".join(f"<li>{esc(x)}</li>" for x in lesson)}</ul>
   </div>
 </article>""")
     tamper = res["ledger_tamper_detected_at"]
@@ -285,13 +295,13 @@ def build_journey():
 <p class="lead">연구 그림 한 장이 발행된 뒤 겪을 수 있는 일을 실제로 만들어 보고, 그때마다 각 기술이 무엇을 알려 주는지 검사했습니다. C2PA 하나로는 왜 부족한지, 다른 기술이 어디서 필요한지가 이 순서로 드러납니다.</p></section>
 {''.join(cards)}
 <section>
-  <h2>원장을 몰래 고치면</h2>
-  <p>연구실 원장의 한 줄(워터마크 식별자)을 고친 사본을 검증하면 {tamper}번 줄에서 바로 어긋남이 드러납니다. 운영자가 원장 전체를 처음부터 다시 쓰는 경우까지 막기 위해, 원장 끝 해시를 비트코인에 고정해 둡니다(<a href="provenance.html">출처증명</a> 참고).</p>
+  <h2>ledger 변조 시</h2>
+  <p>연구실 ledger의 한 줄(watermark 식별자)을 고친 사본을 검증하면 {tamper}번 줄에서 바로 어긋남이 드러납니다. 운영자가 ledger 전체를 처음부터 다시 쓰는 경우까지 막기 위해, ledger 끝 해시를 비트코인에 고정해 둡니다(<a href="provenance.html">출처증명</a> 참고).</p>
 </section>
 <section>
   <h2>정리: 어떤 일을 어떤 기술이 막나</h2>
   <table class="data">
-    <thead><tr><th>일어난 일</th><th>C2PA</th><th>워터마크</th><th>지각 해시</th><th>특징점</th><th>원장</th></tr></thead>
+    <thead><tr><th>일어난 일</th><th>C2PA</th><th>watermark</th><th>perceptual hash</th><th>특징점</th><th>ledger</th></tr></thead>
     <tbody>
       <tr><td>그대로</td><td>확인</td><td>확인</td><td>확인</td><td>확인</td><td>기준</td></tr>
       <tr><td>재압축(증명서 삭제)</td><td class="muted">사라짐</td><td>찾음</td><td>찾음</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
@@ -300,11 +310,11 @@ def build_journey():
       <tr><td>내용 조작</td><td><strong>조작 탐지</strong></td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td class="muted">같다고 답함</td><td>원래 기록과 비교 가능</td></tr>
       <tr><td>AI 잡음 제거</td><td class="muted">사라짐</td><td class="muted">대부분 지워짐</td><td>찾음</td><td>찾음</td><td>원본 증명서를 찾음(낮은 신뢰)</td></tr>
       <tr><td>유출</td><td class="muted">알 수 없음</td><td><strong>유출자 식별</strong></td><td class="muted">알 수 없음</td><td class="muted">알 수 없음</td><td>받는 사람 대응표 보관</td></tr>
-      <tr><td>원장 조작</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td><strong>해시체인 + 비트코인 고정</strong></td></tr>
+      <tr><td>ledger 조작</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td class="muted">해당 없음</td><td><strong>해시체인 + 비트코인 고정</strong></td></tr>
     </tbody>
   </table>
-  <p>C2PA는 "서명 뒤 바뀌었는가"에는 가장 정확하게 답하지만, 증명서가 지워지는 순간 아무것도 말하지 못합니다. 워터마크·지각 해시·특징점은 증명서가 지워진 뒤 "원래 기록이 어디 있나"를 찾아 주고, 원장은 그 기록을 둘 곳과 그 기록이 고쳐지지 않았다는 증거를 줍니다.</p>
-  <p class="muted small">이 시연의 그림(히트맵)은 색과 질감이 많아 워터마크에 유리합니다. 흰 배경이 대부분인 그래프·도식에서는 워터마크와 특징점이 크게 약해집니다(<a href="provenance.html">출처증명</a>의 실험 결과 참고). 위 표는 이 그림 한 장의 결과입니다.</p>
+  <p>C2PA는 "서명 뒤 바뀌었는가"에는 가장 정확하게 답하지만, 증명서가 지워지는 순간 아무것도 말하지 못합니다. watermark·perceptual hash·특징점은 증명서가 지워진 뒤 "원래 기록이 어디 있나"를 찾아 주고, ledger는 그 기록을 둘 곳과 그 기록이 고쳐지지 않았다는 증거를 줍니다.</p>
+  <p class="muted small">이 시연의 그림(히트맵)은 색과 질감이 많아 watermark에 유리합니다. 흰 배경이 대부분인 그래프·도식에서는 watermark와 특징점이 크게 약해집니다(<a href="provenance.html">출처증명</a>의 실험 결과 참고). 위 표는 이 그림 한 장의 결과입니다.</p>
 </section>
 """
     return page("journey.html", "한 장의 여정", body)
@@ -351,15 +361,15 @@ def build_monitor():
     <thead><tr><th>페이지</th><th>이미지</th><th>실제로 한 일(정답)</th><th>순찰기 판정</th><th>찾아낸 원본</th></tr></thead>
     <tbody>{''.join(rows)}</tbody>
   </table>
-  <p class="muted small">순찰 대상은 실습용으로 만든 가짜 재게시 페이지입니다(<a href="mirror/index.html">목록</a>). 순찰기는 robots.txt를 지키고 요청 사이에 간격을 둡니다. 처음 판(11-13)은 크게 자른 뒤 다시 압축한 그림 1건을 놓쳤습니다. 지금은 앞 단계에서 못 찾으면 특징점으로 후보 원본을 고르고, 원본에 맞춰 되돌린 뒤 워터마크를 읽어 확인합니다(블록 DCT 키는 비공개라 발행자 쪽에서만 할 수 있는 단계).</p>
+  <p class="muted small">순찰 대상은 실습용으로 만든 가짜 재게시 페이지입니다(<a href="mirror/index.html">목록</a>). 순찰기는 robots.txt를 지키고 요청 사이에 간격을 둡니다. 처음 판(11-13)은 크게 자른 뒤 다시 압축한 그림 1건을 놓쳤습니다. 지금은 앞 단계에서 못 찾으면 특징점으로 후보 원본을 고르고, 원본에 맞춰 되돌린 뒤 watermark를 읽어 확인합니다(블록 DCT 키는 비공개라 발행자 쪽에서만 할 수 있는 단계).</p>
 </section>
 <section>
   <h2>무엇이 되고 무엇이 안 되나</h2>
   <table class="data">
     <tbody>
-      <tr><th>되는 것</th><td>공개된 웹 페이지에 다시 올라온 그림을 자동으로 찾고, 원래 발행본과 증명서로 연결하고, 어떻게 바뀌었는지(증명서 삭제, 재압축, 크롭) 알려 준다. 받는 사람별 식별자를 심었다면 누구의 사본인지도 안다.</td></tr>
-      <tr><th>안 되는 것</th><td>누가 화면을 캡처했는지, 누가 내려받았는지는 알 수 없다. 그 일은 상대방 기기 안에서 일어나고, 그림 파일은 스스로 신호를 보낼 수 없다. 메신저 대화방처럼 공개되지 않은 곳도 순찰할 수 없다.</td></tr>
-      <tr><th>실제 서비스</th><td>같은 원리로 동영상은 유튜브 Content ID, 이미지는 Pixsy·Copytrack 같은 서비스가 웹을 순찰해 권리자에게 알려 준다.</td></tr>
+      <tr><th>되는 것</th><td><ul class="pts"><li>공개 웹 페이지의 재게시 그림 자동 탐지</li><li>원래 발행본·증명서 연결</li><li>변형 내용 표시(증명서 삭제, 재압축, crop)</li><li>수신자별 식별자가 있으면 유출 사본 특정</li></ul></td></tr>
+      <tr><th>안 되는 것</th><td><ul class="pts"><li>화면 캡처·다운로드 주체 식별(상대방 기기 안의 일, 파일은 신호 송신 불가)</li><li>메신저 대화방 등 비공개 공간 순찰</li></ul></td></tr>
+      <tr><th>실제 서비스</th><td><ul class="pts"><li>동영상: YouTube Content ID</li><li>이미지: Pixsy·Copytrack</li><li>같은 원리의 웹 순찰·권리자 통보</li></ul></td></tr>
     </tbody>
   </table>
 </section>
@@ -376,11 +386,11 @@ def build_verify(figs):
     opts = "".join(f'<option value="{f["file"]}">{esc(f["caption"])}</option>' for f in figs)
     opts += (
         '<option value="assets/samples/kiaebs2026-05-resaved.png">[변형] 다시 저장한 그림 — 증명서가 지워짐</option>'
-        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 하나를 바꾼 그림 — 증명서는 남지만 깨짐</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 엄격한 기준에서는 못 찾음</option><option value="assets/media/melody.wav">[다른 형식] 음원(WAV) — 같은 서명 코드로 서명</option><option value="assets/samples/melody-slow.mp3">[변형] 음원을 음 높이는 그대로 두고 5% 느리게 — 속도 되돌려 보기(WSOLA)로 찾음</option><option value="assets/samples/melody-32k.mp3">[변형] 음원을 MP3 32kbps로 다시 압축 — 증명서 지워짐, 음원 지문으로 찾음</option><option value="assets/media/slides.mp4">[다른 형식] 영상(MP4) — 같은 서명 코드로 서명</option><option value="assets/docs/report-1117.docx">[다른 형식] 문서(DOCX) — 파일 안에 C2PA 서명</option><option value="assets/samples/report-edited.docx">[변형] docx를 다른 프로그램으로 앞부분 지우고 다시 저장 — 증명서 지워짐, 문서 지문으로 찾음</option><option value="assets/docs/report-1117.pdf">[다른 형식] 문서(PDF) — 원장에 본문 지문 등록</option><option value="assets/samples/report-excerpt.pdf">[변형] 문서 일부(2쪽)만 다시 저장한 PDF — 문서 지문으로 찾음</option><option value="assets/samples/slides-flipped.mp4">[변형] 영상을 좌우 반전해 다시 인코딩 — 증명서 지워짐, 반전 비교로 찾음</option><option value="assets/samples/slides-480p.mp4">[변형] 영상을 480p로 줄이고 앞부분을 잘라 다시 인코딩 — 증명서 지워짐, 영상 지문으로 찾음</option>'
+        '<option value="assets/samples/kiaebs2026-05-tampered.png">[변형] 픽셀 하나를 바꾼 그림 — 증명서는 남지만 깨짐</option><option value="assets/samples/kiaebs2026-05-cropped.png">[변형] 일부만 잘라 쓴 그림 — 엄격한 기준에서는 못 찾음</option><option value="assets/media/melody.wav">[다른 형식] 음원(WAV) — 같은 서명 코드로 서명</option><option value="assets/samples/melody-slow.mp3">[변형] 음원을 음 높이는 그대로 두고 5% 느리게 — 속도 되돌려 보기(WSOLA)로 찾음</option><option value="assets/samples/melody-32k.mp3">[변형] 음원을 MP3 32kbps로 다시 압축 — 증명서 지워짐, 음원 지문으로 찾음</option><option value="assets/media/slides.mp4">[다른 형식] 영상(MP4) — 같은 서명 코드로 서명</option><option value="assets/docs/report-1117.docx">[다른 형식] 문서(DOCX) — 파일 안에 C2PA 서명</option><option value="assets/samples/report-edited.docx">[변형] docx를 다른 프로그램으로 앞부분 지우고 다시 저장 — 증명서 지워짐, 문서 지문으로 찾음</option><option value="assets/docs/report-1117.pdf">[다른 형식] 문서(PDF) — ledger에 본문 지문 등록</option><option value="assets/samples/report-excerpt.pdf">[변형] 문서 일부(2쪽)만 다시 저장한 PDF — 문서 지문으로 찾음</option><option value="assets/samples/slides-flipped.mp4">[변형] 영상을 좌우 반전해 다시 인코딩 — 증명서 지워짐, 반전 비교로 찾음</option><option value="assets/samples/slides-480p.mp4">[변형] 영상을 480p로 줄이고 앞부분을 잘라 다시 인코딩 — 증명서 지워짐, 영상 지문으로 찾음</option>'
     )
     body = f"""
 <section class="head"><h1>검증하기</h1>
-<p class="lead">파일을 올리면 브라우저 안에서 C2PA 증명서를 읽고, 증명서가 없으면 지문(그림·음원·영상·문서)으로 연구실 원장을 찾습니다. 파일은 서버로 보내지 않습니다.</p></section>
+<p class="lead">파일을 올리면 브라우저 안에서 C2PA 증명서를 읽고, 증명서가 없으면 지문(그림·음원·영상·문서)으로 연구실 ledger를 찾습니다. 파일은 서버로 보내지 않습니다.</p></section>
 <section class="verify">
   <div class="panel">
     <label class="drop" for="file"><input id="file" type="file" accept="image/*,audio/*,video/mp4,application/pdf,.docx,.xlsx,.pptx"><span>그림·음원·영상·PDF 파일을 고르거나 끌어다 놓기</span></label>

@@ -32,8 +32,8 @@ async function sha256(blob) {
 
 // lab-phash: tools/fphash.py 와 같은 규격. 회색조 → 32x32 구역 평균 → DCT-II → 8x8 → 중앙값 비교
 const N = 32;
-const PHASH_T = 2; // 원장 해시 14개 × 그림-그림 쌍 FPR 0.053%(1/1,891) = 0.74% ≤ query FPR 1% (실험 9, 조사 14). 거리는 항상 짝수라 2=3
-const TILE_T = 5; // 조각 125개와 비교할 때: 질의 하나를 원장 전체와 비교해 오탐 1% 이하가 되는 거리(실험 8). 비교 횟수가 많아 훨씬 엄격해야 함
+const PHASH_T = 2; // ledger 해시 14개 × 그림-그림 쌍 FPR 0.053%(1/1,891) = 0.74% ≤ query FPR 1% (실험 9, 조사 14). 거리는 항상 짝수라 2=3
+const TILE_T = 5; // 조각 125개와 비교할 때: 질의 하나를 ledger 전체와 비교해 false positive 1% 이하가 되는 거리(실험 8). 비교 횟수가 많아 훨씬 엄격해야 함
 async function labPhash(blob) {
   const bmp = await createImageBitmap(blob, { colorSpaceConversion: "none", premultiplyAlpha: "none" });
   const cv = makeCanvas(bmp.width, bmp.height);
@@ -70,7 +70,7 @@ const hamming = (a, b) => { let x = BigInt("0x" + a) ^ BigInt("0x" + b), n = 0; 
 
 let ledgerPromise = null;
 function loadLedger() {
-  // 'retire' 기록이 가리키는 원장 기록은 조회 대상에서 뺀다(원장은 지우지 않고 이력으로 남김 — 조사 15 지적 11)
+  // 'retire' 기록이 가리키는 ledger 기록은 조회 대상에서 뺀다(ledger는 지우지 않고 이력으로 남김 — 조사 15 지적 11)
   ledgerPromise ??= fetch(new URL("../ledger.jsonl", import.meta.url)).then((r) => r.text())
     .then((t) => {
       const all = t.split("\n").filter(Boolean).map((l) => JSON.parse(l));
@@ -96,13 +96,13 @@ async function ledgerSection(hash, blob) {
   }
   let body, detail;
   if (exact) {
-    body = `<p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
+    body = `<p class="state ok"><span class="dot"></span>연구실 ledger에 같은 파일이 기록되어 있습니다</p>`;
     detail = `<dt>근거</dt><dd>SHA-256 일치, 기록 #${exact.index}</dd>`;
   } else if (near && near.d <= PHASH_T) {
     body = `<p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 발행된 그림과 닮아 보여, 그 원본의 증명서를 참고로 보여 드립니다</p>
       <p>닮아 보이는 원본: <a href="${esc(near.e.record.file)}">${esc(near.e.record.caption)}</a></p>
       <p class="muted small">닮음은 기계가 판단한 것이라 틀릴 수 있습니다. 규격은 이렇게 찾아 온 증명서를 낮은 신뢰로 따로 표시하라고 합니다(C2PA 2.5 규격 16.4.1.10).</p>`;
-    detail = `<dt>근거</dt><dd>지각 해시 거리 ${near.d} (threshold ${PHASH_T} 이하면 닮음으로 봄)</dd><dt>원본의 증명서</dt><dd class="mono">${esc(near.e.record.c2pa_manifest)}</dd>`;
+    detail = `<dt>근거</dt><dd>perceptual hash 거리 ${near.d} (threshold ${PHASH_T} 이하면 닮음으로 봄)</dd><dt>원본의 증명서</dt><dd class="mono">${esc(near.e.record.c2pa_manifest)}</dd>`;
   } else if (tile && tile.d <= TILE_T) {
     const main = entries.find((e) => e.record.sha256 === tile.e.record.of_sha256);
     body = `<p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 발행된 그림의 일부와 닮아 보여(잘라 쓴 것으로 보임), 그 원본의 증명서를 참고로 보여 드립니다</p>
@@ -110,14 +110,14 @@ async function ledgerSection(hash, blob) {
       <p class="muted small">닮음은 기계가 판단한 것이라 틀릴 수 있습니다. 찾아 온 증명서는 낮은 신뢰입니다.</p>`;
     detail = `<dt>근거</dt><dd>조각 해시 거리 ${tile.d} (threshold ${TILE_T} 이하면 닮음으로 봄)</dd><dt>원본의 증명서</dt><dd class="mono">${esc(main ? main.record.c2pa_manifest : "-")}</dd>`;
   } else {
-    body = `<p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 그림입니다</p>
+    body = `<p class="state none"><span class="dot"></span>이 연구실 ledger에는 없는 그림입니다</p>
       <p class="muted small">다른 곳에서 만든 그림일 수 있으며, 가짜라는 뜻은 아닙니다.</p>`;
-    detail = `<dt>근거</dt><dd>가장 가까운 기록과의 지각 해시 거리 ${near ? near.d : "-"} (threshold ${PHASH_T})</dd>`;
+    detail = `<dt>근거</dt><dd>가장 가까운 기록과의 perceptual hash 거리 ${near ? near.d : "-"} (threshold ${PHASH_T})</dd>`;
   }
-  return `<h2 class="sub">원장 조회</h2>${body}<details><summary>자세히</summary><dl>${detail}<dt>이 파일의 지각 해시</dt><dd class="mono">${ph}</dd></dl></details>`;
+  return `<h2 class="sub">ledger 조회</h2>${body}<details><summary>자세히</summary><dl>${detail}<dt>이 파일의 perceptual hash</dt><dd class="mono">${ph}</dd></dl></details>`;
 }
 
-// 음원·영상도 C2PA 서명은 같은 방식으로 읽는다(조사 05). 지각 해시 원장은 그림만 등록되어 있어 그림일 때만 조회
+// 음원·영상도 C2PA 서명은 같은 방식으로 읽는다(조사 05). perceptual hash ledger는 그림만 등록되어 있어 그림일 때만 조회
 function kind(blob) {
   const t = blob.type || (/\.(mp3|wav|m4a|aac|ogg)$/i.test(lastName) ? "audio/" : /\.(mp4|mov|webm)$/i.test(lastName) ? "video/" : /\.pdf$/i.test(lastName) ? "application/pdf" : "");
   if (t === "application/pdf") return "document";
@@ -132,11 +132,11 @@ function preview(blob, url) {
   return `<img class="thumb" src="${url}" alt="">`;
 }
 async function audioSection(hash, blob) {
-  // 음원 지문(Philips 방식, afp.js = tools/afp.py와 같은 규격)으로 원장 조회 — 증명서가 지워진 MP3 사본도 원래 기록을 찾는다
+  // 음원 지문(Philips 방식, afp.js = tools/afp.py와 같은 규격)으로 ledger 조회 — 증명서가 지워진 MP3 사본도 원래 기록을 찾는다
   try {
     const [entries, afp] = await Promise.all([loadLedger(), import("./afp.js")]);
     const exact = entries.find((e) => e.record.sha256 === hash);
-    if (exact) return `<h2 class="sub">원장 조회</h2><p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
+    if (exact) return `<h2 class="sub">ledger 조회</h2><p class="state ok"><span class="dot"></span>연구실 ledger에 같은 파일이 기록되어 있습니다</p>`;
     const y = await afp.decodeTo5k(blob);
     const refs = entries.filter((x) => x.record.afp_philips).map((e) => ({ e, fp: afp.fromLedger(e.record.afp_philips, e.record.afp_frames) }));
     const scan = (fq, f) => { let bb = null; for (const r of refs) { const b = afp.ber(fq, r.fp); if (!bb || b < bb.b) bb = { e: r.e, b, f }; } return bb; };
@@ -147,12 +147,12 @@ async function audioSection(hash, blob) {
       for (const f of afp.TEMPO_FACTORS) for (const g of [afp.stretch, afp.wsola]) { const r = scan(afp.fingerprint(g(y, f)), f); if (r && (!best || r.b < best.b)) best = r; }
     }
     if (best && best.b < afp.BER_T)
-      return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 원장에 등록된 음원과 같은 소리로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
+      return `<h2 class="sub">ledger 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 ledger에 등록된 음원과 같은 소리로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
         <p>닮아 보이는 원본: <a href="${esc(best.e.record.file)}">${esc(best.e.record.caption)}</a> (기록 #${best.e.index})</p>
         <details><summary>자세히</summary><dl><dt>근거</dt><dd>음원 지문 비트 오류율 ${best.b.toFixed(3)} (${afp.BER_T} 미만이면 같은 음원으로 봄, Philips 방식)${best.f !== 1 ? ` — 속도를 ${best.f}배로 되돌렸을 때` : ""}</dd></dl></details>`;
-    return `<h2 class="sub">원장 조회</h2><p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 음원입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
+    return `<h2 class="sub">ledger 조회</h2><p class="state none"><span class="dot"></span>이 연구실 ledger에는 없는 음원입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
   } catch (err) {
-    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 브라우저에서 음원을 풀지 못해 원장 조회를 건너뜁니다 (${esc(err.message)})</p>`;
+    return `<h2 class="sub">ledger 조회</h2><p class="muted small">이 브라우저에서 음원을 풀지 못해 ledger 조회를 건너뜁니다 (${esc(err.message)})</p>`;
   }
 }
 
@@ -189,7 +189,7 @@ async function videoSection(hash, blob) {
   try {
     const entries = await loadLedger();
     const exact = entries.find((e) => e.record.sha256 === hash);
-    if (exact) return `<h2 class="sub">원장 조회</h2><p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
+    if (exact) return `<h2 class="sub">ledger 조회</h2><p class="state ok"><span class="dot"></span>연구실 ledger에 같은 파일이 기록되어 있습니다</p>`;
     const refs = entries.filter((x) => x.record.vpdq).map((e) => ({ e, ref: e.record.vpdq.map(hexBits).filter((_, i) => e.record.vpdq_quality[i] >= 50) }));
     const scan = (q, flipped) => {
       let bb = null;
@@ -201,19 +201,19 @@ async function videoSection(hash, blob) {
       return bb;
     };
     const q0 = (await videoFrames(blob)).filter((f) => f.quality >= 50);
-    if (q0.length < 3) return `<h2 class="sub">원장 조회</h2><p class="muted small">쓸 수 있는 프레임이 ${q0.length}장뿐이라 판정을 보류합니다(3장 이상 필요).</p>`;
+    if (q0.length < 3) return `<h2 class="sub">ledger 조회</h2><p class="muted small">쓸 수 있는 프레임이 ${q0.length}장뿐이라 판정을 보류합니다(3장 이상 필요).</p>`;
     let best = scan(q0, false);
     if (!best || best.side < 0.8) {
       const fb = scan((await videoFrames(blob, true)).filter((f) => f.quality >= 50), true); // PDQ는 좌우 반전에 약함 → 다시 반전해 비교
       if (fb && (!best || fb.side > best.side)) best = fb;
     }
     if (best && best.side >= 0.8)
-      return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 원장에 등록된 영상과 같은 장면으로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
+      return `<h2 class="sub">ledger 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 ledger에 등록된 영상과 같은 장면으로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
         <p>닮아 보이는 원본: <a href="${esc(best.e.record.file)}">${esc(best.e.record.caption)}</a> (기록 #${best.e.index})</p>
         <details><summary>자세히</summary><dl><dt>근거</dt><dd>이 영상의 프레임 중 ${(best.side * 100).toFixed(0)}%가 원본 프레임과 PDQ 거리 31 이하(80% 이상이면 같은 영상으로 봄, vPDQ 방식)${best.flipped ? " — 좌우 반전된 영상" : ""}</dd></dl></details>`;
-    return `<h2 class="sub">원장 조회</h2><p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 영상입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
+    return `<h2 class="sub">ledger 조회</h2><p class="state none"><span class="dot"></span>이 연구실 ledger에는 없는 영상입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
   } catch (err) {
-    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 브라우저에서 영상을 풀지 못해 원장 조회를 건너뜁니다 (${esc(err.message)})</p>`;
+    return `<h2 class="sub">ledger 조회</h2><p class="muted small">이 브라우저에서 영상을 풀지 못해 ledger 조회를 건너뜁니다 (${esc(err.message)})</p>`;
   }
 }
 
@@ -222,7 +222,7 @@ async function docSection(hash, blob, office = false) {
   try {
     const [entries, dfp] = await Promise.all([loadLedger(), import("./dfp.js")]);
     const exact = entries.find((e) => e.record.sha256 === hash);
-    if (exact) return `<h2 class="sub">원장 조회</h2><p class="state ok"><span class="dot"></span>연구실 원장에 같은 파일이 기록되어 있습니다</p>`;
+    if (exact) return `<h2 class="sub">ledger 조회</h2><p class="state ok"><span class="dot"></span>연구실 ledger에 같은 파일이 기록되어 있습니다</p>`;
     const q = await dfp.shingleHashes(office ? await dfp.docxText(blob) : await dfp.pdfText(blob));
     let best = null;
     for (const e of entries.filter((x) => x.record.dfp_bottom)) {
@@ -230,21 +230,21 @@ async function docSection(hash, blob, office = false) {
       if (!best || c > best.c) best = { e, c };
     }
     if (best && best.c > dfp.CON_T && (dfp.containment(q, best.e.record.dfp_bottom), dfp.containment.lastN) < dfp.MIN_SAMPLE)
-      return `<h2 class="sub">원장 조회</h2><p class="muted small">본문이 너무 짧아(비교 표본 ${dfp.containment.lastN}개) 판정을 보류합니다.</p>`;
+      return `<h2 class="sub">ledger 조회</h2><p class="muted small">본문이 너무 짧아(비교 표본 ${dfp.containment.lastN}개) 판정을 보류합니다.</p>`;
     if (best && best.c > dfp.CON_T)
-      return `<h2 class="sub">원장 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 본문이 원장에 등록된 문서에서 나온 것으로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
+      return `<h2 class="sub">ledger 조회</h2><p class="state warn"><span class="dot"></span>이 파일 자체는 인증되지 않았습니다. 다만 본문이 ledger에 등록된 문서에서 나온 것으로 보여, 그 원본 기록을 참고로 보여 드립니다</p>
         <p>닮아 보이는 원본: <a href="${esc(best.e.record.file)}">${esc(best.e.record.caption)}</a> (기록 #${best.e.index})</p>
         <details><summary>자세히</summary><dl><dt>근거</dt><dd>이 문서의 5단어 묶음 중 ${(best.c * 100).toFixed(0)}%가 원본에도 있음(${dfp.CON_T} 넘으면 같은 문서에서 나온 것으로 봄, MinHash 포함도)</dd></dl></details>`;
-    return `<h2 class="sub">원장 조회</h2><p class="state none"><span class="dot"></span>이 연구실 원장에는 없는 문서입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
+    return `<h2 class="sub">ledger 조회</h2><p class="state none"><span class="dot"></span>이 연구실 ledger에는 없는 문서입니다</p><p class="muted small">가짜라는 뜻은 아닙니다.</p>`;
   } catch (err) {
-    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 브라우저에서 문서를 읽지 못해 원장 조회를 건너뜁니다 (${esc(err.message)})</p>`;
+    return `<h2 class="sub">ledger 조회</h2><p class="muted small">이 브라우저에서 문서를 읽지 못해 ledger 조회를 건너뜁니다 (${esc(err.message)})</p>`;
   }
 }
 
 async function ledgerOrNote(hash, blob) {
   if (kind(blob) === "office") {
     if (/\.docx$/i.test(lastName) || /wordprocessingml/.test(blob.type)) return docSection(hash, blob, true);
-    return `<h2 class="sub">원장 조회</h2><p class="muted small">이 Office 형식은 서명만 확인합니다(본문 지문 조회는 PDF·docx만).</p>`;
+    return `<h2 class="sub">ledger 조회</h2><p class="muted small">이 Office 형식은 서명만 확인합니다(본문 지문 조회는 PDF·docx만).</p>`;
   }
   if (kind(blob) === "document") return docSection(hash, blob);
   if (kind(blob) === "audio") return audioSection(hash, blob);

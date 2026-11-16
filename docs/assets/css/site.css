@@ -156,3 +156,10 @@ footer { max-width: 1120px; margin: 0 auto; padding: 24px; border-top: 1px solid
 .verify > .panel { min-width: 0; }
 select { max-width: 100%; text-overflow: ellipsis; }
 img.tiny { width: 96px; height: auto; border-radius: 4px; }
+
+/* 개조식 항목(11-17) */
+ul.pts { margin: 8px 0; padding-left: 18px; }
+ul.pts li { margin: 2px 0; line-height: 1.55; }
+ul.pts li::marker { color: var(--text-3, #8a8a8a); }
+td ul.pts { margin: 0; }
+ul.pts.lesson { margin-top: 16px; padding-left: 28px; }
